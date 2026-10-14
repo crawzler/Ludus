@@ -351,3 +351,10 @@ Historico append-only de sessoes e retomadas. Acrescente uma entrada por tarefa 
 - **Conclusao:** GAME-008 implementada, verificada tecnicamente e validada visualmente; feedback observavel aceito.
 - **Escopo do commit:** `project.godot`, `scripts/player.gd`, decisoes, guia, estado e diario. `.vscode/` e `docs/BUGS.md` permanecem fora.
 - **Proximo passo:** commit local isolado seguido de push automatico para `origin/main`.
+
+## 2026-10-14 — GAME-008 — Commit e push
+
+- **Commit:** `8a4603d` — `feat: add directional dodge`.
+- **Push:** publicado em `origin/main`; `main` e `origin/main` sincronizadas.
+- **Escopo confirmado:** seis arquivos da tarefa; `.vscode/` e `docs/BUGS.md` preservados fora.
+- **Proximo passo:** encerrar a sessao; retomar depois pela sequencia do guia.

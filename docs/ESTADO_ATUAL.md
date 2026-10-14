@@ -10,9 +10,9 @@ Este e o checkpoint operacional unico. Substitua as secoes de tarefa/checkpoint 
 - **Projeto/engine:** `project.godot` declara Godot 4.7. VS Code tem extensao `geequlim.godot-tools`; `.vscode/settings.json` aponta para `e:\Godot_v4.7.2-stable_win64.exe`.
 - **Branch:** `main`.
 - **Commit da configuracao de agentes/documentacao:** `7fb3c56` — `docs: configure continuity and automatic local commits`.
-- **Remoto observado:** `origin` aponta para `https://github.com/crawzler/Ludus.git`; `origin/main` e `main` estao sincronizados em `c7f00c8`.
+- **Remoto observado:** `origin` aponta para `https://github.com/crawzler/Ludus.git`; `origin/main` e `main` estao sincronizados em `8a4603d`.
 - **Politica de publicacao:** usuario autorizou push automatico ao GitHub apos cada commit de tarefa concluida e validada. Nao enviar alteracoes sem commit nem tarefas incompletas.
-- **Git no checkpoint:** GAME-008 sera registrada em commit isolado; arquivos nao rastreados `.vscode/` e `docs/BUGS.md` foram preservados fora do escopo.
+- **Git no checkpoint:** `main` e `origin/main` sincronizadas em `8a4603d`; `.vscode/` e `docs/BUGS.md` nao rastreados foram preservados fora do commit.
 
 ## Tarefa concluida anterior
 
@@ -168,7 +168,9 @@ Este e o checkpoint operacional unico. Substitua as secoes de tarefa/checkpoint 
 - **Git confirmado antes do trabalho:** `main` e `origin/main` em `c7f00c8`. Alteracoes locais preexistentes em estado/diario e nao rastreados `.vscode/` e `docs/BUGS.md` preservados e fora do escopo de commit.
 - **Plano tecnico confirmado:** implementado em `project.godot` e `scripts/player.gd`; `scripts/enemy.gd` permaneceu inalterado. O roll usa `move_and_slide`, ignora dano somente enquanto ativo e desenha aro, indicador de direcao e texto "ROLL".
 - **Checklist manual recebida:** testar Space parado, apos direcao anterior e junto com WASD; cooldown antes/depois de 0,6 s; dano em impacto durante e fora do roll; barreiras; ataque e defesa antes/depois. Observar aro, progresso, direcao e texto "ROLL".
-- **Proxima acao exata:** criar commit isolado com os seis arquivos da GAME-008 e enviar a `origin/main`; manter `.vscode/` e `docs/BUGS.md` fora.
+- **Commit:** `8a4603d` — `feat: add directional dodge`; incluiu somente os seis arquivos da GAME-008.
+- **Push:** enviado para `origin/main`; branches sincronizadas. `.vscode/` e `docs/BUGS.md` ficaram fora.
+- **Proxima acao exata:** encerrar por hoje; na proxima sessao, retomar a sequencia do guia apos esquiva e escolher a proxima tarefa de combate.
 
 ## Atualizacao mais recente — GAME-008
 
@@ -176,7 +178,8 @@ Este e o checkpoint operacional unico. Substitua as secoes de tarefa/checkpoint 
 - **Responsavel:** LUDUS Coordinator.
 - **Resultado:** esquiva com invulnerabilidade breve implementada e aceita em teste visual; sem alteracoes no inimigo.
 - **Validacao visual:** usuario confirmou em 2026-10-14 que o roll funcionou.
-- **Proximo passo exato:** registrar o fechamento em commit isolado e publicar `origin/main`; manter `.vscode/` e `docs/BUGS.md` fora.
+- **Conclusao:** commit `8a4603d` criado e enviado a `origin/main`; branch sincronizada.
+- **Proximo passo exato:** retomar na proxima sessao pela sequencia atual do guia; nenhum outro trabalho iniciado.
 
 ## Fatos estruturais confirmados
 
