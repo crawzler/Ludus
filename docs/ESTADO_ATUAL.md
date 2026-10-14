@@ -10,9 +10,9 @@ Este e o checkpoint operacional unico. Substitua as secoes de tarefa/checkpoint 
 - **Projeto/engine:** `project.godot` declara Godot 4.7. VS Code tem extensao `geequlim.godot-tools`; `.vscode/settings.json` aponta para `e:\Godot_v4.7.2-stable_win64.exe`.
 - **Branch:** `main`.
 - **Commit da configuracao de agentes/documentacao:** `7fb3c56` — `docs: configure continuity and automatic local commits`.
-- **Remoto observado:** `origin` aponta para `https://github.com/crawzler/Ludus.git`; `origin/main` e `main` estao sincronizados em `8a4603d`.
+- **Remoto observado:** `origin` aponta para `https://github.com/crawzler/Ludus.git`; `main` e `origin/main` estao sincronizadas apos o fechamento da GAME-008.
 - **Politica de publicacao:** usuario autorizou push automatico ao GitHub apos cada commit de tarefa concluida e validada. Nao enviar alteracoes sem commit nem tarefas incompletas.
-- **Git no checkpoint:** `main` e `origin/main` sincronizadas em `8a4603d`; `.vscode/` e `docs/BUGS.md` nao rastreados foram preservados fora do commit.
+- **Git no checkpoint:** `main` e `origin/main` sincronizadas; a implementacao da GAME-008 foi publicada em `8a4603d`; `.vscode/` e `docs/BUGS.md` nao rastreados foram preservados fora do commit.
 
 ## Tarefa concluida anterior
 
