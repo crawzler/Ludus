@@ -44,6 +44,8 @@ LUDUS e um action roguelite de gladiadores sobre combate em arena, improvisacao 
 
 Essa sequencia pode mudar quando um teste revelar uma dependencia tecnica ou um problema de jogabilidade. Mantenha uma versao jogavel desde cedo.
 
+**Regra aprovada para o prototipo atual (GAME-007):** botao direito do mouse compartilha bloqueio e aparo. Um novo pressionamento nos ultimos 0,3 segundos do telegrapho do ataque basico do inimigo executa aparo, cancela o golpe e manda o inimigo para recuperacao; manter o botao ate o impacto bloqueia se nao houve aparo. A janela deve ser sinalizada claramente, e os feedbacks de bloqueio/aparo devem ser distinguiveis. Esta regra e especifica ao prototipo atual e pode ser revisada apos playtest.
+
 ### Nao incluir ainda
 
 - Gestao completa do Ludus, recrutamento, funcionarios e economia.

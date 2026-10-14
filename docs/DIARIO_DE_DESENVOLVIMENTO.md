@@ -198,3 +198,62 @@ Historico append-only de sessoes e retomadas. Acrescente uma entrada por tarefa 
 - **Parametros:** Space, negacao integral e movimento sem penalidade permanecem provisórios; nao sao decisoes definitivas de balanceamento.
 - **Integridade:** `.vscode/` local do usuario foi preservada e excluida do escopo.
 - **Proximo passo:** planejar o aparo como incremento separado, conforme guia, sem antecipar controles ou regras ainda nao deliberados.
+
+## 2026-10-14 — GAME-007 — Planejamento iniciado
+
+- **Pedido:** usuario pediu o proximo passo apos validar o bloqueio.
+- **Base:** GAME-006 concluida no commit local `a806961`; guia lista aparo depois de bloqueio; `DECISOES.md` nao define controle, janela de sucesso nem efeito de aparo.
+- **Objetivo:** delimitar um aparo minimo, distinto de bloqueio, com criterios observaveis no combate atual.
+- **Responsavel/proximo passo:** LUDUS Planner inspeciona scripts e documentos; Coordinator aguarda parecer antes de autorizar alteracao de gameplay.
+- **Regra:** nenhuma janela, controle ou consequencia do aparo sera inventada se representar decisao de design essencial em aberto.
+
+## 2026-10-14 — GAME-007 — Bloqueada por decisoes de design
+
+- **Parecer:** aparo deve ser tratado apenas contra o ataque basico existente e ser distinto do bloqueio segurado em Space.
+- **Evidencia do codigo:** inimigo aplica dano quando entra em `ATTACKING`; `project.godot` tem ataque no clique esquerdo e bloqueio em Space. Nenhuma regra de aparo existe em `DECISOES.md`.
+- **Decisoes que faltam:** controle do aparo (incluindo se compartilha Space com o bloqueio), janela temporal para sucesso e consequencia do sucesso sobre ataque/inimigo.
+- **Coordenacao:** o Coordinator leu o codigo e os documentos. O Planner nao conseguiu acessar arquivos no proprio contexto e retornou recomendacao preliminar, sem edicoes.
+- **Resultado:** nao implementar ainda; perguntar ao usuario sobre as tres escolhas antes de transformar parametros em requisitos.
+- **Proxima acao:** aguardar resposta do usuario e entao retomar GAME-007, sem iniciar tarefa concorrente.
+
+## 2026-10-14 — GAME-007 — Feedback e controle compartilhado em avaliacao
+
+- **Feedback do usuario:** nao identificou feedback visual e nao conseguiu acertar o aparo; prefere bloqueio e aparo no mesmo botao.
+- **Inspecao do codigo:** atualmente Space desenha um aro azul enquanto pressionado e um aro branco breve apos bloquear um golpe. A mecanica de aparo e seu indicador de janela ainda nao existem; portanto, nao era possivel acertar um aparo.
+- **Direcao candidata:** um comando compartilhado em que o toque dentro da janela executa aparo e manter pressionado preserva bloqueio. A janela e a consequencia do sucesso ainda nao foram aprovadas.
+- **Proximo passo:** fechar interacao, legibilidade visual, janela e resultado com o usuario antes da implementacao.
+
+## 2026-10-14 — GAME-007 — Decisoes aprovadas e implementacao iniciada
+
+- **Resposta do usuario:** usar botao direito do mouse em vez de Space para bloqueio/aparo compartilhados.
+- **Regra aprovada:** toque no botao durante os ultimos 0,3 s do telegrapho executa aparo; manter pressionado ate o impacto bloqueia se nao houve aparo bem-sucedido; aparo interrompe o ataque e envia inimigo para recuperacao.
+- **Feedback aprovado como necessidade:** indicador claro da janela de aparo e feedback distinguivel para bloqueio e aparo, devido a dificuldade de perceber os sinais atuais.
+- **Escopo:** atualizar input existente e jogador/inimigo; documentar a regra aprovada; preservar movimento, ataque e resultado de luta.
+- **Responsavel/proximo passo:** Coordinator delega implementacao ao LUDUS Developer; depois executar testes automatizados e solicitar validacao visual manual.
+
+## 2026-10-14 — GAME-007 — Implementacao pronta para playtest visual
+
+- **Implementacao:** `block` agora usa botao direito; o toque nos ultimos 0,3 s do telegrapho cancela o ataque e inicia recuperacao; janela recebe anel dourado com indicador de texto/progresso, e bloqueio/aparo recebem feedbacks distintos no jogador. A regra aprovada foi registrada como DEC-006 e no guia.
+- **Arquivos alterados nesta etapa:** `project.godot`, `scripts/player.gd`, `scripts/enemy.gd`, `docs/DECISOES.md`, `docs/GUIA_DE_DESENVOLVIMENTO.md`, `docs/ESTADO_ATUAL.md` e este diario. `.vscode/` foi preservada e nao incluída.
+- **Validacoes:** importacao do projeto em Godot 4.7.2 headless, smoke da arena por 180 frames e `git diff --check` passaram. O teste GDScript focado foi tentado, mas o CLI nao conseguiu carregar o script temporario nao indexado (`File not found`); o arquivo temporario foi removido. Nenhum teste manual visual foi realizado.
+- **Status/proxima acao:** EM_ANDAMENTO ate playtest humano no Godot e confirmacao da legibilidade. Executar F5; observar a mudanca para "APARE!" no fim do telegrapho; pressionar botao direito nessa janela para ver "APARO!" e observar a recuperacao sem dano; em outra tentativa segurar o botao ate o impacto fora da janela para ver "BLOQUEIO"; soltar antes do impacto deve causar dano. Confirmar tambem movimento WASD e ataque no clique esquerdo durante a defesa.
+- **Git:** nenhum commit feito, conforme pedido explicito do usuario.
+
+## 2026-10-14 — GAME-007 — Teste focado automatizado concluido
+
+- **Teste:** Godot 4.7.2 headless confirmou transicao para recuperacao e feedback no aparo dentro da janela; bloqueio e feedback ao manter botao direito; pressao iniciada antes da janela e mantida ate impacto bloqueia em vez de aparar; soltar antes do impacto causa dano; movimento e ataque esquerdo continuam ativos enquanto defende.
+- **Smoke/importacao:** importacao headless e execucao da arena por 240 frames terminaram sem erros.
+- **Sincronizacao do teste:** primeira tentativa consultou `just_pressed` no mesmo frame em que simulou a entrada e falhou; apos aguardar o frame correto, o teste completo passou. Nenhuma falha de gameplay associada.
+- **Diff/escopo:** `git diff --check` passou. `.vscode/` permaneceu intacta e fora dos arquivos da tarefa. Teste temporario removido do repositorio.
+- **Validacao visual:** usuario informou “Validacao visual está feita” e confirmou “Perfeito”; feedback visual aceito.
+- **Resultado:** GAME-007 concluida; criar commit e fazer push automatico conforme autorizacao permanente do usuario.
+- **Integridade:** `.vscode/` do usuario excluida do escopo.
+
+## 2026-10-14 — OPS-002 — Push automatico autorizado pelo usuario
+
+- **Pedido:** usuario esclareceu que autorizava push ao GitHub apos cada commit.
+- **Politica atualizada:** protocolo de continuidade, instrucoes do Copilot e agente Coordinator agora determinam push apos commits de tarefas concluidas e validadas; tarefas incompletas e alteracoes sem commit continuam fora do push.
+- **Commit da politica:** `1ea4858` — `docs: enable authorized automatic push`.
+- **Push de backlog:** commits locais concluidos anteriores, do `7fb3c56` ate `a806961`, e o commit da politica foram enviados com `git push origin main`; retorno confirmou `bece661..1ea4858 main -> main`.
+- **Verificacao:** `main` e `origin/main` sincronizadas, zero commits a frente/atras. Alteracoes atuais de GAME-007 continuam sem commit; `.vscode/` permaneceu fora.
+- **Proximo passo:** usuario valida visualmente GAME-007; apos conclusao e commit dessa tarefa, fazer push automaticamente.

@@ -8,13 +8,16 @@ const ATTACK_RANGE: float = 48.0
 const ATTACK_DAMAGE: int = 1
 const ATTACK_FEEDBACK_DURATION: float = 0.12
 const BLOCK_FEEDBACK_DURATION: float = 0.2
+const PARRY_FEEDBACK_DURATION: float = 0.45
 const MAX_HEALTH: int = 3
 const HIT_FLASH_DURATION: float = 0.12
 const HIT_COLOR: Color = Color("#fff2a6")
 const BLOCK_COLOR: Color = Color("#75d8ff")
+const PARRY_COLOR: Color = Color("#ffe66d")
 
 var attack_feedback_remaining: float = 0.0
 var block_feedback_remaining: float = 0.0
+var parry_feedback_remaining: float = 0.0
 var block_held: bool = false
 var health: int = MAX_HEALTH
 var combat_finished: bool = false
@@ -50,6 +53,9 @@ func _process(delta: float) -> void:
 	if block_feedback_remaining > 0.0:
 		block_feedback_remaining = maxf(block_feedback_remaining - delta, 0.0)
 		queue_redraw()
+	if parry_feedback_remaining > 0.0:
+		parry_feedback_remaining = maxf(parry_feedback_remaining - delta, 0.0)
+		queue_redraw()
 
 
 func _attack() -> void:
@@ -84,6 +90,15 @@ func try_block_attack() -> bool:
 		return false
 
 	block_feedback_remaining = BLOCK_FEEDBACK_DURATION
+	queue_redraw()
+	return true
+
+
+func try_parry_attack() -> bool:
+	if combat_finished or not Input.is_action_just_pressed("block"):
+		return false
+
+	parry_feedback_remaining = PARRY_FEEDBACK_DURATION
 	queue_redraw()
 	return true
 
@@ -127,4 +142,24 @@ func _draw() -> void:
 		draw_circle(Vector2.ZERO, 26.0, Color(0.16, 0.65, 0.95, 0.2))
 		draw_arc(Vector2.ZERO, 26.0, 0.0, TAU, 48, BLOCK_COLOR, 3.0, true)
 	if block_feedback_remaining > 0.0:
-		draw_arc(Vector2.ZERO, 32.0, 0.0, TAU, 48, Color.WHITE, 3.0, true)
+		draw_arc(Vector2.ZERO, 32.0, 0.0, TAU, 48, BLOCK_COLOR, 4.0, true)
+		draw_string(
+			ThemeDB.fallback_font,
+			Vector2(-48.0, -34.0),
+			"BLOQUEIO",
+			HORIZONTAL_ALIGNMENT_CENTER,
+			96.0,
+			14,
+			BLOCK_COLOR
+		)
+	if parry_feedback_remaining > 0.0:
+		draw_arc(Vector2.ZERO, 38.0, 0.0, TAU, 48, PARRY_COLOR, 5.0, true)
+		draw_string(
+			ThemeDB.fallback_font,
+			Vector2(-36.0, -42.0),
+			"APARO!",
+			HORIZONTAL_ALIGNMENT_CENTER,
+			72.0,
+			16,
+			PARRY_COLOR
+		)

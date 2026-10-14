@@ -4,14 +4,15 @@ Este e o checkpoint operacional unico. Substitua as secoes de tarefa/checkpoint 
 
 ## Checkpoint
 
-- **Atualizado em:** 2026-10-14 02:00 (-03:00)
-- **Marco:** primeiro ciclo de combate concluido; implementando bloqueio basico.
-- **Estado geral:** arena, movimento, ataque, inimigo, vida e vitoria/derrota validados; tarefa atual adiciona defesa segurada contra o ataque telegrafado.
+- **Atualizado em:** 2026-10-14 02:20 (-03:00)
+- **Marco:** primeiro ciclo de combate concluido; GAME-007 validada visualmente.
+- **Estado geral:** arena, movimento, ataque, inimigo, vida e resultados validados. GAME-006 bloqueou no Space; usuario reportou que o feedback nao estava claro e aprovou unificar bloqueio/aparo no botao direito do mouse.
 - **Projeto/engine:** `project.godot` declara Godot 4.7. VS Code tem extensao `geequlim.godot-tools`; `.vscode/settings.json` aponta para `e:\Godot_v4.7.2-stable_win64.exe`.
 - **Branch:** `main`.
 - **Commit da configuracao de agentes/documentacao:** `7fb3c56` — `docs: configure continuity and automatic local commits`.
-- **Remoto observado:** `origin` aponta para `https://github.com/crawzler/Ludus.git`; o commit inicial `bece661` estava sincronizado com `origin/main` antes desta entrega. A entrega local ainda nao foi enviada.
-- **Git no checkpoint:** branch `main` a frente de `origin/main` por sete commits apos `42c17db`; working tree limpo exceto `.vscode/` local do usuario, que permanece fora do escopo/commit.
+- **Remoto observado:** `origin` aponta para `https://github.com/crawzler/Ludus.git`; `origin/main` e `main` estao sincronizados em `1ea4858` apos push autorizado pelo usuario.
+- **Politica de publicacao:** usuario autorizou push automatico ao GitHub apos cada commit de tarefa concluida e validada. Nao enviar alteracoes sem commit nem tarefas incompletas.
+- **Git no checkpoint:** GAME-007 sera commitada e enviada apos validacao visual do usuario; `.vscode/` local do usuario segue fora do escopo e nao sera incluida.
 
 ## Tarefa concluida anterior
 
@@ -126,8 +127,30 @@ Este e o checkpoint operacional unico. Substitua as secoes de tarefa/checkpoint 
 - **Ultimo passo concluido:** usuario confirmou "Tudo certo" apos executar o playtest manual, validando o bloqueio e seu feedback no jogo.
 - **Validacoes:** Godot 4.7.2 importou o projeto e executou a arena por 240 frames sem erros; teste focado headless confirmou bloqueio sem dano, dano ao liberar Space, movimento e ataque durante o bloqueio e limpeza no fim da luta; usuario validou manualmente o comportamento; `git diff --check` passou.
 - **Riscos/contexto:** Space, negacao integral e movimento sem penalidade continuam parametros provisórios do prototipo, nao balanceamento definitivo.
-- **Commit local:** a registrar apos revisao final do diff.
-- **Proxima acao exata:** seguir a ordem do guia para avaliar/planejar aparo como tarefa separada; nao assumir janela, efeito ou controle sem deliberacao.
+- **Commit local:** `a806961` — `feat: add basic held block`.
+- **Proxima acao exata:** o LUDUS Planner delimita GAME-007 (aparo), verificando se controle, janela e efeito podem ser definidos com seguranca ou se exigem decisao do usuario.
+
+## Tarefa ativa
+
+- **ID:** GAME-007
+- **Nome:** Implementar bloqueio/aparo compartilhados
+- **Status:** CONCLUIDA — validada pelo usuario.
+- **Responsavel:** LUDUS Coordinator.
+- **Pedido:** usuario relatou que nao percebeu feedback visual/nem conseguiu acertar aparo e pediu que bloqueio/aparo usem o mesmo comando; confirmou botao direito do mouse.
+- **Objetivo:** entregar defesa unificada, distinguivel e testavel contra o ataque basico do inimigo.
+- **Escopo:** unificar bloqueio e aparo no botao direito; toque dentro dos ultimos 0,3 s do telegrapho faz aparo; manter pressionado ate o impacto fora do sucesso de aparo bloqueia; aparo interrompe o golpe e manda o inimigo para recuperacao; feedback visual claro para janela, bloqueio e sucesso.
+- **Fora de escopo:** stamina, punicao adicional, outros tipos de ataque e balanceamento definitivo.
+- **Criterio de conclusao:** botao direito executa ambos; janela de 0,3 s e indicada visualmente; toque nessa janela cancela golpe e inicia recuperacao; segurar atraves do impacto fora de aparo bloqueia; soltar antes causa dano; movimento/ataque continuam funcionando.
+- **Arquivos inspecionados pelo Coordinator:** `project.godot`, `scripts/player.gd`, `scripts/enemy.gd`, `scenes/arena.tscn`, `docs/DECISOES.md`, `docs/GUIA_DE_DESENVOLVIMENTO.md` e instrucoes do projeto. Godot 4.7; inimigo ataca na entrada de `ATTACKING`.
+- **Decisao aprovada pelo usuario:** comando de bloqueio/aparo e botao direito do mouse; toque no timing = aparo, manter ate o impacto = bloqueio; janela proposta de 0,3 s antes do golpe; sucesso cancela o golpe e leva o inimigo a recuperacao.
+- **Nota de implementacao anterior:** Space tinha aro azul enquanto segurado e aro branco breve quando bloqueava; aparo e seu indicador de timing ainda nao existiam.
+- **Reavaliacao de GAME-006:** manter confirmacao funcional anterior, mas considerar feedback visual insuficientemente claro conforme relato posterior; GAME-007 deve tornar janela e sucessos de defesa mais visiveis.
+- **Arquivos alterados:** `project.godot`, `scripts/player.gd`, `scripts/enemy.gd`, `docs/DECISOES.md`, `docs/GUIA_DE_DESENVOLVIMENTO.md`, este estado e entrada nova no diario. Branch `main`, implementacao baseada no commit `a806961`; a politica de push foi atualizada no commit `1ea4858` e enviada a `origin/main`. Alteracoes locais de GAME-007 permanecem sem commit; `.vscode/` nao rastreada nao foi alterada nem incluída.
+- **Validacoes:** importacao e smoke da arena por 240 frames no Godot 4.7.2 passaram; teste GDScript focado passou para aparo, bloqueio, toque precoce mantido ate bloquear, dano sem defesa, movimento e ataque; `git diff --check` passou. A primeira tentativa do teste focado nao aguardou o frame de `just_pressed`; apos corrigir a sincronizacao do harness, o teste passou. Usuario confirmou que a validacao visual foi feita.
+- **Ultimo passo concluido:** usuario informou “Validacao visual está feita”; feedback do aparo/bloqueio aceito.
+- **Arquivos da tarefa modificados:** `project.godot`, `scripts/player.gd`, `scripts/enemy.gd`, `docs/DECISOES.md`, `docs/GUIA_DE_DESENVOLVIMENTO.md`, `docs/ESTADO_ATUAL.md` e entrada GAME-007 em `docs/DIARIO_DE_DESENVOLVIMENTO.md`. A alteracao preexistente de `.vscode/` foi preservada e excluida.
+- **Proxima acao exata:** criar commit isolado de GAME-007 e fazer push automatico conforme autorizacao permanente; excluir `.vscode/`.
+- **Commit/push:** pendentes nesta etapa.
 
 ## Atualizacao mais recente — AUTO-001
 

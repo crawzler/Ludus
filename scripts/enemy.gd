@@ -9,6 +9,7 @@ const MOVE_SPEED: float = 90.0
 const ATTACK_RANGE: float = 72.0
 const ATTACK_DAMAGE: int = 1
 const TELEGRAPH_DURATION: float = 0.65
+const PARRY_WINDOW_DURATION: float = 0.3
 const ATTACK_DURATION: float = 0.18
 const RECOVERY_DURATION: float = 1.0
 const MAX_HEALTH: int = 3
@@ -18,6 +19,7 @@ const ENEMY_COLOR: Color = Color("#bd514d")
 const HIT_COLOR: Color = Color("#fff2a6")
 const TELEGRAPH_COLOR: Color = Color(1.0, 0.24, 0.12, 0.12)
 const ATTACK_COLOR: Color = Color(1.0, 0.12, 0.06, 0.28)
+const PARRY_WINDOW_COLOR: Color = Color("#ffe66d")
 
 var state: State = State.CHASING
 var state_time_remaining: float = 0.0
@@ -44,7 +46,7 @@ func _physics_process(delta: float) -> void:
 		State.CHASING:
 			_chase_or_telegraph()
 		State.TELEGRAPHING:
-			_advance_attack_state(delta, State.ATTACKING, ATTACK_DURATION)
+			_advance_telegraph(delta)
 		State.ATTACKING:
 			_advance_attack_state(delta, State.RECOVERING, RECOVERY_DURATION)
 		State.RECOVERING:
@@ -76,6 +78,33 @@ func _advance_attack_state(delta: float, next_state: State, next_duration: float
 		queue_redraw()
 		if next_state == State.ATTACKING:
 			_try_hit_player()
+
+
+func _advance_telegraph(delta: float) -> void:
+	velocity = Vector2.ZERO
+	state_time_remaining = maxf(state_time_remaining - delta, 0.0)
+	queue_redraw()
+
+	if (
+		state_time_remaining > 0.0
+		and state_time_remaining <= PARRY_WINDOW_DURATION
+		and bool(player.call("try_parry_attack"))
+	):
+		_enter_recovery()
+		return
+
+	if state_time_remaining <= 0.0:
+		state = State.ATTACKING
+		state_time_remaining = ATTACK_DURATION
+		queue_redraw()
+		_try_hit_player()
+
+
+func _enter_recovery() -> void:
+	state = State.RECOVERING
+	state_time_remaining = RECOVERY_DURATION
+	velocity = Vector2.ZERO
+	queue_redraw()
 
 
 func _try_hit_player() -> void:
@@ -123,17 +152,54 @@ func _show_hit_feedback() -> void:
 
 func _draw() -> void:
 	if state == State.TELEGRAPHING:
-		draw_circle(Vector2.ZERO, ATTACK_RANGE, TELEGRAPH_COLOR)
-		draw_arc(
-			Vector2.ZERO,
-			ATTACK_RANGE,
-			0.0,
-			TAU,
-			48,
-			Color("#ff684f"),
-			3.0,
-			true
-		)
+		if state_time_remaining <= PARRY_WINDOW_DURATION:
+			draw_circle(Vector2.ZERO, ATTACK_RANGE, Color(1.0, 0.82, 0.1, 0.24))
+			draw_arc(
+				Vector2.ZERO,
+				ATTACK_RANGE,
+				0.0,
+				TAU,
+				48,
+				PARRY_WINDOW_COLOR,
+				5.0,
+				true
+			)
+			var window_progress: float = clampf(
+				state_time_remaining / PARRY_WINDOW_DURATION,
+				0.0,
+				1.0
+			)
+			draw_arc(
+				Vector2.ZERO,
+				29.0,
+				-PI / 2.0,
+				-PI / 2.0 + TAU * window_progress,
+				32,
+				PARRY_WINDOW_COLOR,
+				5.0,
+				true
+			)
+			draw_string(
+				ThemeDB.fallback_font,
+				Vector2(-58.0, -42.0),
+				"APARE!",
+				HORIZONTAL_ALIGNMENT_CENTER,
+				116.0,
+				16,
+				PARRY_WINDOW_COLOR
+			)
+		else:
+			draw_circle(Vector2.ZERO, ATTACK_RANGE, TELEGRAPH_COLOR)
+			draw_arc(
+				Vector2.ZERO,
+				ATTACK_RANGE,
+				0.0,
+				TAU,
+				48,
+				Color("#ff684f"),
+				3.0,
+				true
+			)
 	elif state == State.ATTACKING:
 		draw_circle(Vector2.ZERO, ATTACK_RANGE, ATTACK_COLOR)
 		draw_arc(
