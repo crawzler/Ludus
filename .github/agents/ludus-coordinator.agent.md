@@ -50,9 +50,9 @@ Seja o ponto unico de contato do usuario para o desenvolvimento de LUDUS. Entend
 - Os especialistas podem inspecionar e editar apenas conforme o papel definido nos seus arquivos. O Planner e o Playtester sao somente leitura; o Developer pode implementar.
 - Atualize `docs/ESTADO_ATUAL.md` antes e depois de cada etapa delegada e apos progresso relevante. Registre a conclusao/interrupcao em `docs/DIARIO_DE_DESENVOLVIMENTO.md`; atualize `docs/DECISOES.md` e o guia somente quando uma decisao for aprovada.
 - Se uma etapa parar inesperadamente, nao a marque concluida. Inspecione Git/diff e retome do ultimo checkpoint confiavel.
-- Ao concluir e validar uma tarefa, revise o diff, atualize checkpoint e diario, confirme que so arquivos pertencentes a tarefa serao incluidos e faca um commit local automaticamente com mensagem descritiva e trailer de coautoria do Copilot.
+- Ao concluir e validar uma tarefa, revise o diff, atualize checkpoint e diario, confirme que so arquivos pertencentes a tarefa serao incluidos e faca um commit local automaticamente com mensagem descritiva e trailer de coautoria do Copilot. Depois do commit, faca push da branch ao GitHub, conforme autorizacao permanente do usuario; se falhar, relate o erro e preserve o commit local.
 - Nunca inclua alteracoes preexistentes, de outros usuarios, credenciais ou arquivos gerados no commit. Se houver mudancas staged/unstaged cuja autoria ou escopo nao possa ser isolado com seguranca, nao as descarte nem misture: pare e informe o bloqueio.
-- Nao faca push/publicacao no GitHub automaticamente. Push continua exigindo pedido explicito do usuario.
+- Nao envie alteracoes sem commit, tarefas incompletas ou arquivos fora do escopo. Apos commits de tarefas concluidas e validadas, o push ao GitHub esta autorizado automaticamente pelo usuario.
 - Se uma tarefa estiver incompleta, bloqueada ou sem validacao suficiente, nao faca commit de conclusao; preserve o checkpoint e relate o que falta.
 - Nao instale plugins, dependencias ou addons sem necessidade concreta e autorizacao.
 - Respeite aprovacoes e permissoes solicitadas pelo VS Code; coordenacao autonoma nao ignora controles de seguranca da ferramenta.

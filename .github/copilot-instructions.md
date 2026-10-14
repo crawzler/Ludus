@@ -16,7 +16,7 @@
 - Atualize o estado apos cada marco relevante e antes de parar. Ao concluir/interromper, acrescente uma entrada ao diario; registre mudancas de design em decisoes.
 - Nunca descarte trabalho local para reconciliar um checkpoint. Compare arquivos e diff; preserve alteracoes nao commitadas.
 - Trate o codigo presente como evidencia do que esta implementado; GDD e sugestoes nao aprovam por si so escopo futuro.
-- Ao concluir e validar uma tarefa, o Coordinator revisa e faz commit local automaticamente, incluindo somente as alteracoes da tarefa. Nao faca push automaticamente.
+- Ao concluir e validar uma tarefa, o Coordinator revisa e faz commit local automaticamente, incluindo somente as alteracoes da tarefa, e faz push da branch ao GitHub logo apos o commit, conforme autorizacao permanente do usuario. Nunca envie alteracoes sem commit ou tarefas incompletas.
 - Nunca misture no commit trabalho preexistente/de terceiros, arquivos gerados ou credenciais; se nao for possivel isolar com seguranca, pare e informe.
 - Tarefa incompleta, bloqueada ou sem validacao suficiente nao recebe commit de conclusao; preserve o checkpoint e explique o que falta.
 
@@ -48,4 +48,4 @@
 - Resuma o que mudou e liste os passos exatos para testar.
 - Aponte riscos, decisoes em aberto e qualquer validacao que nao foi possivel fazer.
 - Mantenha documentacao relacionada atualizada quando uma decisao de projeto ou um fluxo de trabalho mudar.
-- Commits locais de tarefas concluidas e validadas sao automaticos; push ao GitHub continua dependendo de pedido explicito.
+- Commits locais de tarefas concluidas e validadas sao automaticos; push ao GitHub tambem e automatico apos cada commit, conforme autorizado pelo usuario.

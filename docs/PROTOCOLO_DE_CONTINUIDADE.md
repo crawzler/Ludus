@@ -51,9 +51,9 @@ Se arquivos, Git e checkpoint discordarem, pare qualquer operacao destrutiva, pr
 - Atualize `docs/ESTADO_ATUAL.md` para `CONCLUIDA`, `BLOQUEADA` ou `EM_ANDAMENTO`; inclua verificacoes reais e passos manuais restantes.
 - Acrescente uma entrada datada a `docs/DIARIO_DE_DESENVOLVIMENTO.md` com resumo, arquivos, validacao e identificador da tarefa. O diario e append-only: nao reescreva entradas antigas; corrija por nova entrada.
 - Se uma decisao mudar, registre-a em `docs/DECISOES.md` e atualize o guia correspondente.
-- Para uma tarefa concluida e validada, o LUDUS Coordinator deve revisar o diff, atualizar checkpoint/diario, isolar os arquivos da tarefa e fazer um commit local descritivo automaticamente.
+- Para uma tarefa concluida e validada, o LUDUS Coordinator deve revisar o diff, atualizar checkpoint/diario, isolar os arquivos da tarefa e fazer um commit local descritivo automaticamente. Apos cada commit, deve enviar a branch ao GitHub com `push`, conforme autorizacao permanente do usuario registrada no checkpoint; se o push falhar, informe explicitamente e preserve os commits locais.
 - Nunca faca commit de trabalho alheio/preexistente, credenciais ou arquivos gerados. Se houver alteracoes staged ou locais que nao possam ser isoladas com seguranca, nao misture nem descarte: pare e informe o bloqueio.
-- Nao faca push automaticamente. Publicacao no GitHub exige pedido explicito do usuario.
+- O usuario autorizou push automatico apos cada commit de tarefa concluida e validada. Nao faca push de alteracoes sem commit, tarefas incompletas ou trabalho alheio. Se houver commits locais anteriores ja concluidos e pendentes de envio, faca push da branch apos conferir que a branch/remote correspondem ao repositorio e que o push normal pode avancar sem sobrescrever historico.
 - Para trabalho incompleto, bloqueado ou ainda nao validado, nao crie um commit que o apresente como concluido; salve o checkpoint e explique o proximo passo.
 - Na resposta ao usuario, resuma mudancas, validacoes, proximo passo e se existem alteracoes locais ainda nao commitadas.
 - Nao declare teste manual feito sem o jogador executar o jogo no Godot.
@@ -102,6 +102,6 @@ Se o novo aplicativo aceitar custom agents e skills, adapte/importa os arquivos 
 
 - Documentos no disco ajudam a recuperar uma interrupcao local; commits locais preservam marcos no historico do Git, e somente `push` envia esses marcos ao GitHub.
 - Confira sempre se o checkpoint, codigo e documentos estao incluidos no mesmo commit coerente.
-- Commits locais sao automaticos somente para tarefas concluidas, validadas e isoladas com seguranca. Push e qualquer outra alteracao remota exigem autorizacao explicita do usuario.
+- Commits locais sao automaticos somente para tarefas concluidas, validadas e isoladas com seguranca. O usuario autorizou push automatico apos esses commits; alteracoes remotas fora desse fluxo continuam exigindo autorizacao explicita.
 - Antes de encerrar, avise se o checkpoint ainda existe apenas em alteracoes locais.
 - Um app diferente ou computador diferente so pode retomar os dados que recebeu: sincronize o repositorio e inclua documentos de referencia necessarios, sem credenciais ou caminhos pessoais.
