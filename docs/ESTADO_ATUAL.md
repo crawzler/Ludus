@@ -4,15 +4,15 @@ Este e o checkpoint operacional unico. Substitua as secoes de tarefa/checkpoint 
 
 ## Checkpoint
 
-- **Atualizado em:** 2026-10-14 02:26 (-03:00)
+- **Atualizado em:** 2026-10-14 02:27 (-03:00)
 - **Marco:** primeiro ciclo de combate concluido; governanca de versao e estagios documentada.
 - **Estado geral:** versao `0.1.0-pre-alpha` configurada; criterios pre-alpha/alpha/beta/release registrados. Coordinator decide mudancas conforme evidencia e avisa previamente.
 - **Projeto/engine:** `project.godot` declara Godot 4.7. VS Code tem extensao `geequlim.godot-tools`; `.vscode/settings.json` aponta para `e:\Godot_v4.7.2-stable_win64.exe`.
 - **Branch:** `main`.
 - **Commit da configuracao de agentes/documentacao:** `7fb3c56` — `docs: configure continuity and automatic local commits`.
-- **Remoto observado:** `origin` aponta para `https://github.com/crawzler/Ludus.git`; `origin/main` e `main` estao sincronizados em `f256734` antes desta tarefa.
+- **Remoto observado:** `origin` aponta para `https://github.com/crawzler/Ludus.git`; `origin/main` e `main` estao sincronizados em `e066d2e`.
 - **Politica de publicacao:** usuario autorizou push automatico ao GitHub apos cada commit de tarefa concluida e validada. Nao enviar alteracoes sem commit nem tarefas incompletas.
-- **Git no checkpoint:** alteracoes OPS-004 locais antes do commit; `.vscode/` local do usuario segue nao rastreada, preservada e fora do escopo.
+- **Git no checkpoint:** `main` e `origin/main` sincronizadas em `e066d2e`; `.vscode/` local do usuario segue nao rastreada, preservada e fora do escopo.
 
 ## Tarefa concluida anterior
 
@@ -166,7 +166,8 @@ Este e o checkpoint operacional unico. Substitua as secoes de tarefa/checkpoint 
 - **Arquivos alterados:** `docs/PROTOCOLO_DE_CONTINUIDADE.md`, `.github/copilot-instructions.md`, `.github/agents/ludus-coordinator.agent.md`, `docs/GUIA_DE_DESENVOLVIMENTO.md`, `docs/DECISOES.md`, este estado e diario.
 - **Decisao do usuario:** Coordinator decide mudancas de estagio/versao e tags ao atingir criterios; avisa antes com plano e evidencia, sem nova aprovacao quando coberto pelas regras.
 - **Validacoes:** revisao documental e `git diff --check` passaram; nao houve alteracao de jogo nem criacao de tag.
-- **Proxima acao exata:** aplicar os criterios nos proximos marcos de produto; avisar o usuario antes de qualquer mudanca de versao/estagio/tag.
+- **Commit/push:** `e066d2e` — `docs: define version stage governance`; enviado a `origin/main`.
+- **Proxima acao exata:** avaliar criterios de versao/status nos proximos marcos; avisar o usuario antes de cada mudanca. Proximo incremento de gameplay: planejar esquiva.
 
 ## Atualizacao mais recente — OPS-004
 

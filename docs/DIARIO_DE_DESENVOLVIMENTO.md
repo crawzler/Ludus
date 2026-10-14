@@ -278,6 +278,13 @@ Historico append-only de sessoes e retomadas. Acrescente uma entrada por tarefa 
 - **Validacao:** revisao documental e `git diff --check`; nenhuma mudanca de jogo nem tag foi criada.
 - **Proximo passo:** aplicar os criterios ao atingir marcos e comunicar previamente cada mudanca.
 
+## 2026-10-14 — OPS-004 — Commit e push
+
+- **Commit:** `e066d2e` — `docs: define version stage governance`.
+- **Push:** publicado em `origin/main`; nenhuma tag ou mudanca de versao foi criada nesta tarefa.
+- **Checkpoint:** `main` e `origin/main` sincronizadas; `.vscode/` permanece local e fora do Git.
+- **Proximo marco:** acompanhar o prototipo; quando criterios de estagio/versao/tag forem atingidos, avisar o usuario antes de executar a mudanca.
+
 ## 2026-10-14 — OPS-002 — Push automatico autorizado pelo usuario
 
 - **Pedido:** usuario esclareceu que autorizava push ao GitHub apos cada commit.
