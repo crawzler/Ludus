@@ -25,3 +25,41 @@ Historico append-only de sessoes e retomadas. Acrescente uma entrada por tarefa 
 
 - **Resultado:** configuracao de agentes e documentacao preservadas em commit local `7fb3c56`; a branch local esta a frente do remoto por esta entrega, sem push.
 - **Proximo passo:** confirmar que o projeto abre no Godot, depois iniciar a primeira arena jogavel.
+
+## 2026-10-14 — GAME-001 — Implementacao iniciada
+
+- **Objetivo:** iniciar o Marco 1 com arena minima e movimentacao legivel apos o usuario confirmar que o projeto abre sem erros.
+- **Delimitacao:** arena simples, jogador temporario e colisao; combate e gestao ficam fora deste incremento.
+- **Andamento:** usuario autorizou alterar o codigo. Usar controles relativos a tela para a camera fixa desta iteracao, sem registrar uma decisao sobre comportamento futuro com rotacao; DEC-P02 permanece pendente para esse caso.
+- **Arquivos de gameplay alterados:** nenhum.
+- **Validacao:** confirmacao manual do usuario de que o projeto abre sem erros; inventario sem cenas `.tscn` e scripts `.gd`; executavel `godot` nao encontrado no terminal.
+- **Proximo passo:** implementar arena, jogador e controles; verificar diffs e disponibilidade de validacao no Godot.
+
+## 2026-10-14 — GAME-001 — Arena e movimento implementados
+
+- **Resultado:** cena inicial de arena criada com jogador temporario, movimento por WASD/setas, movimento diagonal normalizado, limites fisicos e camera fixa.
+- **Arquivos de gameplay:** `project.godot`, `scenes/arena.tscn`, `scenes/player.tscn`, `scripts/arena.gd`, `scripts/player.gd`.
+- **Documentacao:** checkpoint atualizado; alteracoes locais preexistentes em estado e diario preservadas.
+- **Validacao:** verificacao estatica dos cinco arquivos, referencias de cena/script e whitespace passou; `git diff --check` passou para arquivos rastreados. Nao foi possivel rodar o projeto: `godot`/`godot4` nao estao no PATH. O usuario ainda precisa abrir/testar no editor Godot 4.7.
+- **Status:** EM_ANDAMENTO ate a validacao manual no Godot. Sem commit, conforme pedido; nenhuma mudanca foi enviada ao remoto.
+- **Proximo passo:** abrir o projeto, executar com F5 ou abrir `scenes/arena.tscn` e usar F6; testar WASD/setas, movimento diagonal e colisao contra os quatro limites.
+
+## 2026-10-14 — GAME-001 — Revisao estatica
+
+- **Revisao:** cenas, scripts e configuracao conferidos; os eventos de teclado foram ajustados para `device=-1` para aceitarem o dispositivo de teclado, preservando WASD e setas.
+- **Validacao:** `git diff --check` passou; `godot` e `godot4` nao estao no PATH, portanto a execucao no editor permanece pendente.
+- **Proximo passo:** playtest manual orientado no Godot 4.7; nao criar commit de conclusao antes dessa validacao.
+
+## 2026-10-14 — GAME-001 — Verificacao manual preparada
+
+- **Roteiro:** iniciar com F5; testar cada direcao em WASD e setas, comparar deslocamento cardinal/diagonal em duracoes iguais, tentar atravessar as quatro bordas e observar se a camera permanece fixa.
+- **Resultado do playtest:** nao executado; roteiro apenas. O usuario precisa rodar a versao atual no editor Godot 4.7 e informar o resultado.
+- **Proximo passo:** corrigir falhas reproduziveis se houver; marcar concluida e considerar commit apenas depois da validacao manual.
+
+## 2026-10-14 — GAME-001 — Concluida e validada pelo usuario
+
+- **Resultado:** o usuario confirmou que a arena retangular em visao de cima, o personagem circular, o movimento WASD e a colisao com as bordas estao corretos.
+- **Arquivos:** configuracao inicial, cenas/scripts da arena e jogador, UIDs dos scripts, checkpoint, diario e registro de decisoes.
+- **Validacao:** revisao estatica e `git diff --check` passaram; validacao funcional feita pelo usuario no Godot. O executavel nao esta disponivel no terminal para verificacao automatizada nesta sessao.
+- **Decisoes:** DEC-005 registra a representacao temporaria aprovada. A perspectiva isometrica planejada continua em DEC-003; DEC-P02 segue pendente apenas para camera/mundo rotacionaveis ou controlador isometrico.
+- **Proximo passo:** iniciar o proximo incremento do prototipo somente quando definido pelo usuario e pelo guia.

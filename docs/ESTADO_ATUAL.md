@@ -4,16 +4,16 @@ Este e o checkpoint operacional unico. Substitua as secoes de tarefa/checkpoint 
 
 ## Checkpoint
 
-- **Atualizado em:** 2026-10-14 01:04 (-03:00)
-- **Marco:** configuracao inicial do projeto; prototipo de combate ainda nao iniciado.
-- **Estado geral:** projeto Godot recem-criado, sem cenas de jogo ou scripts proprios confirmados.
-- **Projeto/engine:** `project.godot` declara Godot 4.7, mas a versao efetivamente instalada ainda deve ser confirmada ao abrir/executar o projeto.
+- **Atualizado em:** 2026-10-14 01:26 (-03:00)
+- **Marco:** Marco 1 iniciado; arena retangular de visao superior validada pelo usuario.
+- **Estado geral:** primeiro incremento jogavel concluido: arena retangular, personagem circular, movimento WASD e colisao com as bordas.
+- **Projeto/engine:** `project.godot` declara Godot 4.7; usuario confirmou abertura sem erros no editor. Executavel nao esta disponivel no terminal.
 - **Branch:** `main`.
 - **Commit da configuracao de agentes/documentacao:** `7fb3c56` — `docs: configure continuity and automatic local commits`.
 - **Remoto observado:** `origin` aponta para `https://github.com/crawzler/Ludus.git`; o commit inicial `bece661` estava sincronizado com `origin/main` antes desta entrega. A entrega local ainda nao foi enviada.
-- **Git no checkpoint:** commit local criado; nenhuma alteracao de gameplay. Confira `git status --short --branch` antes de iniciar outra tarefa.
+- **Git no checkpoint:** branch `main` a frente de `origin/main` por dois commits antes de salvar GAME-001; alteracoes locais limitadas a esta tarefa e seus registros, prontas para commit local. Sem push.
 
-## Tarefa mais recente
+## Tarefa concluida anterior
 
 - **ID:** DOC-001
 - **Nome:** Criar protocolo de continuidade e recuperacao entre agentes e conversas
@@ -36,10 +36,26 @@ Este e o checkpoint operacional unico. Substitua as secoes de tarefa/checkpoint 
 - **Proxima acao exata:** revisar as alteracoes locais com `git status --short --branch`; quando desejar preservar este marco no GitHub, adicionar, commitar e enviar a branch `main`. Depois confirmar no Godot que o projeto abre antes de iniciar o Marco 1.
 - **Entrada do diario:** `docs/DIARIO_DE_DESENVOLVIMENTO.md`, DOC-001, 2026-10-14.
 
+## Tarefa mais recente
+
+- **ID:** GAME-001
+- **Nome:** Criar arena minima e movimentacao do jogador
+- **Status:** CONCLUIDA
+- **Responsavel:** LUDUS Coordinator, com delimitacao do LUDUS Planner e implementacao do LUDUS Developer
+- **Pedido:** iniciar o prototipo depois de confirmar que o projeto abre sem erros; usuario autorizou alterar o codigo e confirmou que a arena retangular em visao de cima, personagem circular, controles WASD e colisao com as bordas estao corretos.
+- **Objetivo:** criar o primeiro espaco jogavel do Marco 1.
+- **Escopo:** arena temporaria de visao superior, personagem circular, movimento pelo teclado, colisao nas bordas e camera fixa; sem combate ou gestao.
+- **Criterio de conclusao:** arena e jogador visiveis, movimento e colisao confirmados pelo usuario; movimento diagonal normalizado por codigo.
+- **Arquivos:** `project.godot`, `scenes/arena.tscn`, `scenes/player.tscn`, `scripts/arena.gd`, `scripts/arena.gd.uid`, `scripts/player.gd`, `scripts/player.gd.uid`, este estado, `docs/DIARIO_DE_DESENVOLVIMENTO.md` e `docs/DECISOES.md`.
+- **Validacoes:** revisao estatica de cenas/scripts e referencias; `git diff --check` passou; usuario confirmou o comportamento visual e jogavel descrito acima. O executavel Godot nao esta no PATH, portanto nenhum teste automatizado/editor foi executado nesta sessao.
+- **Decisao em aberto:** perspectiva isometrica futura e comportamento se camera/mundo girarem permanecem para decisao/teste posterior; a aprovacao desta arena temporaria nao altera essa direcao.
+- **Entrada do diario:** GAME-001, 2026-10-14.
+- **Proxima acao exata:** comecar o proximo incremento de combate somente conforme prioridades do guia e pedido do usuario.
+
 ## Tarefa ativa
 
 - **Ativa:** nenhuma.
-- **Proxima tarefa sugerida:** abrir/importar o projeto no Godot para confirmar que executa; depois, iniciar o Marco 1 do guia com uma cena de arena minima e movimentacao legivel, sem adicionar gestao ou progressao.
+- **Proxima tarefa sugerida:** selecionar o proximo incremento do prototipo de combate respeitando o guia de desenvolvimento.
 
 ## Atualizacao mais recente — AUTO-001
 
@@ -54,6 +70,6 @@ Este e o checkpoint operacional unico. Substitua as secoes de tarefa/checkpoint 
 ## Fatos estruturais confirmados
 
 - `project.godot` tem `config/name="Novo Projeto de Jogo"` e `config/features=PackedStringArray("4.7", "Forward Plus")`.
-- No inventario inspecionado, ha apenas configuracao inicial do projeto e icone, sem cenas de gameplay nem scripts proprios.
+- A arena inicial esta em `scenes/arena.tscn`, o jogador em `scenes/player.tscn` e seus scripts em `scripts/`; a cena inicial e a arena.
 - `.gitignore` exclui `.godot/`, evitando versionar dados locais gerados pelo editor.
 - O GDD consolidado foi copiado para `docs/referencias/LUDUS_GDD_Consolidado_v1.0.docx`; o guia resumido esta em `docs/GUIA_DE_DESENVOLVIMENTO.md`.
