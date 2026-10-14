@@ -4,14 +4,14 @@ Este e o checkpoint operacional unico. Substitua as secoes de tarefa/checkpoint 
 
 ## Checkpoint
 
-- **Atualizado em:** 2026-10-14 00:58 (-03:00)
+- **Atualizado em:** 2026-10-14 01:04 (-03:00)
 - **Marco:** configuracao inicial do projeto; prototipo de combate ainda nao iniciado.
 - **Estado geral:** projeto Godot recem-criado, sem cenas de jogo ou scripts proprios confirmados.
 - **Projeto/engine:** `project.godot` declara Godot 4.7, mas a versao efetivamente instalada ainda deve ser confirmada ao abrir/executar o projeto.
 - **Branch:** `main`.
-- **Ultimo commit observado:** `bece661` — `chore: initial Godot project setup`.
-- **Remoto observado:** `origin` aponta para `https://github.com/crawzler/Ludus.git`; em 2026-10-14 a branch local estava sincronizada com `origin/main`.
-- **Git no checkpoint:** configuracoes de agentes e documentos criados durante a preparacao estao como alteracoes locais sem commit; confirme com `git status --short --branch` antes de continuar.
+- **Commit da configuracao de agentes/documentacao:** `7fb3c56` — `docs: configure continuity and automatic local commits`.
+- **Remoto observado:** `origin` aponta para `https://github.com/crawzler/Ludus.git`; o commit inicial `bece661` estava sincronizado com `origin/main` antes desta entrega. A entrega local ainda nao foi enviada.
+- **Git no checkpoint:** commit local criado; nenhuma alteracao de gameplay. Confira `git status --short --branch` antes de iniciar outra tarefa.
 
 ## Tarefa mais recente
 
@@ -38,8 +38,7 @@ Este e o checkpoint operacional unico. Substitua as secoes de tarefa/checkpoint 
 
 ## Tarefa ativa
 
-- **Ativa:** AUTO-001 — formalizar e salvar a politica de commit automatico local apos tarefas concluidas e validadas.
-- **Status:** em revisao final antes do commit desta configuracao.
+- **Ativa:** nenhuma.
 - **Proxima tarefa sugerida:** abrir/importar o projeto no Godot para confirmar que executa; depois, iniciar o Marco 1 do guia com uma cena de arena minima e movimentacao legivel, sem adicionar gestao ou progressao.
 
 ## Atualizacao mais recente — AUTO-001
@@ -49,7 +48,8 @@ Este e o checkpoint operacional unico. Substitua as secoes de tarefa/checkpoint 
 - **Regra:** commit local automatico apos conclusao, validacao e revisao do diff; incluir somente arquivos da tarefa.
 - **Salvaguardas:** sem misturar trabalho preexistente/de terceiros, arquivos gerados ou credenciais; se nao for possivel isolar, parar e informar. Tarefa incompleta, bloqueada ou sem validacao nao recebe commit de conclusao.
 - **Publicacao:** nao fazer push automaticamente; push exige pedido explicito.
-- **Proximo passo exato:** revisar o staging de `.github/` e `docs/`, commitar esta configuracao e conferir que o working tree ficou limpo. Nao fazer push.
+- **Resultado:** configuracao commitada localmente em `7fb3c56`; working tree estava limpo apos o commit. Sem push.
+- **Proximo passo exato:** confirmar no Godot que o projeto abre; iniciar depois o Marco 1 com uma arena minima e movimentacao legivel.
 
 ## Fatos estruturais confirmados
 

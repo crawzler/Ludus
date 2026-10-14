@@ -18,5 +18,10 @@ Historico append-only de sessoes e retomadas. Acrescente uma entrada por tarefa 
 - **Regra implementada na documentacao:** o LUDUS Coordinator revisa o diff e faz commit local descritivo apos conclusao e validacao, incluindo apenas arquivos da tarefa.
 - **Salvaguardas:** nenhuma mistura de trabalho de terceiros, alteracoes preexistentes, credenciais ou arquivos gerados; parar se o escopo nao puder ser isolado. Sem push automatico; push depende de pedido explicito.
 - **Arquivos de gameplay alterados:** nenhum.
-- **Validacao:** regras conferidas no Coordinator, nas instrucoes do Copilot, no protocolo e no guia; `git diff --check` passou. Commit local de toda a preparacao em andamento.
-- **Proximo passo:** concluir revisao do staging e criar o commit local. Nao fazer push.
+- **Validacao:** regras conferidas no Coordinator, nas instrucoes do Copilot, no protocolo e no guia; `git diff --cached --check` passou; commit local `7fb3c56` criado com 14 arquivos da preparacao. Nao foi feito push.
+- **Proximo passo:** confirmar importacao/execucao no Godot antes do Marco 1.
+
+## 2026-10-14 — AUTO-001 — Fechamento do checkpoint
+
+- **Resultado:** configuracao de agentes e documentacao preservadas em commit local `7fb3c56`; a branch local esta a frente do remoto por esta entrega, sem push.
+- **Proximo passo:** confirmar que o projeto abre no Godot, depois iniciar a primeira arena jogavel.
