@@ -4,14 +4,14 @@ Este e o checkpoint operacional unico. Substitua as secoes de tarefa/checkpoint 
 
 ## Checkpoint
 
-- **Atualizado em:** 2026-10-14 01:47 (-03:00)
-- **Marco:** inimigo temporario com ataques legiveis validado; iniciando o incremento de vida e resultado da luta.
-- **Estado geral:** arena, movimento, ataque basico e inimigo com aproximacao/telegrapho/ataque/recuperacao validados pelo usuario.
+- **Atualizado em:** 2026-10-14 01:55 (-03:00)
+- **Marco:** movimento, ataque, inimigo e resultado vitoria/derrota validados.
+- **Estado geral:** primeiro ciclo de combate jogavel implementado; vida, dano, HUD minimo e resultados finais aceitos pelo usuario.
 - **Projeto/engine:** `project.godot` declara Godot 4.7. VS Code tem extensao `geequlim.godot-tools`; `.vscode/settings.json` aponta para `e:\Godot_v4.7.2-stable_win64.exe`.
 - **Branch:** `main`.
 - **Commit da configuracao de agentes/documentacao:** `7fb3c56` — `docs: configure continuity and automatic local commits`.
 - **Remoto observado:** `origin` aponta para `https://github.com/crawzler/Ludus.git`; o commit inicial `bece661` estava sincronizado com `origin/main` antes desta entrega. A entrega local ainda nao foi enviada.
-- **Git no checkpoint:** branch `main` a frente de `origin/main` por cinco commits antes de salvar GAME-004; `.vscode/` local do usuario permanece untracked e fora do escopo/commit.
+- **Git no checkpoint:** branch `main` a frente de `origin/main` por seis commits antes de salvar GAME-005; `.vscode/` local do usuario permanece untracked e fora do escopo/commit.
 
 ## Tarefa concluida anterior
 
@@ -97,20 +97,24 @@ Este e o checkpoint operacional unico. Substitua as secoes de tarefa/checkpoint 
 - **Entrada do diario:** GAME-004, 2026-10-14.
 - **Proxima acao exata:** iniciar GAME-005, vida e resultados vitoria/derrota, seguindo a ordem do guia.
 
-## Tarefa ativa
+## Tarefa mais recente
 
 - **ID:** GAME-005
 - **Nome:** Adicionar vida e resultados de vitoria/derrota
-- **Status:** EM_ANDAMENTO — delimitacao pelo LUDUS Planner
-- **Responsavel:** LUDUS Coordinator; LUDUS Planner na etapa atual
-- **Pedido:** apos validar o inimigo, o usuario autorizou continuar.
-- **Objetivo:** fazer o golpe do inimigo causar dano observavel ao jogador e encerrar a luta claramente quando jogador ou inimigo ficar sem vida.
-- **Escopo preliminar:** vida temporaria de jogador/inimigo, dano uma vez por golpe apos telegrapho, feedback legivel de dano, e estados finais vitoria/derrota com mensagem simples; sem bloqueio, aparo, esquiva, HUD elaborado ou progressao.
-- **Criterio de conclusao:** jogador consegue perder vida ao ser atingido pelo ataque anunciado; inimigo perde vida pelo clique; zerar cada lado produz resultado distinto e interrompe novos ataques; teste no Godot 4.7.2.
-- **Arquivos provaveis:** scripts do inimigo/jogador/alvo, arena e uma cena/script leve para resultado ou HUD minimo.
-- **Ultimo passo concluido:** usuario validou GAME-004; Godot 4.7.2 headless e LSP sem erros; `.vscode/` preexistente permanece intocada.
-- **Decisoes temporarias:** valores de vida e dano podem ser defaults do prototipo e nao regras finais; nao ampliar para sistemas defensivos.
-- **Proxima acao exata:** obter plano pequeno do Planner; implementar apenas vida/dano/resultados, sem design permanente de armas ou inimigos.
+- **Status:** CONCLUIDA — validada pelo usuario
+- **Responsavel:** LUDUS Coordinator, com delimitacao do LUDUS Planner e implementacao do LUDUS Developer
+- **Pedido:** adicionar dano efetivo, vida e resultados claros apos validar o inimigo.
+- **Objetivo/escopo:** jogador e inimigo com vida; dano de area no fim do telegraph quando dentro de 72 px; HUD minimo; mensagem de VITORIA/DERROTA e bloqueio de combate apos fim.
+- **Parametros temporarios:** 3 HP por lado e 1 dano por ataque, nao sao balanceamento final.
+- **Arquivos:** `scripts/player.gd`, `scripts/enemy.gd`, `scripts/arena.gd`, `scenes/arena.tscn`, este estado e diario. `.vscode/` permaneceu fora da tarefa.
+- **Validacoes:** teste headless focado e smoke test Godot 4.7.2 passaram; usuario respondeu "Perfeito" apos instrucoes de verificacao, registrada como validacao funcional/visual; `git diff --check` passou.
+- **Entrada do diario:** GAME-005, 2026-10-14.
+- **Proxima acao exata:** avaliar bloqueio como proximo incremento de combate, conforme guia, quando o usuario quiser continuar.
+
+## Tarefa ativa
+
+- **Ativa:** nenhuma.
+- **Proxima tarefa sugerida:** bloqueio; definir criterio observavel antes de implementar.
 
 ## Atualizacao mais recente — AUTO-001
 

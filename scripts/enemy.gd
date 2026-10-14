@@ -1,9 +1,13 @@
 extends CharacterBody2D
 
-enum State { CHASING, TELEGRAPHING, ATTACKING, RECOVERING, DEFEATED }
+signal health_changed(current_health: int, max_health: int)
+signal defeated
+
+enum State { CHASING, TELEGRAPHING, ATTACKING, RECOVERING, DEFEATED, FINISHED }
 
 const MOVE_SPEED: float = 90.0
 const ATTACK_RANGE: float = 72.0
+const ATTACK_DAMAGE: int = 1
 const TELEGRAPH_DURATION: float = 0.65
 const ATTACK_DURATION: float = 0.18
 const RECOVERY_DURATION: float = 1.0
@@ -30,7 +34,7 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	if state == State.DEFEATED:
+	if state == State.DEFEATED or state == State.FINISHED:
 		return
 	if not is_instance_valid(player):
 		velocity = Vector2.ZERO
@@ -70,19 +74,41 @@ func _advance_attack_state(delta: float, next_state: State, next_duration: float
 		state = next_state
 		state_time_remaining = next_duration
 		queue_redraw()
+		if next_state == State.ATTACKING:
+			_try_hit_player()
+
+
+func _try_hit_player() -> void:
+	if not is_instance_valid(player):
+		return
+	if global_position.distance_to(player.global_position) <= ATTACK_RANGE:
+		player.call("take_damage", ATTACK_DAMAGE)
 
 
 func take_damage(amount: int) -> void:
-	if state == State.DEFEATED:
+	if state == State.DEFEATED or state == State.FINISHED:
 		return
 
-	health -= amount
+	health = maxi(health - amount, 0)
+	health_changed.emit(health, MAX_HEALTH)
 	_show_hit_feedback()
-	if health <= 0:
+	if health == 0:
 		state = State.DEFEATED
 		velocity = Vector2.ZERO
+		defeated.emit()
 		await get_tree().create_timer(HIT_FLASH_DURATION).timeout
 		queue_free()
+
+
+func finish_combat() -> void:
+	state = State.FINISHED
+	velocity = Vector2.ZERO
+	set_physics_process(false)
+	queue_redraw()
+
+
+func get_health_text() -> String:
+	return "Inimigo: %d/%d" % [health, MAX_HEALTH]
 
 
 func _show_hit_feedback() -> void:

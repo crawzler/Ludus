@@ -139,4 +139,32 @@ Historico append-only de sessoes e retomadas. Acrescente uma entrada por tarefa 
 - **Pedido:** usuario autorizou continuar apos validar o inimigo temporario.
 - **Objetivo:** conectar ataques a vida do jogador e encerrar luta em vitoria/derrota clara.
 - **Escopo preliminar:** vida temporaria, dano no fim do telegrapho apenas quando o jogador estiver na area, feedback de dano e mensagem de resultado; sem sistemas defensivos ou progressao.
-- **Proximo passo:** receber delimitacao pequena do Planner antes da implementacao.
+- **Delimitacao do Planner:** usar disparo de dano por transicao/evento de impacto, nunca por verificacao repetida de area a cada frame; valor de vida/dano permanece temporario; indicador simples e mensagem terminal bastam.
+- **Inspecao do Coordinator:** estado `ATTACKING` do inimigo ainda so desenha efeito; candidato a dano ao entrar nessa fase, se jogador estiver dentro do alcance. `.vscode/` local do usuario nao deve ser tocada.
+- **Proximo passo:** implementar e validar vida, dano efetivo por ciclo e resultado final.
+
+## 2026-10-14 — GAME-005 — Implementacao e validacao headless
+
+- **Resultado:** jogador e inimigo têm vida atualizavel; jogador começa com 3 HP e flash ao receber dano; inimigo aplica 1 dano uma unica vez ao iniciar ATTACKING, apenas com distancia entre centros <=72 px. HUD minimal mostra HP e a arena exibe VITÓRIA/DERROTA, interrompendo movimento e IA.
+- **Arquivos da tarefa:** `scripts/player.gd`, `scripts/enemy.gd`, `scripts/arena.gd`, `scenes/arena.tscn`, `docs/ESTADO_ATUAL.md`.
+- **Validacoes:** Godot 4.7.2 importou o projeto e executou a arena por 240 frames; teste focado headless verificou vida inicial, limites de alcance, apenas um dano por ciclo, ataque do jogador, vitoria, derrota e bloqueio apos o fim; `git diff --check` passou. O script temporario foi removido.
+- **Pendente:** playtest visual/manual da arena e legibilidade do HUD/feedback pelo usuario. Nenhum commit ou push realizado.
+- **Proximo passo:** executar `E:\Ludus\project.godot` no Godot 4.7.2 e validar WASD, clique esquerdo, dano ao jogador e os dois resultados finais.
+
+## 2026-10-14 — GAME-005 — Revisao do Coordinator
+
+- **Revisao:** confirmou dano no instante de transicao telegraph -> ataque, limite de distancia inclusivo 72 px, vida atualizada por sinais, mensagem terminal e bloqueio de jogador/inimigo.
+- **Validacao repetida:** Godot 4.7.2 headless importou e executou a arena por 240 frames, sem erros; `.vscode/` permanece fora.
+- **Proximo passo:** playtest manual para legibilidade e verificar ambos os resultados terminais.
+
+## 2026-10-14 — GAME-005 — Roteiro manual preparado
+
+- **Passos:** executar com F5; ler HP inicial; observar telegrapho; confirmar dano de 1 HP no impacto somente dentro de 72 px e nenhum dano fora; atacar inimigo com clique ate VITORIA; em outra execucao, permanecer dentro dos golpes ate DERROTA; apos cada fim, tentar mover/atacar e confirmar que estado e HP nao mudam.
+- **Observacao:** a validade funcional headless e confirmada, mas a legibilidade visual do HUD, flash e mensagens ainda depende do usuario. GAME-005 continua sem commit ate esse playtest.
+
+## 2026-10-14 — GAME-005 — Concluida e validada pelo usuario
+
+- **Resultado:** usuario respondeu "Perfeito" apos o roteiro de verificacao de vida, dano, vitoria/derrota e bloqueio pos-fim; funcionalidade aceita.
+- **Validacao:** Godot 4.7.2 executou a cena headless por 240 frames sem erros; teste focado headless cobriu limites de alcance, dano unico, vida, vitoria/derrota e acoes apos fim; validacao funcional/visual confirmada pelo usuario.
+- **Arquivos:** scripts do jogador/inimigo/arena, cena da arena e registros de continuidade.
+- **Proximo passo:** bloqueio como proximo incremento do guia, quando o usuario solicitar continuidade.

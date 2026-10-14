@@ -1,14 +1,27 @@
 extends CharacterBody2D
 
+signal health_changed(current_health: int, max_health: int)
+signal defeated
+
 const MOVE_SPEED: float = 300.0
 const ATTACK_RANGE: float = 48.0
 const ATTACK_DAMAGE: int = 1
 const ATTACK_FEEDBACK_DURATION: float = 0.12
+const MAX_HEALTH: int = 3
+const HIT_FLASH_DURATION: float = 0.12
+const HIT_COLOR: Color = Color("#fff2a6")
 
 var attack_feedback_remaining: float = 0.0
+var health: int = MAX_HEALTH
+var combat_finished: bool = false
+var hit_flash_tween: Tween
 
 
 func _physics_process(_delta: float) -> void:
+	if combat_finished:
+		velocity = Vector2.ZERO
+		return
+
 	var move_direction: Vector2 = Input.get_vector(
 		"move_left",
 		"move_right",
@@ -44,6 +57,35 @@ func _attack() -> void:
 
 	if closest_target:
 		closest_target.call("take_damage", ATTACK_DAMAGE)
+
+
+func take_damage(amount: int) -> void:
+	if combat_finished or health <= 0:
+		return
+
+	health = maxi(health - amount, 0)
+	health_changed.emit(health, MAX_HEALTH)
+	_show_hit_feedback()
+	if health == 0:
+		defeated.emit()
+
+
+func finish_combat() -> void:
+	combat_finished = true
+	velocity = Vector2.ZERO
+	set_physics_process(false)
+
+
+func get_health_text() -> String:
+	return "Jogador: %d/%d" % [health, MAX_HEALTH]
+
+
+func _show_hit_feedback() -> void:
+	if hit_flash_tween and hit_flash_tween.is_running():
+		hit_flash_tween.kill()
+	modulate = HIT_COLOR
+	hit_flash_tween = create_tween()
+	hit_flash_tween.tween_property(self, "modulate", Color.WHITE, HIT_FLASH_DURATION)
 
 
 func _draw() -> void:
