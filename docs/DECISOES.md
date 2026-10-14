@@ -1,0 +1,25 @@
+# LUDUS — Registro de decisoes
+
+Registre aqui somente decisoes aprovadas pelo usuario ou validadas em teste. Use data, contexto e impacto. Sugestoes da IA ficam em "Pendentes" e nao autorizam implementacao.
+
+## Decisoes aprovadas
+
+| ID | Data | Decisao | Motivo/impacto |
+|---|---|---|---|
+| DEC-001 | 2026-10-14 | Engine inicial: Godot 4 com GDScript. | Adequado ao projeto isometrico 2D e ao fluxo de trabalho iniciante; confirmar a versao instalada antes de usar APIs especificas. |
+| DEC-002 | 2026-10-14 | Validar primeiro um prototipo de combate; gestao, progressao e conteudo amplo ficam para depois. | Preserva o escopo e os criterios do GDD consolidado. |
+| DEC-003 | 2026-10-14 | Camera planejada fixa em perspectiva 2D isometrica. | Direcao inicial do GDD; proporcao e apresentacao visual ainda precisam de teste. |
+| DEC-004 | 2026-10-14 | O repositorio GitHub `crawzler/Ludus` e o local remoto do projeto. | `origin` configurado para HTTPS; commits/push continuam sujeitos a autorizacao do usuario. |
+
+## Pendentes de decisao
+
+| ID | Pergunta | Quando decidir |
+|---|---|---|
+| DEC-P01 | Qual sera o nome de exibicao final do projeto no Godot? | Antes de polir a configuracao e identidade do projeto. |
+| DEC-P02 | Qual movimento inicial a perspectiva isometrica deve usar (eixos da tela ou eixos do mundo)? | Ao implementar e testar o primeiro controlador. |
+| DEC-P03 | Quais duas armas e qual primeiro inimigo representarao o combate? | Depois de movimento e ataque basico funcionarem. |
+| DEC-P04 | Havera suporte a controle/gamepad no prototipo? | Antes de fechar mapeamento de entrada. |
+
+## Substituidas ou rejeitadas
+
+Nenhuma registrada.
