@@ -4,15 +4,15 @@ Este e o checkpoint operacional unico. Substitua as secoes de tarefa/checkpoint 
 
 ## Checkpoint
 
-- **Atualizado em:** 2026-10-14 02:21 (-03:00)
-- **Marco:** primeiro ciclo de combate concluido; GAME-007 validada, commitada e enviada.
-- **Estado geral:** arena, movimento, ataque, inimigo, vida e resultados validados. GAME-006 bloqueou no Space; usuario reportou que o feedback nao estava claro e aprovou unificar bloqueio/aparo no botao direito do mouse.
+- **Atualizado em:** 2026-10-14 02:24 (-03:00)
+- **Marco:** primeiro ciclo de combate concluido; registrando versao inicial do prototipo.
+- **Estado geral:** arena, movimento, ataque, inimigo, vida, resultados e defesa validados; versao do produto `0.1.0-pre-alpha` registrada separadamente da versao da engine.
 - **Projeto/engine:** `project.godot` declara Godot 4.7. VS Code tem extensao `geequlim.godot-tools`; `.vscode/settings.json` aponta para `e:\Godot_v4.7.2-stable_win64.exe`.
 - **Branch:** `main`.
 - **Commit da configuracao de agentes/documentacao:** `7fb3c56` — `docs: configure continuity and automatic local commits`.
 - **Remoto observado:** `origin` aponta para `https://github.com/crawzler/Ludus.git`; `origin/main` e `main` estao sincronizados em `1ea4858` apos push autorizado pelo usuario.
 - **Politica de publicacao:** usuario autorizou push automatico ao GitHub apos cada commit de tarefa concluida e validada. Nao enviar alteracoes sem commit nem tarefas incompletas.
-- **Git no checkpoint:** `main` e `origin/main` sincronizadas apos commit/push de GAME-007; `.vscode/` local do usuario segue nao rastreada, preservada e fora do escopo.
+- **Git no checkpoint:** `main` e `origin/main` sincronizadas em `fbc6e8e`; `.vscode/` local do usuario segue nao rastreada, preservada e fora do escopo.
 
 ## Tarefa concluida anterior
 
@@ -150,7 +150,25 @@ Este e o checkpoint operacional unico. Substitua as secoes de tarefa/checkpoint 
 - **Ultimo passo concluido:** usuario informou “Validacao visual está feita”; feedback do aparo/bloqueio aceito.
 - **Arquivos da tarefa modificados:** `project.godot`, `scripts/player.gd`, `scripts/enemy.gd`, `docs/DECISOES.md`, `docs/GUIA_DE_DESENVOLVIMENTO.md`, `docs/ESTADO_ATUAL.md` e entrada GAME-007 em `docs/DIARIO_DE_DESENVOLVIMENTO.md`. A alteracao preexistente de `.vscode/` foi preservada e excluida.
 - **Commit/push:** `4f2e744` — `feat: add shared block and parry`; enviado para `origin/main`.
-- **Proxima acao exata:** planejar esquiva como incremento separado, conforme guia, mantendo os parametros atuais de bloqueio/aparo ate playtest futuro indicar ajustes.
+- **Proxima acao exata:** planejar a esquiva como incremento separado, conforme ordem do guia. A convencao de versao esta pronta; criar tags apenas em marcos futuros escolhidos intencionalmente.
+
+## Tarefa ativa
+
+- **ID:** OPS-003
+- **Nome:** Registrar versao inicial do prototipo
+- **Status:** CONCLUIDA — metadado reconhecido pelo Godot
+- **Responsavel:** LUDUS Coordinator
+- **Pedido:** usuario aprovou adicionar versao inicial e perguntou sobre rotulos de fase como pre-alpha/alpha.
+- **Objetivo:** identificar a versao do jogo no proprio projeto e estabelecer uma convencao simples de fases/releases.
+- **Escopo:** definir `0.1.0-pre-alpha` como versao inicial em `project.godot`; registrar convencao de versionamento no guia e decisao; tags GitHub ficam reservadas para marcos, nao para cada commit.
+- **Fora de escopo:** exibir versao no HUD/menu, criar release/tag imediatamente ou automatizar incremento de versao.
+- **Criterio de conclusao:** Godot reconhece o metadado de versao, docs descrevem formato e rotulos, projeto importa/roda headless, diff limpo; commit/push conforme autorizacao permanente.
+- **Arquivos previstos:** `project.godot`, `docs/DECISOES.md`, `docs/GUIA_DE_DESENVOLVIMENTO.md`, este estado e diario.
+- **Decisao aprovada pelo usuario:** adicionar versao inicial, com sugestao `0.1.0` e fases como pre-alpha; Coordinator aplica `0.1.0-pre-alpha` pois o projeto ainda esta em prototipo inicial.
+- **Ultimo passo concluido:** `project.godot` declara `config/version="0.1.0-pre-alpha"`; DEC-007 e secao de versionamento do guia registram o formato e uso de tags em marcos, sem tag de release agora.
+- **Validacoes:** Godot 4.7.2 importou o projeto e executou a arena headless por 120 frames sem erros; `git diff --check` passou.
+- **Commit/push:** aguardando operacao de commit desta tarefa e envio automatico para `origin/main`.
+- **Proxima acao exata:** commit e push dos cinco arquivos desta tarefa; manter `.vscode/` fora.
 
 ## Atualizacao mais recente — AUTO-001
 

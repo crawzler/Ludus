@@ -257,6 +257,16 @@ Historico append-only de sessoes e retomadas. Acrescente uma entrada por tarefa 
 - **Escopo:** commit incluiu apenas os sete arquivos da tarefa; `.vscode/` permaneceu fora.
 - **Proximo passo:** planejar esquiva conforme a sequencia do guia.
 
+## 2026-10-14 — OPS-003 — Versionamento do prototipo iniciado
+
+- **Pedido:** adicionar uma versao do jogo e avaliar rotulos de fase como pre-alpha/alpha.
+- **Decisao operacional:** versao inicial `0.1.0-pre-alpha`; usar formato `MAJOR.MINOR.PATCH[-fase]`. Tags Git sao para marcos/releases nomeados `v<versao>`, nao para todo commit.
+- **Escopo:** configurar o metadado de versao do projeto Godot e documentar a convencao; sem UI de versao, tag ou release nesta etapa.
+- **Implementacao:** `project.godot` declara `config/version="0.1.0-pre-alpha"`; DEC-007 registra a convencao aprovada e o guia orienta fases e tags.
+- **Validacao:** Godot 4.7.2 importou o projeto e executou a arena headless por 120 frames sem erros; `git diff --check` passou.
+- **Escopo excluido:** sem exibir versao no HUD/menu e sem criar tag/release nesta tarefa; a primeira tag fica para um marco futuro.
+- **Proximo passo:** commit/push dos arquivos da tarefa; esquiva continua como proximo incremento de gameplay.
+
 ## 2026-10-14 — OPS-002 — Push automatico autorizado pelo usuario
 
 - **Pedido:** usuario esclareceu que autorizava push ao GitHub apos cada commit.

@@ -27,6 +27,14 @@ LUDUS e um action roguelite de gladiadores sobre combate em arena, improvisacao 
 - Prioridade: recursos nativos da engine e prototipos com arte temporaria.
 - Addons: nenhum e necessario para iniciar. Avaliar apenas diante de uma necessidade comprovada.
 
+## Versionamento do jogo
+
+- A versao do produto fica em `application/config/version` no `project.godot`; ela e diferente da versao do Godot indicada em `config/features`.
+- Formato inicial: `MAJOR.MINOR.PATCH[-fase]`. O prototipo comeca em `0.1.0-pre-alpha`; a parte apos o hifen pode indicar `pre-alpha`, `alpha`, `beta` ou `rc.1`, conforme o estagio.
+- Enquanto a versao for `0.x`, ela indica desenvolvimento inicial e nao promete compatibilidade estavel.
+- Atualize a versao em mudancas com significado para o produto, nao em cada commit. Crie tags Git anotadas com prefixo `v` apenas em marcos/release intencionais (por exemplo, `v0.1.0-pre-alpha`); commits continuam sendo o historico de cada alteracao.
+- Nao criar release/tag ate haver um marco que se queira destacar e validar.
+
 ## Escopo atual: prototipo de combate
 
 ### Incluir, em ordem
