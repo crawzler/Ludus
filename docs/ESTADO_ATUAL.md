@@ -204,8 +204,9 @@ Este e o checkpoint operacional unico. Substitua as secoes de tarefa/checkpoint 
 - **Alteracoes preexistentes protegidas:** diferenca local de formatacao em `project.godot`; nao rastreados `.vscode/` e `docs/BUGS.md`. A acao `switch_weapon` em Q sera isolada para commit sem incluir a formatacao preexistente.
 - **Arquivos da tarefa:** `scripts/player.gd`, a acao `switch_weapon` em `project.godot`, `docs/DECISOES.md`, `docs/GUIA_DE_DESENVOLVIMENTO.md`, este checkpoint e `docs/DIARIO_DE_DESENVOLVIMENTO.md`. `scripts/enemy.gd` permaneceu inalterado.
 - **Versao:** mantida em `0.1.0-pre-alpha`; criterios de promocao de estagio nao foram avaliados como satisfeitos por esta tarefa isolada.
-- **Commit/push:** pendentes da revisao final e staging seletivo; `.vscode/`, `docs/BUGS.md` e formatacao anterior de `project.godot` serao preservados fora.
-- **Proxima acao exata:** revisar o diff final, incluir apenas os arquivos/linhas da GAME-009, criar commit descritivo com trailer Co-authored-by e enviar `main` para `origin`.
+- **Commit:** `4066734` — `feat: add sword and spear weapon swapping`, com trailer `Co-authored-by: GitHub Copilot <copilot@users.noreply.github.com>`. Inclui seis arquivos apenas; em `project.godot`, somente o mapeamento `switch_weapon` foi staged.
+- **Push:** commit GAME-009 `4066734` publicado em `origin/main`. O mapeamento Q foi enviado; formatacao local anterior em `project.godot`, `.vscode/` e `docs/BUGS.md` ficaram fora.
+- **Proxima acao exata:** encerrar GAME-009. Na retomada, escolher o proximo incremento de acordo com a ordem do guia, sem tarefa ativa de implementacao neste momento.
 - **Entrada do diario:** GAME-009, 2026-10-14 — implementacao concluida e validacao manual aceita pelo usuario.
 
 ## Fatos estruturais confirmados

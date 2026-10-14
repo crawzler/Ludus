@@ -391,3 +391,17 @@ Historico append-only de sessoes e retomadas. Acrescente uma entrada por tarefa 
 - **Preservacao de trabalho preexistente:** formatacao local alheia ao escopo em `project.godot`, pasta `.vscode/` e `docs/BUGS.md` ficam fora do commit; o mapeamento Q sera staged seletivamente. Nenhum arquivo sera descartado.
 - **Versao:** mantida em `0.1.0-pre-alpha`; sem promocao de estagio/tag nesta tarefa.
 - **Proximo passo:** concluir revisao do diff e staging isolado, criar commit com trailer Co-authored-by e fazer push de `main` para `origin`.
+
+## 2026-10-14 — GAME-009 — Commit local
+
+- **Commit:** `4066734` — `feat: add sword and spear weapon swapping`; inclui trailer `Co-authored-by: GitHub Copilot <copilot@users.noreply.github.com>`.
+- **Escopo revisado:** seis arquivos da tarefa. Em `project.godot`, apenas o mapeamento `switch_weapon` para Q foi staged; a formatacao local alheia ficou fora, assim como `.vscode/` e `docs/BUGS.md`.
+- **Validacao do commit:** `git diff --cached --check` passou; os nomes dos seis arquivos staged foram conferidos antes do commit.
+- **Proximo passo:** enviar a branch `main` para `origin` e confirmar sincronizacao, preservando as alteracoes locais excluidas.
+
+## 2026-10-14 — GAME-009 — Publicada
+
+- **Push:** `4066734` publicado em `origin/main`.
+- **Resultado:** GAME-009 concluida; a validacao funcional manual e considerada aceita pelo usuario. Versao preservada em `0.1.0-pre-alpha`.
+- **Preservacao:** alteracoes locais nao relacionadas de `project.godot`, `.vscode/` e `docs/BUGS.md` nao foram enviadas.
+- **Proximo passo:** encerrar este incremento; a proxima sessao retoma pela sequencia do guia, sem trabalho ativo pendente.
