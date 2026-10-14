@@ -358,3 +358,36 @@ Historico append-only de sessoes e retomadas. Acrescente uma entrada por tarefa 
 - **Push:** publicado em `origin/main`; `main` e `origin/main` sincronizadas.
 - **Escopo confirmado:** seis arquivos da tarefa; `.vscode/` e `docs/BUGS.md` preservados fora.
 - **Proximo passo:** encerrar a sessao; retomar depois pela sequencia do guia.
+
+## 2026-10-14 — GAME-009 — Delimitacao bloqueada por decisao pendente
+
+- **Pedido:** usuario pediu para avancar ao proximo passo e retomar o projeto a partir do checkpoint.
+- **Checkpoint encontrado:** GAME-008 concluida e publicada em `8a4603d`; nenhum trabalho ativo de gameplay. O guia indica como proximo item dois conjuntos de armas e troca durante a luta.
+- **Inspecao:** confirmados `project.godot` (Godot 4.7), `scripts/player.gd`, `scripts/enemy.gd`, `scenes/arena.tscn`, decisoes e guia. O ataque atual usa alcance de 48 px e dano 1; ha um inimigo placeholder na arena.
+- **Delimitacao do Planner:** identificou como pendentes a escolha das duas armas e a forma de acionar a troca, e apontou DEC-P03 sobre o inimigo representativo. A troca apos esquiva foi sugestao nao respaldada pelo guia e nao foi adotada.
+- **Bloqueio:** nao implementar comportamento de armas nem escolher controle sem decisao do usuario. O inimigo placeholder pode permanecer inalterado se o usuario aceitar usa-lo para verificar a troca.
+- **Alteracoes locais preexistentes preservadas:** diferenca de formatacao em `project.godot` e nao rastreados `.vscode/` e `docs/BUGS.md`; nenhum foi modificado ou incluido.
+- **Validacao:** `git diff --check` passou; sem mudancas de gameplay para testar. Nenhum commit ou push foi feito.
+- **Proximo passo:** perguntar ao usuario quais duas armas deseja, qual comando deve alternar entre elas e se o inimigo placeholder atual serve para o primeiro teste.
+
+## 2026-10-14 — GAME-009 — Implementada; validacao manual pendente
+
+- **Retomada:** usuario resolveu as escolhas pendentes: espada curta/rapida, lanca de maior alcance/mais lenta, alternancia em Q e manutencao do inimigo placeholder para teste.
+- **Delimitacao do Planner:** reutilizar o ataque existente, manter dano atual, aplicar alcance/cadencia por arma e nao permitir que a troca burle cooldown. Sem mudanca na IA/inimigo.
+- **Implementacao do Developer:** `scripts/player.gd` recebeu estado de arma, alcance de 48/80 px, intervalos de 0,35/0,70 s, cooldown compartilhado entre trocas e indicador de arma/alcance; `project.godot` recebeu acao `switch_weapon` em Q. Dano continua em 1 para ambas. O inimigo permanece inalterado.
+- **Documentacao aprovada:** DEC-010 registra as escolhas de GAME-009; DEC-P03 agora pergunta sobre um inimigo apos o placeholder. O guia registra regras e parametros temporarios.
+- **Verificacao tecnica:** Godot 4.7.2 importou o projeto em modo headless e executou a arena principal por 240 frames, sem erros; `git diff --check` passou. Nao e simulacao de entradas nem playtest.
+- **Playtester:** forneceu roteiro manual comparando alcances aproximados de 40/60/90 px, tempos de ataque, Q/cooldown e regressao dos controles atuais; o agente nao executou o jogo.
+- **Alteracoes locais preexistentes protegidas:** formatacao local em `project.godot`, `.vscode/` e `docs/BUGS.md`; nenhum arquivo nao relacionado foi intencionalmente alterado.
+- **Status:** EM_ANDAMENTO ate o usuario validar visual/funcionalmente no Godot. Nenhum commit ou push feito; a validacao manual e necessaria para fechar uma mudanca de jogabilidade.
+- **Proximo passo:** usuario executar F5 no Godot 4.7.2 e seguir o roteiro; corrigir falhas reproduziveis ou, se aprovado, concluir a tarefa, revisar isolamento do diff e publicar.
+
+## 2026-10-14 — GAME-009 — Validacao manual aceita; fechamento
+
+- **Resultado:** o usuario respondeu “Certinho chat aprovado” apos receber as mudancas locais e o roteiro manual. Conforme instrucao explicita de retomada, o aceite e considerado conclusao da validacao funcional manual; nenhuma contradicao ou falha foi relatada.
+- **Implementacao validada:** espada curta/rapida e lanca de maior alcance/mais lenta, troca por Q, dano preservado e cooldown compartilhado; arma atual e alcance do ataque comunicados visualmente.
+- **Verificacoes tecnicas:** Godot 4.7.2 headless importou o projeto e executou a arena por 240 frames sem erros; `git diff --check` passou. Esses checks tecnicos nao simulam input; a validacao manual e atribuida ao aceite do usuario.
+- **Arquivos da tarefa:** `scripts/player.gd`, mapeamento `switch_weapon` em `project.godot`, `docs/DECISOES.md`, `docs/GUIA_DE_DESENVOLVIMENTO.md`, `docs/ESTADO_ATUAL.md` e este diario. `scripts/enemy.gd` nao foi alterado.
+- **Preservacao de trabalho preexistente:** formatacao local alheia ao escopo em `project.godot`, pasta `.vscode/` e `docs/BUGS.md` ficam fora do commit; o mapeamento Q sera staged seletivamente. Nenhum arquivo sera descartado.
+- **Versao:** mantida em `0.1.0-pre-alpha`; sem promocao de estagio/tag nesta tarefa.
+- **Proximo passo:** concluir revisao do diff e staging isolado, criar commit com trailer Co-authored-by e fazer push de `main` para `origin`.

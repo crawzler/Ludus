@@ -4,15 +4,15 @@ Este e o checkpoint operacional unico. Substitua as secoes de tarefa/checkpoint 
 
 ## Checkpoint
 
-- **Atualizado em:** 2026-10-14 02:44 (-03:00)
-- **Marco:** roll de esquiva implementado e validado visualmente.
-- **Estado geral:** versao `0.1.0-pre-alpha`; movimento, ataques, vida/resultados, defesa compartilhada e esquiva validados.
+- **Atualizado em:** 2026-10-14 14:50 (-03:00)
+- **Marco:** GAME-009 — implementacao do arsenal minimo concluida; aguardando verificacao funcional manual.
+- **Estado geral:** versao `0.1.0-pre-alpha`; implementados espada/lanca com alcances e ritmos distintos e troca por Q; validacao visual ainda pendente.
 - **Projeto/engine:** `project.godot` declara Godot 4.7. VS Code tem extensao `geequlim.godot-tools`; `.vscode/settings.json` aponta para `e:\Godot_v4.7.2-stable_win64.exe`.
 - **Branch:** `main`.
 - **Commit da configuracao de agentes/documentacao:** `7fb3c56` — `docs: configure continuity and automatic local commits`.
 - **Remoto observado:** `origin` aponta para `https://github.com/crawzler/Ludus.git`; `main` e `origin/main` estao sincronizadas apos o fechamento da GAME-008.
 - **Politica de publicacao:** usuario autorizou push automatico ao GitHub apos cada commit de tarefa concluida e validada. Nao enviar alteracoes sem commit nem tarefas incompletas.
-- **Git no checkpoint:** `main` e `origin/main` sincronizadas; a implementacao da GAME-008 foi publicada em `8a4603d`; `.vscode/` e `docs/BUGS.md` nao rastreados foram preservados fora do commit.
+- **Git nesta retomada:** `main` em `7d2ae4c`, igual a `origin/main`; ha modificacao local em `project.godot` e arquivos nao rastreados `.vscode/` e `docs/BUGS.md`. Preservar e manter fora de qualquer commit desta tarefa.
 
 ## Tarefa concluida anterior
 
@@ -130,7 +130,7 @@ Este e o checkpoint operacional unico. Substitua as secoes de tarefa/checkpoint 
 - **Commit local:** `a806961` — `feat: add basic held block`.
 - **Proxima acao exata:** o LUDUS Planner delimita GAME-007 (aparo), verificando se controle, janela e efeito podem ser definidos com seguranca ou se exigem decisao do usuario.
 
-## Tarefa ativa
+## Tarefa concluida mais recente
 
 - **ID:** GAME-007
 - **Nome:** Implementar bloqueio/aparo compartilhados
@@ -179,7 +179,34 @@ Este e o checkpoint operacional unico. Substitua as secoes de tarefa/checkpoint 
 - **Resultado:** esquiva com invulnerabilidade breve implementada e aceita em teste visual; sem alteracoes no inimigo.
 - **Validacao visual:** usuario confirmou em 2026-10-14 que o roll funcionou.
 - **Conclusao:** commit `8a4603d` criado e enviado a `origin/main`; branch sincronizada.
-- **Proximo passo exato:** retomar na proxima sessao pela sequencia atual do guia; nenhum outro trabalho iniciado.
+- **Proximo passo exato:** selecionar o proximo incremento conforme a ordem do guia; nenhum outro trabalho foi iniciado antes desta retomada.
+
+## Tarefa concluida mais recente — GAME-009 (armas e troca)
+
+- **Status:** CONCLUIDA — implementacao, verificacoes tecnicas e validacao funcional manual aceitas pelo usuario.
+- **Responsavel:** LUDUS Coordinator, com delimitacao do LUDUS Planner, implementacao do LUDUS Developer e criterios manuais do LUDUS Playtester.
+- **Pedido:** implementar duas armas — espada de curto alcance e rapida, lanca de alcance maior e mais lenta — com alternancia pela tecla `Q`, mantendo o inimigo placeholder atual como alvo de teste.
+- **Objetivo:** tornar observavel uma diferenca entre os dois conjuntos de ataque e permitir alternar entre eles durante a luta.
+- **Escopo:** ajustar o ataque de proximidade existente para ter parametros proprios de alcance/ritmo por arma; permitir alternancia em `Q`; mostrar claramente a arma atual; preservar o inimigo placeholder e os controles/comportamentos de movimento, esquiva, bloqueio e aparo. Sem arte definitiva, inventario, durabilidade ou ajustes de IA do inimigo.
+- **Criterio de conclusao:** cada arma apresenta alcance e ritmo distintos de forma verificavel; `Q` alterna entre elas; o ataque continua aplicando dano ao inimigo no alcance correspondente; os sistemas atuais permanecem intactos; verificacao estatica passa e o usuario recebe passos de teste no Godot.
+- **Decisoes aprovadas pelo pedido atual:** espada + lanca; espada mais rapida/curta; lanca mais lenta/longa; `Q` para trocar; manter inimigo placeholder.
+- **Contexto verificado:** GAME-008 concluida/publicada em `8a4603d`; `project.godot` declara Godot 4.7; `scripts/player.gd` atualmente usa alcance/dano em constantes e uma acao `attack`; `scripts/enemy.gd` implementa o inimigo funcional placeholder; ambas as cenas estao em `scenes/arena.tscn`.
+- **Alteracoes locais protegidas:** `project.godot` tem diferenca local de formatacao no texto das acoes de entrada; `.vscode/` e `docs/BUGS.md` estao nao rastreados. Autoria/escopo nao estabelecidos; nao alterar nem incluir.
+- **Ultimo passo concluido:** leituras obrigatorias, status Git, commit, configuracao Godot, decisoes, guia, historico e scripts de jogador/inimigo conferidos.
+- **Delimitacao do Planner:** reutilizar o ataque de proximidade e estruturar apenas parametros por arma; manter o dano atual igual, verificar a cadencia existente (nao ha cooldown no script inspecionado), evitar que alternar burle a cadencia e nao alterar IA. Valores temporarios iniciais definidos para teste: espada 48 px e intervalo de 0,35 s; lanca 80 px e intervalo de 0,7 s. O ataque continua com dano 1.
+- **Arquivos esperados:** `scripts/player.gd`, `project.godot` (mapeamento de entrada Q); atualizacao documental de decisao/guia pelo Coordinator. Nao alterar `scripts/enemy.gd` ou cenas existentes sem necessidade tecnica demonstrada.
+- **Implementacao entregue pelo Developer:** `scripts/player.gd` agora alterna espada/lança e usa alcance/cadencia por arma, mantendo dano 1 e cooldown ao trocar; `project.godot` mapeia `switch_weapon` para Q. A arma equipada e o raio do ataque sao exibidos.
+- **Valores temporarios:** espada 48 px / 0,35 s; lança 80 px / 0,70 s; dano 1 para ambas.
+- **Verificacoes tecnicas do Coordinator:** `E:\\Godot_v4.7.2-stable_win64.exe --headless --path E:\\Ludus --editor --quit` importou sem erros; `--headless --path E:\\Ludus --quit-after 240` executou a cena principal por 240 frames sem erros; `git diff --check` passou. A revisao do diff confirma que o inimigo nao foi alterado. Esses testes nao simulam entrada de jogador nem substituem playtest.
+- **Playtester:** roteiro preparado, nao executado. Verificar indicador ESPADA/LANCA ao pressionar Q; comparacao a aproximadamente 40/60/90 px (ambas/so lanca/nenhuma, respectivamente); cadencia aproximada de 0,35/0,70 s; trocar durante cooldown sem disparar ataque extra; regressao de movimento, esquiva, bloqueio/aparo e inimigo placeholder.
+- **Ultimo passo concluido:** usuario respondeu “Certinho chat aprovado” ao receber as mudancas e o roteiro manual; conforme pedido, isso e registrado como aceite/conclusao da validacao manual. O usuario nao relatou falha.
+- **Validacoes:** Godot 4.7.2 importou o projeto em modo headless e executou a cena principal por 240 frames sem erros; `git diff --check` passou; revisao estatica confirma que o inimigo nao foi alterado. Validacao manual aceita pelo usuario. O smoke headless nao simula entradas.
+- **Alteracoes preexistentes protegidas:** diferenca local de formatacao em `project.godot`; nao rastreados `.vscode/` e `docs/BUGS.md`. A acao `switch_weapon` em Q sera isolada para commit sem incluir a formatacao preexistente.
+- **Arquivos da tarefa:** `scripts/player.gd`, a acao `switch_weapon` em `project.godot`, `docs/DECISOES.md`, `docs/GUIA_DE_DESENVOLVIMENTO.md`, este checkpoint e `docs/DIARIO_DE_DESENVOLVIMENTO.md`. `scripts/enemy.gd` permaneceu inalterado.
+- **Versao:** mantida em `0.1.0-pre-alpha`; criterios de promocao de estagio nao foram avaliados como satisfeitos por esta tarefa isolada.
+- **Commit/push:** pendentes da revisao final e staging seletivo; `.vscode/`, `docs/BUGS.md` e formatacao anterior de `project.godot` serao preservados fora.
+- **Proxima acao exata:** revisar o diff final, incluir apenas os arquivos/linhas da GAME-009, criar commit descritivo com trailer Co-authored-by e enviar `main` para `origin`.
+- **Entrada do diario:** GAME-009, 2026-10-14 — implementacao concluida e validacao manual aceita pelo usuario.
 
 ## Fatos estruturais confirmados
 

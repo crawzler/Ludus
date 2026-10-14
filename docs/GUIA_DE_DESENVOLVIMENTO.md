@@ -62,6 +62,8 @@ Essa sequencia pode mudar quando um teste revelar uma dependencia tecnica ou um 
 
 **Regra aprovada para o prototipo atual (GAME-008):** barra de espaco inicia um roll direcional usando o input de movimento atual ou a ultima direcao valida. Durante o roll, o jogador fica invulneravel; fora dessa janela, dano continua normal. Parametros iniciais para teste: 0,2 s de duracao, 1,5x a velocidade normal e 0,6 s de recarga, sem custo de stamina. O roll respeita as colisoes existentes; parametros podem ser ajustados apos playtest.
 
+**Regra aprovada para o prototipo atual (GAME-009):** o jogador alterna com `Q` entre espada curta/rapida e lanca de maior alcance/mais lenta; o inimigo placeholder atual permanece como oponente de teste. A implementacao inicial usa espada com alcance 48 px e intervalo de ataque de 0,35 s, lanca com alcance 80 px e intervalo de 0,70 s, e dano 1 para ambas; estes valores sao parametros temporarios sujeitos a playtest, nao balanceamento definitivo.
+
 ### Nao incluir ainda
 
 - Gestao completa do Ludus, recrutamento, funcionarios e economia.

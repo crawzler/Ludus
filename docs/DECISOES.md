@@ -16,6 +16,7 @@ Registre aqui somente decisoes aprovadas pelo usuario ou validadas em teste. Use
 | DEC-008 | 2026-10-14 | O Coordinator decide autonomamente quando criterios documentados justificam atualizar versao, estagio (pre-alpha/alpha/beta/release) ou tag; deve avisar o usuario antes da acao, explicando proposta e evidencia, e pode prosseguir sem nova aprovacao quando estiver dentro dos criterios. | Transicoes baseadas em escopo validado, nao em calendario ou volume de commits. Antes de tag/release, o commit alvo deve estar validado e publicado; tags anotadas sao para marcos. |
 | DEC-008 | 2026-10-14 | O Coordinator decide autonomamente quando promover o estagio (pre-alpha/alpha/beta/release), atualizar a versao ou criar tag, aplicando os criterios do guia; deve avisar o usuario antes de cada acao, com justificativa e marco/evidencia. | Evita pedir aprovacao repetida para mudancas de versao ja delegadas, mantendo transparencia. Nao promover por tempo ou numero de commits; criar/enviar tag anotada apenas para commit validado e publicado. |
 | DEC-009 | 2026-10-14 | A esquiva basica do prototipo e iniciada pela barra de espaco e concede invulnerabilidade breve durante o roll. | Implementar como impulso direcional: direcao do input atual ou ultima direcao valida; valores iniciais de 0,2 s, 1,5x a velocidade de movimento e recarga de 0,6 s, sem stamina. Os valores sao parametros de prototipo sujeitos a playtest. |
+| DEC-010 | 2026-10-14 | Para GAME-009, o arsenal de teste usa espada curta/rapida e lanca de maior alcance/mais lenta, alternadas com `Q`; o inimigo placeholder atual permanece como oponente de teste. | Decisao de escopo do incremento, nao define armas/inimigos finais. Alcances e intervalos implementados sao parametros temporarios sujeitos a playtest; o dano permanece no valor atual do prototipo. |
 
 ## Pendentes de decisao
 
@@ -23,7 +24,7 @@ Registre aqui somente decisoes aprovadas pelo usuario ou validadas em teste. Use
 |---|---|---|
 | DEC-P01 | Qual sera o nome de exibicao final do projeto no Godot? | Antes de polir a configuracao e identidade do projeto. |
 | DEC-P02 | Como os controles devem responder se camera ou mundo girarem, ou quando a perspectiva isometrica for implementada (eixos da tela ou eixos do mundo)? | Antes de implementar rotacao de camera/mundo ou fechar o controlador da perspectiva isometrica. |
-| DEC-P03 | Quais duas armas e qual primeiro inimigo representarao o combate? | Depois de movimento e ataque basico funcionarem. |
+| DEC-P03 | Qual inimigo representara o combate depois do teste com o placeholder atual? | Ao ampliar ou fechar os testes do arsenal. |
 | DEC-P04 | Havera suporte a controle/gamepad no prototipo? | Antes de fechar mapeamento de entrada. |
 
 ## Substituidas ou rejeitadas

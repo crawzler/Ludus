@@ -3,9 +3,14 @@ extends CharacterBody2D
 signal health_changed(current_health: int, max_health: int)
 signal defeated
 
+enum Weapon { SWORD, SPEAR }
+
 const MOVE_SPEED: float = 300.0
-const ATTACK_RANGE: float = 48.0
 const ATTACK_DAMAGE: int = 1
+const SWORD_ATTACK_RANGE: float = 48.0
+const SWORD_ATTACK_INTERVAL: float = 0.35
+const SPEAR_ATTACK_RANGE: float = 80.0
+const SPEAR_ATTACK_INTERVAL: float = 0.7
 const ATTACK_FEEDBACK_DURATION: float = 0.12
 const BLOCK_FEEDBACK_DURATION: float = 0.2
 const PARRY_FEEDBACK_DURATION: float = 0.45
@@ -19,6 +24,9 @@ const BLOCK_COLOR: Color = Color("#75d8ff")
 const PARRY_COLOR: Color = Color("#ffe66d")
 const DODGE_COLOR: Color = Color("#9bfff0")
 
+var equipped_weapon: Weapon = Weapon.SWORD
+var attack_cooldown_remaining: float = 0.0
+var attack_feedback_range: float = SWORD_ATTACK_RANGE
 var attack_feedback_remaining: float = 0.0
 var block_feedback_remaining: float = 0.0
 var parry_feedback_remaining: float = 0.0
@@ -37,6 +45,10 @@ func _physics_process(_delta: float) -> void:
 	if combat_finished:
 		velocity = Vector2.ZERO
 		return
+
+	attack_cooldown_remaining = maxf(attack_cooldown_remaining - _delta, 0.0)
+	if Input.is_action_just_pressed("switch_weapon"):
+		_switch_weapon()
 
 	var move_direction: Vector2 = Input.get_vector(
 		"move_left",
@@ -90,11 +102,16 @@ func _process(delta: float) -> void:
 
 
 func _attack() -> void:
+	if attack_cooldown_remaining > 0.0:
+		return
+
+	attack_cooldown_remaining = _weapon_attack_interval()
 	attack_feedback_remaining = ATTACK_FEEDBACK_DURATION
+	attack_feedback_range = _weapon_attack_range()
 	queue_redraw()
 
 	var closest_target: Node2D
-	var closest_distance: float = ATTACK_RANGE
+	var closest_distance: float = attack_feedback_range
 	for target: Node2D in get_tree().get_nodes_in_group("attackable"):
 		var distance: float = global_position.distance_to(target.global_position)
 		if distance <= closest_distance:
@@ -103,6 +120,44 @@ func _attack() -> void:
 
 	if closest_target:
 		closest_target.call("take_damage", ATTACK_DAMAGE)
+
+
+func _switch_weapon() -> void:
+	equipped_weapon = Weapon.SPEAR if equipped_weapon == Weapon.SWORD else Weapon.SWORD
+	queue_redraw()
+
+
+func _weapon_attack_range() -> float:
+	match equipped_weapon:
+		Weapon.SWORD:
+			return SWORD_ATTACK_RANGE
+		Weapon.SPEAR:
+			return SPEAR_ATTACK_RANGE
+		_:
+			push_error("Unknown weapon equipped.")
+			return 0.0
+
+
+func _weapon_attack_interval() -> float:
+	match equipped_weapon:
+		Weapon.SWORD:
+			return SWORD_ATTACK_INTERVAL
+		Weapon.SPEAR:
+			return SPEAR_ATTACK_INTERVAL
+		_:
+			push_error("Unknown weapon equipped.")
+			return 0.0
+
+
+func _weapon_display_name() -> String:
+	match equipped_weapon:
+		Weapon.SWORD:
+			return "ESPADA"
+		Weapon.SPEAR:
+			return "LANÇA"
+		_:
+			push_error("Unknown weapon equipped.")
+			return "?"
 
 
 func take_damage(amount: int) -> void:
@@ -159,10 +214,10 @@ func _draw() -> void:
 	draw_circle(Vector2.ZERO, 18.0, Color("#54d5bd"))
 	draw_circle(Vector2(0.0, -7.0), 4.0, Color("#f0f4ee"))
 	if attack_feedback_remaining > 0.0:
-		draw_circle(Vector2.ZERO, ATTACK_RANGE, Color(1.0, 0.24, 0.12, 0.18))
+		draw_circle(Vector2.ZERO, attack_feedback_range, Color(1.0, 0.24, 0.12, 0.18))
 		draw_arc(
 			Vector2.ZERO,
-			ATTACK_RANGE,
+			attack_feedback_range,
 			0.0,
 			TAU,
 			48,
@@ -219,3 +274,12 @@ func _draw() -> void:
 			14,
 			DODGE_COLOR
 		)
+	draw_string(
+		ThemeDB.fallback_font,
+		Vector2(-46.0, -30.0),
+		_weapon_display_name(),
+		HORIZONTAL_ALIGNMENT_CENTER,
+		92.0,
+		14,
+		Color("#f4f0df")
+	)
