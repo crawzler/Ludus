@@ -63,3 +63,31 @@ Historico append-only de sessoes e retomadas. Acrescente uma entrada por tarefa 
 - **Validacao:** revisao estatica e `git diff --check` passaram; validacao funcional feita pelo usuario no Godot. O executavel nao esta disponivel no terminal para verificacao automatizada nesta sessao.
 - **Decisoes:** DEC-005 registra a representacao temporaria aprovada. A perspectiva isometrica planejada continua em DEC-003; DEC-P02 segue pendente apenas para camera/mundo rotacionaveis ou controlador isometrico.
 - **Proximo passo:** iniciar o proximo incremento do prototipo somente quando definido pelo usuario e pelo guia.
+
+## 2026-10-14 — GAME-002 — Delimitacao iniciada
+
+- **Pedido:** iniciar o ataque basico depois de recomendacao de incluir dano, feedback visual temporario e alvo de treino parado.
+- **Objetivo:** testar a primeira interacao ofensiva sem ampliar para IA inimiga ou sistemas de combate avancados.
+- **Escopo preliminar:** ataque corpo a corpo simples, alvo parado, dano e feedback visual observavel.
+- **Arquivos de gameplay alterados:** nenhum.
+- **Checkpoint inicial:** `34f5056` com working tree limpo; projeto Godot 4.7, cena de arena e jogador implementados e validados pelo usuario.
+- **Delimitacao do Planner:** ataque de proximidade, alvo parado com vida temporaria, feedback ao tomar dano e remocao ao zerar vida; tecla `F`, alcance 48 px, 1 de dano por press e 3 pontos de vida sao parametros temporarios sugeridos.
+- **Decisoes:** nenhuma bloqueadora para esse teste; tecla, alcance, dano e vida nao ficam aprovados como regras definitivas.
+- **Proximo passo:** implementar a interacao curta, preservando movimento e arena.
+
+## 2026-10-14 — GAME-002 — Implementacao aguardando teste manual
+
+- **Resultado:** adicionados ataque circular por proximidade na tecla F, dano unitario por pressionamento, alvo de treino parado com tres pontos de vida, flash temporario de cor e remocao apos o golpe fatal; alvo instanciado na arena inicial.
+- **Arquivos:** `project.godot`, `scenes/arena.tscn`, `scripts/player.gd`, `scenes/training_target.tscn`, `scripts/training_target.gd`, `docs/ESTADO_ATUAL.md` e este diario. As alteracoes de checkpoint/diario ja presentes antes do codigo foram preservadas.
+- **Revisao:** ataque usa `Input.is_action_just_pressed`, compara distancia entre centros e aplica uma instancia de dano no alvo mais proximo no grupo `training_target` que esteja no alcance; alvo impede dano adicional apos ficar derrotado.
+- **Validacao:** revisao direta estatica de cenas/scripts e da acao de entrada; `git diff --check` passou. `godot`/`godot4` nao estao no PATH; parse pela engine e teste funcional no editor nao foram executados.
+- **Playtest:** roteiro manual preparado; caso nao executado. Comecar em 80 px, mover o centro do jogador ate <=48 px, verificar F por toque e segurado, tres acionamentos distintos e movimento apos remover o alvo.
+- **Parametros:** tecla F, alcance de 48 px, dano 1 e vida 3 continuam temporarios para este prototipo, nao sao decisoes finais.
+- **Proximo passo:** usuario abrir e testar no Godot 4.7; verificar acerto longe/perto, um dano por pressionamento, flash, remocao apos tres acertos e preservacao do movimento. Nao marcar concluida nem fazer commit antes da validacao.
+
+## 2026-10-14 — GAME-002 — Concluida e validada pelo usuario
+
+- **Resultado:** usuario confirmou "Tudo certo" apos receber passos de teste. Ataque basico, alvo parado, dano e feedback aceitos.
+- **Validacao:** validacao funcional confirmada pelo usuario; revisao estatica de cenas, scripts, referencias e `git diff --check` concluida. Godot nao esta no PATH para validacao automatizada nesta sessao.
+- **Parametros:** tecla F, alcance 48 px, dano 1 e vida 3 continuam temporarios, sem aprovacao como regras finais.
+- **Proximo passo:** implementar inimigo funcional e leitura dos seus ataques como proximo incremento, sem juntar novas mecanicas nesta tarefa.
