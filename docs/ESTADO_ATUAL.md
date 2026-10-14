@@ -4,14 +4,14 @@ Este e o checkpoint operacional unico. Substitua as secoes de tarefa/checkpoint 
 
 ## Checkpoint
 
-- **Atualizado em:** 2026-10-14 01:55 (-03:00)
-- **Marco:** movimento, ataque, inimigo e resultado vitoria/derrota validados.
-- **Estado geral:** primeiro ciclo de combate jogavel implementado; vida, dano, HUD minimo e resultados finais aceitos pelo usuario.
+- **Atualizado em:** 2026-10-14 02:00 (-03:00)
+- **Marco:** primeiro ciclo de combate concluido; implementando bloqueio basico.
+- **Estado geral:** arena, movimento, ataque, inimigo, vida e vitoria/derrota validados; tarefa atual adiciona defesa segurada contra o ataque telegrafado.
 - **Projeto/engine:** `project.godot` declara Godot 4.7. VS Code tem extensao `geequlim.godot-tools`; `.vscode/settings.json` aponta para `e:\Godot_v4.7.2-stable_win64.exe`.
 - **Branch:** `main`.
 - **Commit da configuracao de agentes/documentacao:** `7fb3c56` — `docs: configure continuity and automatic local commits`.
 - **Remoto observado:** `origin` aponta para `https://github.com/crawzler/Ludus.git`; o commit inicial `bece661` estava sincronizado com `origin/main` antes desta entrega. A entrega local ainda nao foi enviada.
-- **Git no checkpoint:** branch `main` a frente de `origin/main` por seis commits antes de salvar GAME-005; `.vscode/` local do usuario permanece untracked e fora do escopo/commit.
+- **Git no checkpoint:** branch `main` a frente de `origin/main` por sete commits apos `42c17db`; working tree limpo exceto `.vscode/` local do usuario, que permanece fora do escopo/commit.
 
 ## Tarefa concluida anterior
 
@@ -111,10 +111,23 @@ Este e o checkpoint operacional unico. Substitua as secoes de tarefa/checkpoint 
 - **Entrada do diario:** GAME-005, 2026-10-14.
 - **Proxima acao exata:** avaliar bloqueio como proximo incremento de combate, conforme guia, quando o usuario quiser continuar.
 
-## Tarefa ativa
+## Tarefa concluida mais recente
 
-- **Ativa:** nenhuma.
-- **Proxima tarefa sugerida:** bloqueio; definir criterio observavel antes de implementar.
+- **ID:** GAME-006
+- **Nome:** Adicionar bloqueio basico
+- **Status:** CONCLUIDA — validada pelo usuario
+- **Responsavel:** LUDUS Coordinator
+- **Pedido:** usuario pediu "proximo passo" apos GAME-005; o guia lista bloqueio como proxima mecanica de combate.
+- **Objetivo:** permitir ao jogador defender-se do golpe telegrafado do inimigo por uma acao clara e testavel.
+- **Escopo:** bloqueio mantido na barra de espaco, consultado no instante do impacto do inimigo; anula dano e mostra feedback visual breve; movimento permanece sem penalidade. Sem aparo, esquiva, stamina ou HUD.
+- **Parametros temporarios:** barra de espaco, anulacao integral do golpe e movimento sem penalidade, sem aprovacao como balanceamento definitivo.
+- **Criterio de conclusao:** bloquear no instante do impacto evita perda de HP e mostra feedback; soltar antes permite dano; movimento, ataque e resultados continuam funcionando.
+- **Arquivos:** `project.godot`, `scripts/player.gd`, `scripts/enemy.gd`, este estado e diario. `.vscode/` permanece intocada e fora do commit.
+- **Ultimo passo concluido:** usuario confirmou "Tudo certo" apos executar o playtest manual, validando o bloqueio e seu feedback no jogo.
+- **Validacoes:** Godot 4.7.2 importou o projeto e executou a arena por 240 frames sem erros; teste focado headless confirmou bloqueio sem dano, dano ao liberar Space, movimento e ataque durante o bloqueio e limpeza no fim da luta; usuario validou manualmente o comportamento; `git diff --check` passou.
+- **Riscos/contexto:** Space, negacao integral e movimento sem penalidade continuam parametros provisórios do prototipo, nao balanceamento definitivo.
+- **Commit local:** a registrar apos revisao final do diff.
+- **Proxima acao exata:** seguir a ordem do guia para avaliar/planejar aparo como tarefa separada; nao assumir janela, efeito ou controle sem deliberacao.
 
 ## Atualizacao mais recente — AUTO-001
 

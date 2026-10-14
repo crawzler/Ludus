@@ -82,6 +82,8 @@ func _try_hit_player() -> void:
 	if not is_instance_valid(player):
 		return
 	if global_position.distance_to(player.global_position) <= ATTACK_RANGE:
+		if bool(player.call("try_block_attack")):
+			return
 		player.call("take_damage", ATTACK_DAMAGE)
 
 

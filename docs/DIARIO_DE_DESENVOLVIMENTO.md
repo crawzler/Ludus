@@ -168,3 +168,33 @@ Historico append-only de sessoes e retomadas. Acrescente uma entrada por tarefa 
 - **Validacao:** Godot 4.7.2 executou a cena headless por 240 frames sem erros; teste focado headless cobriu limites de alcance, dano unico, vida, vitoria/derrota e acoes apos fim; validacao funcional/visual confirmada pelo usuario.
 - **Arquivos:** scripts do jogador/inimigo/arena, cena da arena e registros de continuidade.
 - **Proximo passo:** bloqueio como proximo incremento do guia, quando o usuario solicitar continuidade.
+
+## 2026-10-14 — GAME-006 — Delimitacao iniciada
+
+- **Pedido:** seguir ao proximo passo apos GAME-005; o guia indica bloqueio.
+- **Objetivo:** permitir defender-se do ataque telegrafado do inimigo com uma acao observavel.
+- **Escopo preliminar:** bloqueio segurado, avaliado no instante do impacto e com feedback distinto; sem aparo, esquiva, stamina ou progressao.
+- **Checkpoint inicial:** commit `42c17db`; Godot 4.7.2; `.vscode/` do usuario permanece untracked e intocada.
+- **Delimitacao do Planner:** bloqueio segurado, resolvido no impacto; dano pode ser completamente negado como parametro temporario, sem alterar movimento, stamina ou HUD; o feedback distingue bloqueio de dano.
+- **Decisao temporaria do Coordinator:** usar Space, negar o golpe inteiro se pressionado no instante de impacto, sem penalidade de movimento. Nao e aparo e nao define balanceamento permanente.
+- **Implementacao:** input `block` em Space; no impacto, jogador retorna sucesso e evita dano se input segurado; indicador azul enquanto segura e aro branco breve no bloqueio; movimento mantido.
+- **Arquivos:** `project.godot`, `scripts/player.gd`, `scripts/enemy.gd`, checkpoint e diario.
+- **Validacao focada:** teste headless confirmou HP 3 com bloqueio segurado, HP 2 ao soltar antes do golpe, feedback ativo apos atualizar frame e limpeza ao terminar combate. Importacao passou; falta smoke da arena completa e playtest visual.
+- **Proximo passo:** completar smoke Godot, registrar roteiro manual e solicitar validacao do usuario.
+
+## 2026-10-14 — GAME-006 — Implementacao e validacao automatizada parciais
+
+- **Atualizacao:** smoke completo da arena no Godot 4.7.2, executado headless por 240 frames, terminou sem erros.
+- **Teste focado estendido:** confirmou bloqueio sem perda de vida, dano normal ao liberar Space, movimento e ataque do jogador durante o bloqueio e limpeza do estado ao encerrar combate. Uma primeira tentativa do teste de movimento/ataque observou o jogo antes de completar o frame de fisica; com espera por dois frames, os comportamentos passaram. Nenhuma alteracao de gameplay foi necessaria por essa sincronizacao de teste.
+- **Diff/ambiente:** `git diff --check` passou; `.vscode/` segue nao rastreada e fora do escopo. Arquivos da tarefa continuam locais e sem commit.
+- **Pendencia:** teste visual manual no Godot ainda precisa ser confirmado pelo usuario; em especial distinguir indicador azul mantido e aro branco breve no impacto.
+- **Proximo passo:** usuario executa F5 e compara impacto com Space segurado e solto antes do impacto; so depois registrar GAME-006 concluida e fazer commit local.
+
+## 2026-10-14 — GAME-006 — Concluida
+
+- **Resultado:** usuario confirmou "Tudo certo" apos playtest manual do bloqueio no Godot; implementacao aceita para o prototipo.
+- **Validacao final:** usuario verificou comportamento e feedback visual; testes headless anteriores confirmaram protecao no impacto, dano normal ao soltar Space, movimento e ataque durante bloqueio e execucao da arena sem erros.
+- **Arquivos da tarefa:** `project.godot`, `scripts/player.gd`, `scripts/enemy.gd`, `docs/ESTADO_ATUAL.md` e `docs/DIARIO_DE_DESENVOLVIMENTO.md`.
+- **Parametros:** Space, negacao integral e movimento sem penalidade permanecem provisórios; nao sao decisoes definitivas de balanceamento.
+- **Integridade:** `.vscode/` local do usuario foi preservada e excluida do escopo.
+- **Proximo passo:** planejar o aparo como incremento separado, conforme guia, sem antecipar controles ou regras ainda nao deliberados.

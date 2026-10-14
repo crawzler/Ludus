@@ -7,11 +7,15 @@ const MOVE_SPEED: float = 300.0
 const ATTACK_RANGE: float = 48.0
 const ATTACK_DAMAGE: int = 1
 const ATTACK_FEEDBACK_DURATION: float = 0.12
+const BLOCK_FEEDBACK_DURATION: float = 0.2
 const MAX_HEALTH: int = 3
 const HIT_FLASH_DURATION: float = 0.12
 const HIT_COLOR: Color = Color("#fff2a6")
+const BLOCK_COLOR: Color = Color("#75d8ff")
 
 var attack_feedback_remaining: float = 0.0
+var block_feedback_remaining: float = 0.0
+var block_held: bool = false
 var health: int = MAX_HEALTH
 var combat_finished: bool = false
 var hit_flash_tween: Tween
@@ -35,11 +39,16 @@ func _physics_process(_delta: float) -> void:
 
 
 func _process(delta: float) -> void:
-	if attack_feedback_remaining <= 0.0:
-		return
+	var currently_blocking: bool = not combat_finished and Input.is_action_pressed("block")
+	if block_held != currently_blocking:
+		block_held = currently_blocking
+		queue_redraw()
 
-	attack_feedback_remaining = maxf(attack_feedback_remaining - delta, 0.0)
-	if is_zero_approx(attack_feedback_remaining):
+	if attack_feedback_remaining > 0.0:
+		attack_feedback_remaining = maxf(attack_feedback_remaining - delta, 0.0)
+		queue_redraw()
+	if block_feedback_remaining > 0.0:
+		block_feedback_remaining = maxf(block_feedback_remaining - delta, 0.0)
 		queue_redraw()
 
 
@@ -70,10 +79,21 @@ func take_damage(amount: int) -> void:
 		defeated.emit()
 
 
+func try_block_attack() -> bool:
+	if combat_finished or not Input.is_action_pressed("block"):
+		return false
+
+	block_feedback_remaining = BLOCK_FEEDBACK_DURATION
+	queue_redraw()
+	return true
+
+
 func finish_combat() -> void:
 	combat_finished = true
+	block_held = false
 	velocity = Vector2.ZERO
 	set_physics_process(false)
+	queue_redraw()
 
 
 func get_health_text() -> String:
@@ -103,3 +123,8 @@ func _draw() -> void:
 			2.0,
 			true
 		)
+	if block_held:
+		draw_circle(Vector2.ZERO, 26.0, Color(0.16, 0.65, 0.95, 0.2))
+		draw_arc(Vector2.ZERO, 26.0, 0.0, TAU, 48, BLOCK_COLOR, 3.0, true)
+	if block_feedback_remaining > 0.0:
+		draw_arc(Vector2.ZERO, 32.0, 0.0, TAU, 48, Color.WHITE, 3.0, true)
