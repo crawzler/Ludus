@@ -4,15 +4,42 @@ Este e o checkpoint operacional unico. Substitua as secoes de tarefa/checkpoint 
 
 ## Checkpoint
 
-- **Atualizado em:** 2026-10-14 14:50 (-03:00)
-- **Marco:** GAME-009 — implementacao do arsenal minimo concluida; aguardando verificacao funcional manual.
-- **Estado geral:** versao `0.1.0-pre-alpha`; implementados espada/lanca com alcances e ritmos distintos e troca por Q; validacao visual ainda pendente.
+- **Atualizado em:** 2026-10-14 15:29 (-03:00)
+- **Marco:** GAME-010 concluida; validacao manual confirmada pelo usuario, fechamento Git em andamento.
+- **Estado geral:** versao `0.1.0-pre-alpha`; GAME-009 e GAME-010 concluidas. Execucao, feedback visual e durabilidade foram confirmados pelo usuario; sem mudanca de versao/estagio.
 - **Projeto/engine:** `project.godot` declara Godot 4.7. VS Code tem extensao `geequlim.godot-tools`; `.vscode/settings.json` aponta para `e:\Godot_v4.7.2-stable_win64.exe`.
-- **Branch:** `main`.
+- **Branch:** `main`, sincronizada com `origin/main` no commit `bb619d1` (`docs: record GAME-009 validation and publication`).
 - **Commit da configuracao de agentes/documentacao:** `7fb3c56` — `docs: configure continuity and automatic local commits`.
 - **Remoto observado:** `origin` aponta para `https://github.com/crawzler/Ludus.git`; `main` e `origin/main` estao sincronizadas apos o fechamento da GAME-008.
 - **Politica de publicacao:** usuario autorizou push automatico ao GitHub apos cada commit de tarefa concluida e validada. Nao enviar alteracoes sem commit nem tarefas incompletas.
-- **Git nesta retomada:** `main` em `7d2ae4c`, igual a `origin/main`; ha modificacao local em `project.godot` e arquivos nao rastreados `.vscode/` e `docs/BUGS.md`. Preservar e manter fora de qualquer commit desta tarefa.
+- **Git nesta retomada:** branch `main` no commit `bb619d1`, sincronizada com `origin/main`. Alteracoes de GAME-010 em scripts e documentacao estao sem stage; a formatacao preexistente em `project.godot`, `.vscode/` e `docs/BUGS.md` sera preservada fora do commit.
+
+## Tarefa concluida mais recente — GAME-010
+
+- **ID:** GAME-010 (execucao do inimigo e durabilidade das armas)
+- **Status:** CONCLUIDA — validada manualmente pelo usuario; revisao/staging seletivo e publicacao em andamento.
+- **Responsavel:** LUDUS Coordinator; validacao manual executada e confirmada pelo usuario.
+- **Pedido:** o usuario aprovou integralmente a proposta operacional para execucao e condicao das armas e autorizou continuar com a implementacao.
+- **Objetivo:** implementar a finalizacao manual do inimigo em baixa vida e a durabilidade independente das duas armas, com feedback legivel.
+- **Feedback da execucao:** apos o relato de dificuldade para identificar visualmente a execucao, `scripts/player.gd` passou a exibir mensagens distintas de sucesso e indisponibilidade. O usuario confirmou depois: “Tudo certo, funcionando”; conforme solicitado, isso encerra a validacao manual dos cenarios de gameplay de GAME-010.
+- **Escopo desta subtarefa:** provável alteração localizada em `scripts/player.gd`, reutilizando o desenho e os temporizadores de feedback do personagem. Mostrar `EXECUÇÃO!` após sucesso e `EXECUÇÃO INDISPONÍVEL` quando não houver alvo elegível ao alcance; não modificar as regras da mecânica nem criar arte/animação.
+- **Plano desta etapa:** acrescentar feedback textual temporizado no mesmo fluxo que trata `execute_enemy`, cobrindo cada tentativa ativa de `E`, e desenhá-lo abaixo do personagem para reduzir sobreposição com os indicadores atuais acima dele. Arquivos previstos: `scripts/player.gd` e este checkpoint; sem mudanças em regras, controles, durabilidade, cenas ou arte.
+- **Criterio observavel:** E com alvo elegivel informa sucesso; sem alvo elegivel/alcançavel informa indisponibilidade; nenhuma tentativa e apresentada falsamente como sucesso. A validacao manual reportada pelo usuario encerra os cenarios de gameplay, junto das verificacoes tecnicas documentadas abaixo.
+- **Delimitacao do Planner:** recomendou manter a mudanca somente em `scripts/player.gd`, aproveitar os desenhos/temporizadores existentes, exibir mensagens textuais distintas para sucesso e indisponibilidade, conferir sobreposicao e nao alterar regras. O Planner informou que nao pode ler o workspace; escopo foi conferido pelo Coordinator nos arquivos reais.
+- **Playtest:** o LUDUS Playtester preparou criterios, mas nao executou o jogo. O usuario confirmou manualmente “Tudo certo, funcionando”; por instrucao explicita, essa mensagem e aceita como confirmacao dos cenarios de gameplay, incluindo mecanica e feedback visual. Nao se atribuem ao usuario observacoes item a item que nao foram relatadas.
+- **Responsavel e proximo passo:** LUDUS Coordinator conclui revisao do diff, staging seletivo, commit e push; preservar alteracoes preexistentes fora do escopo.
+- **Escopo/arquivos previstos:** `project.godot` (adicionar entrada E para execucao), `scripts/player.gd` (alvo elegivel, desgaste quando um ataque comum causa dano, bloqueio de dano de arma quebrada e exibicao da condicao junto ao nome) e `scripts/enemy.gd` (finalizacao imediata e protecao de estado/vida). Cenas apenas se a implementacao exigir ajuste estritamente necessario; nenhum outro sistema.
+- **Regras aprovadas:** execucao disponivel quando inimigo tem 1 HP e esta ao alcance da arma equipada; E executa e derrota imediatamente; ataques comuns tambem podem derrotar. Cada arma tem 2 pontos de durabilidade independentes; cada ataque comum que acerta e causa dano consome 1, um miss nao desgasta; execucao nao desgasta. Durabilidade zero significa quebrada, permanece ate reiniciar a arena e causa 0 dano. A condicao deve aparecer junto ao nome da arma.
+- **Criterio de conclusao:** E so finaliza alvo elegivel ao alcance; desgaste independente apenas em acerto comum; arma quebrada causa zero dano e persiste durante a arena; nome comunica condicao; verificacoes tecnicas passam e comportamento jogavel e confirmado pelo usuario. Criterios atendidos para fechamento desta tarefa.
+- **Ultimo passo concluido:** `scripts/player.gd` agora inicia um feedback textual de 0,9 s em toda tentativa ativa de E: `EXECUÇÃO!` se `_execute_enemy()` retornar sucesso e `EXECUÇÃO INDISPONÍVEL` caso contrário. O rótulo é desenhado abaixo do personagem, com cores auxiliares e texto distinto, afastado dos rótulos de bloqueio/aparo/roll acima; nenhuma regra de execução foi alterada. Validação técnica concluída: Godot 4.7.2 headless/editor importou o projeto (exit 0), a cena principal rodou 240 frames (exit 0) e `git diff --check` passou (exit 0). Os testes headless não verificam legibilidade visual nem simulam teclas.
+- **Arquivos alterados/inspecionados:** gameplay em `project.godot`, `scripts/player.gd`, `scripts/enemy.gd`; decisão em `docs/DECISOES.md`, regra aprovada no guia, checkpoint e diário append-only. Não foi necessário alterar `scripts/arena.gd`, cenas ou alvo de treino. O diff preexistente de formatação em `project.godot` foi preservado.
+- **Validacoes:** Godot 4.7.2 `--headless --editor --quit` importou o projeto (exit 0); `--headless --quit-after 240` executou a cena principal (exit 0); `git diff --check` passou. A revisao estatica confirmou mensagens diferentes e temporizador de 0,9 s. Os comandos headless nao simulam E nem confirmam apresentacao visual; essa parte foi validada manualmente pelo usuario, conforme sua confirmacao.
+- **Trabalho local preexistente a preservar:** formatacao em `project.godot`, `.vscode/` e `docs/BUGS.md`; modificacoes documentais anteriores em estado, diario e decisoes foram lidas e sao historico pertinente de GAME-010. Nao misturar outros arquivos fora do escopo.
+- **Bloqueios/riscos:** nenhum bloqueio de conclusao reportado. Limite tecnico: headless nao simula entradas nem avalia legibilidade; a confirmacao manual do usuario cobre os cenarios de gameplay conforme instrucao. O E procura somente o grupo `enemy`; ataques comuns usam `attackable`, portanto o alvo de treino pode interceptar golpes se estiver mais proximo.
+- **Roteiro manual de referencia:** mantido o roteiro preparado para rastreabilidade; a confirmacao “Tudo certo, funcionando” e considerada pelo usuario como aceite dos cenarios de gameplay, sem inferir resultados detalhados nao descritos.
+- **Complemento de alcance da execucao:** com o inimigo a 1/3 e cerca de 60 px entre centros, usar espada (alcance 48) e E deve falhar; sem mudar a distancia, pressionar Q para lança (alcance 80) e E deve executar. Confirmar que lança permanece em 2/2. Se nao for possivel manter ou estimar a distancia, registrar este caso como nao testado.
+- **Proxima acao exata:** concluir revisao final, preparar somente os arquivos/hunks de GAME-010, criar commit descritivo com trailer de coautoria e enviar `main` ao remoto. Preservar formatacao preexistente em `project.godot`, `.vscode/` e `docs/BUGS.md`; sem alterar versao/escopo.
+- **Entrada do diario:** `docs/DIARIO_DE_DESENVOLVIMENTO.md`, 2026-10-14 — GAME-010, “Conclusao validada pelo usuario”.
 
 ## Tarefa concluida anterior
 
@@ -206,7 +233,7 @@ Este e o checkpoint operacional unico. Substitua as secoes de tarefa/checkpoint 
 - **Versao:** mantida em `0.1.0-pre-alpha`; criterios de promocao de estagio nao foram avaliados como satisfeitos por esta tarefa isolada.
 - **Commit:** `4066734` — `feat: add sword and spear weapon swapping`, com trailer `Co-authored-by: GitHub Copilot <copilot@users.noreply.github.com>`. Inclui seis arquivos apenas; em `project.godot`, somente o mapeamento `switch_weapon` foi staged.
 - **Push:** commit GAME-009 `4066734` publicado em `origin/main`. O mapeamento Q foi enviado; formatacao local anterior em `project.godot`, `.vscode/` e `docs/BUGS.md` ficaram fora.
-- **Proxima acao exata:** encerrar GAME-009. Na retomada, escolher o proximo incremento de acordo com a ordem do guia, sem tarefa ativa de implementacao neste momento.
+- **Proxima acao exata naquela retomada:** encerrada; a recomendacao e as pendencias atuais estao registradas em “Ultima atividade — planejamento do proximo incremento”.
 - **Entrada do diario:** GAME-009, 2026-10-14 — implementacao concluida e validacao manual aceita pelo usuario.
 
 ## Fatos estruturais confirmados

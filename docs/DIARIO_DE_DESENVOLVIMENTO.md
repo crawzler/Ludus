@@ -405,3 +405,96 @@ Historico append-only de sessoes e retomadas. Acrescente uma entrada por tarefa 
 - **Resultado:** GAME-009 concluida; a validacao funcional manual e considerada aceita pelo usuario. Versao preservada em `0.1.0-pre-alpha`.
 - **Preservacao:** alteracoes locais nao relacionadas de `project.godot`, `.vscode/` e `docs/BUGS.md` nao foram enviadas.
 - **Proximo passo:** encerrar este incremento; a proxima sessao retoma pela sequencia do guia, sem trabalho ativo pendente.
+
+## 2026-10-14 — PLANNING-010 — Proximo incremento delimitado; design pendente
+
+- **Pedido:** identificar e planejar o proximo passo apos a conclusao/publicacao da GAME-009, sem iniciar implementacao.
+- **Checkpoint/Git:** branch `main` sincronizada com `origin/main` em `bb619d1`; `project.godot` tem diferenca local de formatacao e `.vscode/`/`docs/BUGS.md` estao nao rastreados. Todos foram preservados.
+- **Ordem do guia:** apos armas e troca (GAME-009), o proximo item listado e “Execucoes e condicao das armas”; HUD minimo e testes repetidos aparecem em seguida.
+- **Evidencia tecnica consultada:** `scripts/player.gd`, `scripts/enemy.gd` e `scenes/arena.tscn`; os arquivos inspecionados mostram ataque e troca de armas, inimigo placeholder e HUD de vida/resultado, mas nao sistema de execucao/finalizacao nem condicao da arma.
+- **Delimitacao do LUDUS Planner:** recomendou tomar o item 9 como proxima candidata, em recorte pequeno, mas observou que nao ha definicao do significado de “execucoes” ou do papel da “condicao”. Nao assumiu desgaste, durabilidade, quebra ou efeitos sobre dano/disponibilidade.
+- **Resultado:** planejamento concluido; GAME-010 nao esta aprovada para implementacao. E necessario esclarecer essas definicoes antes de formular criterios verificaveis e iniciar trabalho.
+- **Arquivos alterados nesta etapa:** `docs/ESTADO_ATUAL.md` e este diario; nenhum arquivo de gameplay foi alterado. Sem commit ou push, conforme pedido.
+- **Proximo passo:** perguntar ao usuario o que pretende com execucoes e condicao da arma, ou se deseja receber opcoes de design para escolher.
+
+## 2026-10-14 — GAME-010 — Conceitos esclarecidos; planejamento iniciado
+
+- **Pedido:** registrar as definicoes do usuario para a tarefa seguinte sem tratar a aprovacao conceitual como autorizacao para implementar gameplay.
+- **Decisoes aprovadas:** execucao significa finalizacao do inimigo; condicao da arma e durabilidade que se desgasta ate ficar praticamente inutilizada, com dois estagios de dano: normal e quebrada. Registradas como DEC-011 e DEC-012.
+- **Regras ainda abertas:** criterio/momento/controle/consequencia da execucao; eventos e quantidade de desgaste; durabilidade/limiar para quebrada; consequencia numerica no dano quebrado; animacao e feedback. Registradas em DEC-P05 a DEC-P08.
+- **Escopo e preservacao:** somente documentacao; nenhum codigo de gameplay, controles ou parametros foram alterados. Alteracoes locais preexistentes em `project.godot`, `.vscode/` e `docs/BUGS.md` devem permanecer fora do escopo.
+- **Validacao:** inspecionados protocolo, checkpoint, decisoes, guia, diario, instrucoes Copilot, configuracao do projeto, status Git e ultimo commit. A revisao final e `git diff --check` ainda estao pendentes.
+- **Status:** GAME-010 segue como tarefa de planejamento, nao como implementacao aprovada; delimitacao do LUDUS Planner em andamento.
+- **Proximo passo:** formular um recorte pequeno e verificavel sem inventar as regras ainda abertas; perguntar ao usuario apenas o que for indispensavel para fechar esse recorte.
+
+## 2026-10-14 — GAME-010 — Registro documental concluido; regras aguardam definicao
+
+- **Resultado:** conceitos aprovados registrados como DEC-011/012; regras operacionais em aberto registradas como DEC-P05 a DEC-P08. GAME-010 permanece como proxima tarefa planejavel, sem autorizacao para implementar gameplay.
+- **Planejamento:** o LUDUS Planner foi acionado para propor um recorte sem inventar regras, mas nao retornou recomendacao utilizavel. O Coordinator nao assumiu parametros; o escopo de implementacao fica para depois do esclarecimento das regras indispensaveis.
+- **Arquivos:** `docs/DECISOES.md`, `docs/ESTADO_ATUAL.md` e este diario. Nenhum arquivo de gameplay/configuracao foi alterado.
+- **Preservacao:** modificacoes anteriores em `project.godot`, `.vscode/` e `docs/BUGS.md` permanecem fora do escopo e sem alteracao.
+- **Validacao:** revisao dos tres documentos e `git diff --check` passaram. Nenhum teste no Godot era pertinente a esta mudanca documental.
+- **Proxima acao:** responder as perguntas operacionais que forem indispensaveis em DEC-P05 a DEC-P08; depois delimitar GAME-010 com criterio de conclusao verificavel, mantendo implementacao sujeita a autorizacao posterior.
+
+## 2026-10-14 — GAME-010 — Opcoes operacionais preparadas; aguardando escolha
+
+- **Pedido:** usuario perguntou “Perfeito, e agora?” e pediu para avancar com planejamento de GAME-010, sem implementar gameplay.
+- **Conceitos preservados:** DEC-011 define execucao como finalizacao do inimigo; DEC-012 define durabilidade com desgaste e estados normal/quebrada. Nenhuma regra operacional foi aprovada nesta etapa.
+- **Parecer do Planner:** apresentou alternativas, mas nao conseguiu inspecionar os arquivos do repositorio; sua sugestao inicial de 100 pontos e dano pela metade nao foi adotada como fato nem como regra.
+- **Verificacao direta do Coordinator:** `scripts/player.gd` define dano 1, espada alcance 48 px, lanca 80 px; `scripts/enemy.gd` define vida 3 e estados perseguir/telegrapho/ataque/recuperacao/derrotado, sem atordoamento; recuperacao dura 1 s. `project.godot` mapeia ataque no clique esquerdo, defesa no direito, esquiva em Space e troca em Q; E nao esta mapeada.
+- **Opcoes recomendadas para decisao, todas ainda sugestoes:** execucao manual por E quando o inimigo estiver com 1 HP e ao alcance da arma atual, sem exigir atordoamento; execucao finaliza imediatamente e nao desgasta arma; cada arma tem durabilidade propria; cada acerto que causa dano gasta 1 ponto de uma durabilidade de 2, que quebra ao chegar a 0; arma quebrada causa 0 de dano (o dano atual e inteiro, 1); quebra persiste ate reiniciar/recarregar arena; indicador textual simples de condicao quebrada.
+- **Motivo do ajuste:** a vida/dano atuais do inimigo placeholder sao 3/1; limiares pequenos sao testaveis no combate existente e o dano pela metade arredondado pode ser ambiguo com dano inteiro unitario.
+- **Escopo/arquivos:** somente checkpoint e diario atualizados; nenhum arquivo de gameplay, configuracao ou DECISOES alterado. Alteracoes locais preexistentes em `project.godot`, `.vscode/` e `docs/BUGS.md` preservadas.
+- **Validacao:** status Git e ultimo commit conferidos; documentos obrigatorios, projeto e scripts relevantes inspecionados. Nenhuma execucao no Godot necessaria para esta etapa de planejamento.
+- **Status/proxima acao:** GAME-010 continua em planejamento. Aguardar o usuario escolher ou ajustar as regras; registrar somente decisoes aprovadas, entao fechar escopo verificavel antes de qualquer implementacao.
+
+## 2026-10-14 — GAME-010 — Implementacao tecnica aguardando teste manual
+
+- **Resultado:** adicionada a entrada E para executar somente o inimigo placeholder com exatamente 1 HP, quando dentro do alcance da arma equipada. A execucao define vida zero e emite o sinal de derrota existente, sem consumir durabilidade.
+- **Durabilidade:** espada e lanca iniciam cada arena com 2 pontos independentes. Um ataque comum gasta 1 somente se reduzir a vida do alvo; miss e acerto sem dano nao gastam. Arma quebrada causa 0 dano; a condicao (pontos restantes ou “QUEBRADA”) aparece ao lado do nome.
+- **Arquivos de gameplay:** `project.godot`, `scripts/player.gd`, `scripts/enemy.gd`. Checkpoint e diario atualizados conforme protocolo; `scripts/arena.gd`, cenas e alvo de treino não precisaram de alterações.
+- **Preservacao:** formatacao preexistente em `project.godot`, outras alteracoes locais documentais, `.vscode/` e `docs/BUGS.md` mantidas; não foram incluídas ou revertidas. Nenhum commit ou push foi feito, por solicitação do usuário.
+- **Validacao tecnica:** Godot 4.7.2 importou o projeto em modo headless (exit 0), a cena principal executou por 240 frames em modo headless (exit 0) e `git diff --check` passou. Essas verificacoes não simulam pressionamento de teclas nem confirmam o balanceamento/legibilidade em jogo.
+- **Status/proxima acao:** implementação registrada, GAME-010 permanece `EM_ANDAMENTO` até teste manual no Godot. Usuário deve verificar miss, durabilidade independente por Q, quebra e dano zero, além da execução em 1 HP dentro/fora do alcance.
+
+## 2026-10-14 — GAME-010 — Roteiro manual preparado; teste pendente
+
+- **Playtester:** solicitado roteiro com critérios observáveis; o agente informou não conseguir ler os arquivos locais e retornou apenas recomendações preliminares, sem execução nem edição.
+- **Revisao do Coordinator:** conferidos diretamente `project.godot`, `scripts/player.gd`, `scripts/enemy.gd`, `scripts/training_target.gd` e `scenes/arena.tscn`. Controles confirmados: ataque no clique esquerdo, Q troca a arma, E executa, movimento WASD/setas; espada/lanca alcançam 48/80 px; HUD de vida no canto superior esquerdo; indicador de arma junto ao jogador. A arena inicia com jogador (480,270), alvo de treino (560,270) e inimigo (760,270). O alvo de treino também está no grupo atacável e pode interceptar ataques, portanto o roteiro orienta afastar-se dele/atacar o inimigo como alvo mais próximo.
+- **Roteiro proposto, não executado:** ataque à distância com espada deve manter 2/2; posicionar-se para acertar o inimigo duas vezes com espada deve levar HP 3/3→1/3 e durabilidade 2/2→QUEBRADA; novo ataque quebrado não reduz HP. Q deve revelar lança intacta 2/2; um ataque comum com ela pode derrotar o inimigo e gasta 1. Em arena reiniciada, E a 3 HP não executa; com 1 HP, E fora do alcance não executa; dentro do alcance executa, mostra VITORIA e não desgasta a arma. O roteiro completo e observações ficam no checkpoint.
+- **Ajuste de legibilidade:** indicador alterado para mostrar `ESPADA 2/2`, `ESPADA 1/2` ou `ESPADA QUEBRADA`; “ÍNTEGRA” foi removido por ser impreciso para durabilidade parcial.
+- **Validacao:** Godot 4.7.2 foi encontrado no caminho configurado e as verificações headless/importação e execução da cena (240 frames) haviam passado; `git diff --check` passou antes deste ajuste de texto. Reexecutar as verificações após a alteração. Teste de entradas continua pendente.
+- **Proximo passo:** rodar as verificações automatizadas novamente, revisar o diff completo e aguardar o teste manual do usuário no Godot antes de considerar conclusão, commit ou push.
+
+## 2026-10-14 — GAME-010 — Verificacoes tecnicas repetidas
+
+- **Ajuste:** indicador de condicao agora comunica durabilidade parcial como `ESPADA 1/2`, preservando `QUEBRADA` em zero.
+- **Verificacoes:** Godot 4.7.2 `--headless --editor --path E:\Ludus --quit` concluiu com exit 0; Godot 4.7.2 `--headless --path E:\Ludus --quit-after 240` executou a cena principal com exit 0; `git diff --check` passou.
+- **Limite:** nenhum desses comandos simula as entradas ou observa o combate jogado. Teste manual permanece pendente; nao foi feito commit ou push.
+- **Proxima acao:** usuario executar o roteiro no Godot e informar resultados/erros; so entao avaliar conclusao e publicacao.
+
+## 2026-10-14 — GAME-010 — Esclarecimento de publicacao
+
+- **Correcao do registro:** uma mensagem de implementacao descreveu a ausencia de commit/push como se fosse solicitacao explicita do usuario. O usuario autorizou commit e push automaticos somente apos tarefa completa e validada; nesta etapa nao houve commit/push porque a validacao manual das entradas e do combate ainda esta pendente.
+- **Estado:** alterações de GAME-010 continuam apenas no working tree local, junto das alterações documentais locais anteriores; não foram staged nem enviadas.
+- **Proxima acao:** aguardar o teste humano no Godot; preservar todas as alteracoes ate receber o resultado e confirmar se podem ser concluídas e isoladas.
+
+## 2026-10-14 — GAME-010 — Feedback visual de execução implementado; teste manual pendente
+
+- **Pedido:** o usuário relatou que a mecânica GAME-010 aparentemente funcionou, mas não conseguiu identificar a execução por falta de feedback visual, e pediu para continuar. O relato não foi tratado como confirmação de conclusão do roteiro manual.
+- **Objetivo/escopo:** tornar cada tentativa de E visualmente clara, sem alterar regras. O Coordinator revisou o HUD atual de vitória, a rotina de execução e os feedbacks já desenhados no jogador; não havia mensagem que identificasse sucesso ou tentativa indisponível.
+- **Implementação:** `scripts/player.gd` agora mostra `EXECUÇÃO!` após sucesso e `EXECUÇÃO INDISPONÍVEL` quando não há alvo elegível ao alcance. O texto dura 0,9 s, aparece abaixo do personagem e os resultados também usam cores distintas. Regras, controles e durabilidade não foram alterados.
+- **Playtest preparado:** o Playtester propôs verificar tentativa sem alvo, inimigo a 1 HP fora do alcance e execução válida a 1 HP dentro do alcance; observar se a pessoa distingue as mensagens sem dica, duração/legibilidade/sobreposição, vitória/derrota e durabilidade. O agente não executou o jogo e informou que não acessava os arquivos locais; o roteiro não é evidência de playtest.
+- **Arquivos alterados nesta etapa:** `scripts/player.gd` e este registro/checkpoint `docs/ESTADO_ATUAL.md`; sem alterações em cenas, controles, DECISOES ou guia.
+- **Validacao tecnica:** Godot 4.7.2 em modo editor/headless importou o projeto com exit 0; a cena principal rodou por 240 frames headless com exit 0; `git diff --check` passou. A revisão confirmou mensagens textuais distintas e temporizador. O headless não simula E nem verifica legibilidade visual.
+- **Preservacao/publicacao:** alterações locais anteriores em `project.godot`, scripts, documentação, `.vscode/` e `docs/BUGS.md` foram preservadas; GAME-010 permanece sem commit ou push por estar pendente de teste humano e porque o worktree contém alterações locais de escopo maior.
+- **Status/proxima acao:** GAME-010 continua EM_ANDAMENTO. O usuário deve abrir a arena com F5, verificar os casos de sucesso/indisponibilidade e legibilidade, e concluir os casos de durabilidade indicados no checkpoint; registrar explicitamente resultados e casos não testados antes de avaliar conclusão.
+
+## 2026-10-14 — GAME-010 — Conclusao validada pelo usuario
+
+- **Validacao manual:** o usuario confirmou “Tudo certo, funcionando”. Conforme instrucao explicita, o registro considera essa mensagem como confirmacao manual dos cenarios de gameplay de GAME-010, incluindo mecanica e feedback visual. Nenhum resultado detalhado alem dessa confirmacao e atribuido ao usuario.
+- **Resultado:** execucao do inimigo elegivel por E, mensagens visuais distintas de sucesso/indisponibilidade e durabilidade independente das armas concluidas e aceitas. GAME-010 passa a CONCLUIDA; versao `0.1.0-pre-alpha` e escopo permanecem inalterados.
+- **Verificacoes tecnicas anteriores:** Godot 4.7.2 `--headless --editor --quit` importou o projeto com exit 0; Godot 4.7.2 `--headless --quit-after 240` executou a cena principal com exit 0; revisao estatica confirmou as mensagens distintas e temporizador de 0,9 s; `git diff --check` passou. Headless nao substitui a confirmacao manual.
+- **Arquivos da tarefa:** `project.godot` (somente a acao E para execucao), `scripts/player.gd`, `scripts/enemy.gd`, `docs/DECISOES.md`, `docs/GUIA_DE_DESENVOLVIMENTO.md`, `docs/ESTADO_ATUAL.md` e este diario.
+- **Preservacao:** o diff de formatacao preexistente em `project.godot` sera excluido seletivamente; `.vscode/` e `docs/BUGS.md` permanecem fora do escopo. Alteracoes de documentacao e scripts revisadas como GAME-010 serao staged; nao ha outras alteracoes staged nesta retomada.
+- **Proxima acao:** revisar diff completo, verificar stage seletivo, criar commit com trailer `Co-authored-by` e fazer push da branch `main`. Nao alterar versao, estagio ou escopo.

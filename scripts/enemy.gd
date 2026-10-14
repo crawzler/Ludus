@@ -124,11 +124,34 @@ func take_damage(amount: int) -> void:
 	health_changed.emit(health, MAX_HEALTH)
 	_show_hit_feedback()
 	if health == 0:
-		state = State.DEFEATED
-		velocity = Vector2.ZERO
-		defeated.emit()
+		_mark_defeated()
 		await get_tree().create_timer(HIT_FLASH_DURATION).timeout
 		queue_free()
+
+
+func can_be_executed() -> bool:
+	return health == 1 and state != State.DEFEATED and state != State.FINISHED
+
+
+func execute() -> bool:
+	if not can_be_executed():
+		return false
+
+	health = 0
+	state = State.DEFEATED
+	velocity = Vector2.ZERO
+	health_changed.emit(health, MAX_HEALTH)
+	_show_hit_feedback()
+	defeated.emit()
+	var removal_timer: SceneTreeTimer = get_tree().create_timer(HIT_FLASH_DURATION)
+	removal_timer.timeout.connect(Callable(self, "queue_free"))
+	return true
+
+
+func _mark_defeated() -> void:
+	state = State.DEFEATED
+	velocity = Vector2.ZERO
+	defeated.emit()
 
 
 func finish_combat() -> void:

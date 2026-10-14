@@ -64,6 +64,8 @@ Essa sequencia pode mudar quando um teste revelar uma dependencia tecnica ou um 
 
 **Regra aprovada para o prototipo atual (GAME-009):** o jogador alterna com `Q` entre espada curta/rapida e lanca de maior alcance/mais lenta; o inimigo placeholder atual permanece como oponente de teste. A implementacao inicial usa espada com alcance 48 px e intervalo de ataque de 0,35 s, lanca com alcance 80 px e intervalo de 0,70 s, e dano 1 para ambas; estes valores sao parametros temporarios sujeitos a playtest, nao balanceamento definitivo.
 
+**Regra aprovada para o prototipo atual (GAME-010):** `E` executa e derrota imediatamente o inimigo quando ele esta com 1 HP e ao alcance da arma equipada; ataques comuns tambem podem derrota-lo. Cada arma mantem durabilidade independente de 2 pontos; somente ataque comum que acerta e causa dano gasta 1 ponto. Miss e execucao nao desgastam. Com durabilidade zero, a arma fica quebrada ate reiniciar a arena e causa 0 dano. A condicao da arma e exibida junto ao nome.
+
 ### Nao incluir ainda
 
 - Gestao completa do Ludus, recrutamento, funcionarios e economia.

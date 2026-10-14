@@ -7,6 +7,7 @@ enum Weapon { SWORD, SPEAR }
 
 const MOVE_SPEED: float = 300.0
 const ATTACK_DAMAGE: int = 1
+const MAX_WEAPON_DURABILITY: int = 2
 const SWORD_ATTACK_RANGE: float = 48.0
 const SWORD_ATTACK_INTERVAL: float = 0.35
 const SPEAR_ATTACK_RANGE: float = 80.0
@@ -14,6 +15,7 @@ const SPEAR_ATTACK_INTERVAL: float = 0.7
 const ATTACK_FEEDBACK_DURATION: float = 0.12
 const BLOCK_FEEDBACK_DURATION: float = 0.2
 const PARRY_FEEDBACK_DURATION: float = 0.45
+const EXECUTION_FEEDBACK_DURATION: float = 0.9
 const DODGE_DURATION: float = 0.2
 const DODGE_SPEED_MULTIPLIER: float = 1.5
 const DODGE_COOLDOWN: float = 0.6
@@ -23,13 +25,22 @@ const HIT_COLOR: Color = Color("#fff2a6")
 const BLOCK_COLOR: Color = Color("#75d8ff")
 const PARRY_COLOR: Color = Color("#ffe66d")
 const DODGE_COLOR: Color = Color("#9bfff0")
+const EXECUTION_SUCCESS_COLOR: Color = Color("#a8ff70")
+const EXECUTION_UNAVAILABLE_COLOR: Color = Color("#ff8a70")
 
 var equipped_weapon: Weapon = Weapon.SWORD
+var weapon_durability: Dictionary = {
+	Weapon.SWORD: MAX_WEAPON_DURABILITY,
+	Weapon.SPEAR: MAX_WEAPON_DURABILITY
+}
 var attack_cooldown_remaining: float = 0.0
 var attack_feedback_range: float = SWORD_ATTACK_RANGE
 var attack_feedback_remaining: float = 0.0
 var block_feedback_remaining: float = 0.0
 var parry_feedback_remaining: float = 0.0
+var execution_feedback_remaining: float = 0.0
+var execution_feedback_text: String = ""
+var execution_feedback_color: Color = EXECUTION_SUCCESS_COLOR
 var dodge_time_remaining: float = 0.0
 var dodge_cooldown_remaining: float = 0.0
 var last_valid_move_direction: Vector2 = Vector2.DOWN
@@ -73,7 +84,25 @@ func _physics_process(_delta: float) -> void:
 			dodge_active = false
 		queue_redraw()
 	if Input.is_action_just_pressed("attack"):
-		_attack()
+		var executed_enemy: bool = false
+		if Input.is_action_just_pressed("execute_enemy"):
+			executed_enemy = _execute_enemy()
+			_show_execution_feedback(executed_enemy)
+		if not executed_enemy:
+			_attack()
+	elif Input.is_action_just_pressed("execute_enemy"):
+		_show_execution_feedback(_execute_enemy())
+
+
+func _show_execution_feedback(succeeded: bool) -> void:
+	execution_feedback_remaining = EXECUTION_FEEDBACK_DURATION
+	if succeeded:
+		execution_feedback_text = "EXECUÇÃO!"
+		execution_feedback_color = EXECUTION_SUCCESS_COLOR
+	else:
+		execution_feedback_text = "EXECUÇÃO INDISPONÍVEL"
+		execution_feedback_color = EXECUTION_UNAVAILABLE_COLOR
+	queue_redraw()
 
 
 func _start_dodge(move_direction: Vector2) -> void:
@@ -99,6 +128,9 @@ func _process(delta: float) -> void:
 	if parry_feedback_remaining > 0.0:
 		parry_feedback_remaining = maxf(parry_feedback_remaining - delta, 0.0)
 		queue_redraw()
+	if execution_feedback_remaining > 0.0:
+		execution_feedback_remaining = maxf(execution_feedback_remaining - delta, 0.0)
+		queue_redraw()
 
 
 func _attack() -> void:
@@ -119,7 +151,36 @@ func _attack() -> void:
 			closest_distance = distance
 
 	if closest_target:
-		closest_target.call("take_damage", ATTACK_DAMAGE)
+		var damage: int = ATTACK_DAMAGE if _weapon_remaining_durability() > 0 else 0
+		if damage == 0:
+			return
+
+		var health_before: Variant = closest_target.get("health")
+		if typeof(health_before) != TYPE_INT:
+			push_error("Attackable targets must expose integer health.")
+			return
+		closest_target.call("take_damage", damage)
+		var health_after: Variant = closest_target.get("health")
+		if typeof(health_after) != TYPE_INT:
+			push_error("Attackable targets must expose integer health.")
+			return
+		if int(health_after) < int(health_before):
+			weapon_durability[equipped_weapon] = _weapon_remaining_durability() - 1
+			queue_redraw()
+
+
+func _execute_enemy() -> bool:
+	var attack_range: float = _weapon_attack_range()
+	for target: Node2D in get_tree().get_nodes_in_group("enemy"):
+		if not target.has_method("can_be_executed") or not target.has_method("execute"):
+			push_error("Enemies must implement the execution contract.")
+			continue
+		if global_position.distance_to(target.global_position) > attack_range:
+			continue
+		if not bool(target.call("can_be_executed")):
+			continue
+		return bool(target.call("execute"))
+	return false
 
 
 func _switch_weapon() -> void:
@@ -158,6 +219,21 @@ func _weapon_display_name() -> String:
 		_:
 			push_error("Unknown weapon equipped.")
 			return "?"
+
+
+func _weapon_condition_text() -> String:
+	var remaining_durability: int = _weapon_remaining_durability()
+	if remaining_durability == 0:
+		return "%s QUEBRADA" % _weapon_display_name()
+	return "%s %d/%d" % [
+		_weapon_display_name(),
+		remaining_durability,
+		MAX_WEAPON_DURABILITY
+	]
+
+
+func _weapon_remaining_durability() -> int:
+	return int(weapon_durability[equipped_weapon])
 
 
 func take_damage(amount: int) -> void:
@@ -274,12 +350,22 @@ func _draw() -> void:
 			14,
 			DODGE_COLOR
 		)
+	if execution_feedback_remaining > 0.0:
+		draw_string(
+			ThemeDB.fallback_font,
+			Vector2(-125.0, 62.0),
+			execution_feedback_text,
+			HORIZONTAL_ALIGNMENT_CENTER,
+			250.0,
+			16,
+			execution_feedback_color
+		)
 	draw_string(
 		ThemeDB.fallback_font,
-		Vector2(-46.0, -30.0),
-		_weapon_display_name(),
+		Vector2(-95.0, -30.0),
+		_weapon_condition_text(),
 		HORIZONTAL_ALIGNMENT_CENTER,
-		92.0,
+		190.0,
 		14,
 		Color("#f4f0df")
 	)
