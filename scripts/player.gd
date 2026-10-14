@@ -3,6 +3,9 @@ extends CharacterBody2D
 const MOVE_SPEED: float = 300.0
 const ATTACK_RANGE: float = 48.0
 const ATTACK_DAMAGE: int = 1
+const ATTACK_FEEDBACK_DURATION: float = 0.12
+
+var attack_feedback_remaining: float = 0.0
 
 
 func _physics_process(_delta: float) -> void:
@@ -18,7 +21,19 @@ func _physics_process(_delta: float) -> void:
 		_attack()
 
 
+func _process(delta: float) -> void:
+	if attack_feedback_remaining <= 0.0:
+		return
+
+	attack_feedback_remaining = maxf(attack_feedback_remaining - delta, 0.0)
+	if is_zero_approx(attack_feedback_remaining):
+		queue_redraw()
+
+
 func _attack() -> void:
+	attack_feedback_remaining = ATTACK_FEEDBACK_DURATION
+	queue_redraw()
+
 	for target: Node2D in get_tree().get_nodes_in_group("training_target"):
 		if global_position.distance_to(target.global_position) <= ATTACK_RANGE:
 			target.call("take_damage", ATTACK_DAMAGE)
@@ -28,3 +43,15 @@ func _attack() -> void:
 func _draw() -> void:
 	draw_circle(Vector2.ZERO, 18.0, Color("#54d5bd"))
 	draw_circle(Vector2(0.0, -7.0), 4.0, Color("#f0f4ee"))
+	if attack_feedback_remaining > 0.0:
+		draw_circle(Vector2.ZERO, ATTACK_RANGE, Color(1.0, 0.24, 0.12, 0.18))
+		draw_arc(
+			Vector2.ZERO,
+			ATTACK_RANGE,
+			0.0,
+			TAU,
+			48,
+			Color("#ff684f"),
+			2.0,
+			true
+		)

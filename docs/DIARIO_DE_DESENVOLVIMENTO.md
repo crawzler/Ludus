@@ -91,3 +91,22 @@ Historico append-only de sessoes e retomadas. Acrescente uma entrada por tarefa 
 - **Validacao:** validacao funcional confirmada pelo usuario; revisao estatica de cenas, scripts, referencias e `git diff --check` concluida. Godot nao esta no PATH para validacao automatizada nesta sessao.
 - **Parametros:** tecla F, alcance 48 px, dano 1 e vida 3 continuam temporarios, sem aprovacao como regras finais.
 - **Proximo passo:** implementar inimigo funcional e leitura dos seus ataques como proximo incremento, sem juntar novas mecanicas nesta tarefa.
+
+## 2026-10-14 — GAME-003 — Ajuste do ataque solicitado
+
+- **Pedido:** trocar a entrada de ataque da tecla F para clique esquerdo e dar feedback visual do hitbox; usuario informou que instalou Godot-Tools e configurou o VS Code como editor externo.
+- **Escopo:** preservar dano/alcance e logica atuais; mudar somente a entrada e desenhar temporariamente a area do hitbox ao atacar.
+- **Toolchain:** `geequlim.godot-tools` consta entre extensoes VS Code instaladas; `.vscode/settings.json` local, nao rastreado, aponta a `e:\Godot_v4.7.2-stable_win64.exe`. Este arquivo e trabalho preexistente do usuario, fora do commit.
+- **Implementacao:** acao `attack` agora usa clique esquerdo; jogador mostra preenchimento translucido e contorno vermelho no raio existente de 48 px por 0,12 s ao atacar. A logica de alcance/dano foi mantida.
+- **Arquivos alterados:** `project.godot`, `scripts/player.gd` e registros de estado/diario. `.vscode/settings.json` nao foi tocado.
+- **Validacao:** Godot `4.7.2.stable.official.ed1daf0bf`; importacao/editor headless e inicializacao headless da arena por 30 frames passaram com exit code 0, sem erros.
+- **Pendente:** conferir visualmente no editor que o feedback aparece ao clicar; GAME-003 nao concluida nem commitada ate essa confirmacao.
+- **Proximo passo:** testar F5 no Godot e informar se o circulo do hitbox aparece pelo tempo esperado e o clique continua aplicando dano.
+
+## 2026-10-14 — GAME-003 — Concluida e validada pelo usuario
+
+- **Resultado:** ataque transferido de F para clique esquerdo; indicador translucido com contorno mostra o raio do hitbox por 0,12 s. Usuario confirmou "Tudo certo".
+- **Validacao:** Godot 4.7.2 headless importou e inicializou a arena sem erros; validacao visual/funcional confirmada pelo usuario; `git diff --check` passou.
+- **Arquivos:** `project.godot`, `scripts/player.gd`, checkpoint e diario.
+- **Preservacao:** configuracao local `.vscode/settings.json` nao foi editada nem incluída no commit.
+- **Proximo passo:** iniciar GAME-004 — inimigo funcional e ataques legiveis — conforme guia.
