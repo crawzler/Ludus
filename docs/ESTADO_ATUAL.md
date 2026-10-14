@@ -4,15 +4,15 @@ Este e o checkpoint operacional unico. Substitua as secoes de tarefa/checkpoint 
 
 ## Checkpoint
 
-- **Atualizado em:** 2026-10-14 15:32 (-03:00)
+- **Atualizado em:** 2026-10-14 15:33 (-03:00)
 - **Marco:** GAME-010 concluida e publicada; validacao manual confirmada pelo usuario.
 - **Estado geral:** versao `0.1.0-pre-alpha`; GAME-009 e GAME-010 concluidas. Execucao, feedback visual e durabilidade foram confirmados pelo usuario; sem mudanca de versao/estagio.
 - **Projeto/engine:** `project.godot` declara Godot 4.7. VS Code tem extensao `geequlim.godot-tools`; `.vscode/settings.json` aponta para `e:\Godot_v4.7.2-stable_win64.exe`.
-- **Branch:** `main`, sincronizada com `origin/main` no commit `1893ef7` (`feat: add enemy execution and weapon durability`).
+- **Branch:** `main`, sincronizada com `origin/main`; commit de implementacao da GAME-010: `1893ef7`.
 - **Commit da configuracao de agentes/documentacao:** `7fb3c56` — `docs: configure continuity and automatic local commits`.
 - **Remoto observado:** `origin` aponta para `https://github.com/crawzler/Ludus.git`; `main` e `origin/main` estao sincronizadas apos o fechamento da GAME-008.
 - **Politica de publicacao:** usuario autorizou push automatico ao GitHub apos cada commit de tarefa concluida e validada. Nao enviar alteracoes sem commit nem tarefas incompletas.
-- **Git apos publicacao:** `main` e `origin/main` estao sincronizadas em `1893ef7`. Permanecem locais, fora do commit, somente formatacao preexistente em `project.godot`, `.vscode/` e `docs/BUGS.md`.
+- **Git apos publicacao:** `main` e `origin/main` estao sincronizadas. A implementacao GAME-010 foi publicada em `1893ef7` e o registro da publicacao consta no diario. Permanecem locais, fora do commit, somente formatacao preexistente em `project.godot`, `.vscode/` e `docs/BUGS.md`.
 
 ## Tarefa concluida mais recente — GAME-010
 
