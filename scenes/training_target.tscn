@@ -2,5 +2,5 @@
 
 [ext_resource type="Script" path="res://scripts/training_target.gd" id="1_target"]
 
-[node name="TrainingTarget" type="Node2D" groups=["training_target"]]
+[node name="TrainingTarget" type="Node2D" groups=["attackable"]]
 script = ExtResource("1_target")

@@ -34,10 +34,16 @@ func _attack() -> void:
 	attack_feedback_remaining = ATTACK_FEEDBACK_DURATION
 	queue_redraw()
 
-	for target: Node2D in get_tree().get_nodes_in_group("training_target"):
-		if global_position.distance_to(target.global_position) <= ATTACK_RANGE:
-			target.call("take_damage", ATTACK_DAMAGE)
-			return
+	var closest_target: Node2D
+	var closest_distance: float = ATTACK_RANGE
+	for target: Node2D in get_tree().get_nodes_in_group("attackable"):
+		var distance: float = global_position.distance_to(target.global_position)
+		if distance <= closest_distance:
+			closest_target = target
+			closest_distance = distance
+
+	if closest_target:
+		closest_target.call("take_damage", ATTACK_DAMAGE)
 
 
 func _draw() -> void:

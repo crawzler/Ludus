@@ -110,3 +110,33 @@ Historico append-only de sessoes e retomadas. Acrescente uma entrada por tarefa 
 - **Arquivos:** `project.godot`, `scripts/player.gd`, checkpoint e diario.
 - **Preservacao:** configuracao local `.vscode/settings.json` nao foi editada nem incluída no commit.
 - **Proximo passo:** iniciar GAME-004 — inimigo funcional e ataques legiveis — conforme guia.
+
+## 2026-10-14 — GAME-004 — Plano para inimigo temporario
+
+- **Pedido:** seguir ao proximo incremento do guia depois da validacao do ataque por clique e seu indicador visual.
+- **Plano:** inimigo temporario persegue o jogador, para dentro do alcance, mostra telegrapho circular e executa um ataque visual antes de entrar em recuperacao; fica vulneravel ao ataque basico. Vida/dano recebido pelo jogador e resultado da luta permanecem para etapa seguinte.
+- **Design:** DEC-P03 continua pendente; visual e parametros do inimigo sao placeholders, sem definir classe ou arma finais.
+- **Arquivos previstos:** cena/script do inimigo, cena da arena, cena do jogador/alvo e script do jogador. `.vscode/` pertence ao usuario e fica fora.
+- **Proxima acao:** implementar e validar no Godot 4.7.2; nao delegar mais enquanto o Planner nao conseguir ler o workspace, Coordinator prossegue a partir da leitura direta.
+
+## 2026-10-14 — GAME-004 — Inimigo implementado
+
+- **Resultado:** adicionado inimigo CharacterBody2D placeholder que persegue o jogador, para, mostra telegrapho circular por 0,65 s, mostra golpe por 0,18 s e recupera por 1 s. Ele recebe dano do ataque existente, pisca e desaparece apos tres acertos.
+- **Integracao:** jogador e alvo de treino usam grupo `attackable`; ataque seleciona o alvo mais proximo dentro de 48 px. Inimigo segue no grupo `player` para rastreamento.
+- **Escopo preservado:** inimigo nao aplica dano nem altera vida do jogador; esta limitacao corresponde a separacao do guia, que trata vida/resultado na etapa seguinte. DEC-P03 permanece aberta.
+- **Arquivos:** `scenes/enemy.tscn`, `scripts/enemy.gd`, `scenes/arena.tscn`, `scenes/player.tscn`, `scenes/training_target.tscn`, `scripts/player.gd` e registros de continuidade.
+- **Validacao:** Godot 4.7.2 headless importou o projeto e rodou a cena inicial por 240 frames sem erros; `git diff --check` passou.
+- **Pendente na implementacao:** playtest visual/funcional do usuario para confirmar telegrapho, ataque, recuperacao e ataques do jogador contra ambos os alvos.
+
+## 2026-10-14 — GAME-004 — Concluida e validada pelo usuario
+
+- **Resultado:** usuario confirmou "Perfeito, pode continuar" apos a implementacao e as instrucoes de verificacao; inimigo e leitura dos ataques aceitos.
+- **Validacao:** Godot 4.7.2 executou a cena principal headless por 240 frames sem erros; scripts sem diagnosticos no Language Server; validacao funcional confirmada pelo usuario.
+- **Proximo passo:** vida, dano efetivo e resultados de vitoria/derrota como incremento separado.
+
+## 2026-10-14 — GAME-005 — Delimitacao iniciada
+
+- **Pedido:** usuario autorizou continuar apos validar o inimigo temporario.
+- **Objetivo:** conectar ataques a vida do jogador e encerrar luta em vitoria/derrota clara.
+- **Escopo preliminar:** vida temporaria, dano no fim do telegrapho apenas quando o jogador estiver na area, feedback de dano e mensagem de resultado; sem sistemas defensivos ou progressao.
+- **Proximo passo:** receber delimitacao pequena do Planner antes da implementacao.

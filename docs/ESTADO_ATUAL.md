@@ -4,14 +4,14 @@ Este e o checkpoint operacional unico. Substitua as secoes de tarefa/checkpoint 
 
 ## Checkpoint
 
-- **Atualizado em:** 2026-10-14 01:43 (-03:00)
-- **Marco:** movimento e ataque basico validados; clique esquerdo e feedback visual do alcance confirmados.
-- **Estado geral:** prototipo tem arena, movimento, ataque de proximidade e alvo; iniciando proximo incremento de inimigo funcional.
+- **Atualizado em:** 2026-10-14 01:47 (-03:00)
+- **Marco:** inimigo temporario com ataques legiveis validado; iniciando o incremento de vida e resultado da luta.
+- **Estado geral:** arena, movimento, ataque basico e inimigo com aproximacao/telegrapho/ataque/recuperacao validados pelo usuario.
 - **Projeto/engine:** `project.godot` declara Godot 4.7. VS Code tem extensao `geequlim.godot-tools`; `.vscode/settings.json` aponta para `e:\Godot_v4.7.2-stable_win64.exe`.
 - **Branch:** `main`.
 - **Commit da configuracao de agentes/documentacao:** `7fb3c56` — `docs: configure continuity and automatic local commits`.
 - **Remoto observado:** `origin` aponta para `https://github.com/crawzler/Ludus.git`; o commit inicial `bece661` estava sincronizado com `origin/main` antes desta entrega. A entrega local ainda nao foi enviada.
-- **Git no checkpoint:** branch `main` a frente de `origin/main` por quatro commits antes de GAME-003; `.vscode/settings.json` e alteracao local do usuario, fora do escopo e nao deve ser modificada nem commitada.
+- **Git no checkpoint:** branch `main` a frente de `origin/main` por cinco commits antes de salvar GAME-004; `.vscode/` local do usuario permanece untracked e fora do escopo/commit.
 
 ## Tarefa concluida anterior
 
@@ -82,20 +82,35 @@ Este e o checkpoint operacional unico. Substitua as secoes de tarefa/checkpoint 
 - **Validacoes:** Godot 4.7.2 headless importou e inicializou a arena sem erros; usuario confirmou visualmente "Tudo certo"; `git diff --check` passou. Nenhum push.
 - **Entrada do diario:** GAME-003, 2026-10-14.
 
-## Tarefa ativa
+## Tarefa concluida mais recente
 
 - **ID:** GAME-004
 - **Nome:** Criar inimigo funcional com ataques legiveis
+- **Status:** CONCLUIDA — validada pelo usuario
+- **Responsavel:** LUDUS Coordinator
+- **Pedido:** seguir apos a validacao do clique/indicador, incluindo um inimigo funcional e ataques que o jogador consiga ler.
+- **Objetivo/escopo:** inimigo placeholder persegue, telegrapha ataque circular, executa golpe visual, recupera e pode ser atingido pelo ataque do jogador; sem causar dano nesta etapa.
+- **Criterio de conclusao:** usuario confirmou "Perfeito, pode continuar" apos receber instrucoes para validar comportamento; comportamento aceito como correto.
+- **Parametros temporarios:** velocidade 90 px/s, alcance 72 px, telegrapho 0,65 s, ataque 0,18 s, recuperacao 1 s, 3 pontos de vida. Nao definem classe ou arma final; DEC-P03 continua aberta.
+- **Arquivos:** `scenes/arena.tscn`, `scenes/player.tscn`, `scenes/training_target.tscn`, `scenes/enemy.tscn`, `scripts/player.gd`, `scripts/enemy.gd`, UID do script, este estado e diario. `.vscode/` ficou de fora.
+- **Validacoes:** Godot 4.7.2 importou e executou cena inicial headless por 240 frames sem erros; Language Server nao reporta erros nos scripts; `git diff --check` passou; validacao funcional confirmada pelo usuario.
+- **Entrada do diario:** GAME-004, 2026-10-14.
+- **Proxima acao exata:** iniciar GAME-005, vida e resultados vitoria/derrota, seguindo a ordem do guia.
+
+## Tarefa ativa
+
+- **ID:** GAME-005
+- **Nome:** Adicionar vida e resultados de vitoria/derrota
 - **Status:** EM_ANDAMENTO — delimitacao pelo LUDUS Planner
 - **Responsavel:** LUDUS Coordinator; LUDUS Planner na etapa atual
-- **Pedido:** o usuario disse "pode continuar" apos validar o clique e feedback; o proximo incremento do guia e inimigo funcional e leitura dos seus ataques.
-- **Objetivo:** adicionar um inimigo temporario com comportamento observavel e telegrapho claro de ataque, preservando arena e ataque do jogador.
-- **Escopo preliminar:** inimigo de prototipo com movimento/posicionamento simples, preparacao visual antes do ataque e ataque compreensivel; nao adicionar bloqueio/aparo/esquiva/gestao. O dano e vida do jogador devem respeitar a ordem do guia e a delimitacao do Planner.
-- **Criterio de conclusao:** jogador consegue observar aproximacao/preparacao/ataque do inimigo; combate existente continua funcionando; comportamento verificavel no Godot 4.7.2.
-- **Arquivos provaveis:** novas cena/script de inimigo e ajustes na arena/alvo/script do jogador conforme plano; nao alterar `.vscode/settings.json`.
-- **Ultimo passo concluido:** GAME-003 validada pelo usuario e salvavel em commit local; ferramenta Godot-Tools encontra executavel 4.7.2.
-- **Decisoes pendentes:** tipo de inimigo/arma ainda nao escolhido (DEC-P03); usar placeholders temporarios se suficientes, sem fechar design.
-- **Proxima acao exata:** obter uma delimitacao pequena do Planner e perguntar ao usuario somente se a escolha do arquetipo/ataque for bloqueadora; enquanto isso, fazer commit isolado de GAME-003.
+- **Pedido:** apos validar o inimigo, o usuario autorizou continuar.
+- **Objetivo:** fazer o golpe do inimigo causar dano observavel ao jogador e encerrar a luta claramente quando jogador ou inimigo ficar sem vida.
+- **Escopo preliminar:** vida temporaria de jogador/inimigo, dano uma vez por golpe apos telegrapho, feedback legivel de dano, e estados finais vitoria/derrota com mensagem simples; sem bloqueio, aparo, esquiva, HUD elaborado ou progressao.
+- **Criterio de conclusao:** jogador consegue perder vida ao ser atingido pelo ataque anunciado; inimigo perde vida pelo clique; zerar cada lado produz resultado distinto e interrompe novos ataques; teste no Godot 4.7.2.
+- **Arquivos provaveis:** scripts do inimigo/jogador/alvo, arena e uma cena/script leve para resultado ou HUD minimo.
+- **Ultimo passo concluido:** usuario validou GAME-004; Godot 4.7.2 headless e LSP sem erros; `.vscode/` preexistente permanece intocada.
+- **Decisoes temporarias:** valores de vida e dano podem ser defaults do prototipo e nao regras finais; nao ampliar para sistemas defensivos.
+- **Proxima acao exata:** obter plano pequeno do Planner; implementar apenas vida/dano/resultados, sem design permanente de armas ou inimigos.
 
 ## Atualizacao mais recente — AUTO-001
 
