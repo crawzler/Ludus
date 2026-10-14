@@ -4,15 +4,17 @@ Este e o checkpoint operacional unico. Substitua as secoes de tarefa/checkpoint 
 
 ## Checkpoint
 
-- **Atualizado em:** 2026-10-14 15:33 (-03:00)
+- **Atualizado em:** 2026-10-14 15:35 (-03:00)
 - **Marco:** GAME-010 concluida e publicada; validacao manual confirmada pelo usuario.
-- **Estado geral:** versao `0.1.0-pre-alpha`; GAME-009 e GAME-010 concluidas. Execucao, feedback visual e durabilidade foram confirmados pelo usuario; sem mudanca de versao/estagio.
+- **Estado geral:** versao `0.1.0-pre-alpha`; GAME-009 e GAME-010 concluidas. Execucao, feedback visual e durabilidade foram confirmados pelo usuario; sem mudanca de versao/estagio. Nenhuma tarefa de gameplay ativa.
 - **Projeto/engine:** `project.godot` declara Godot 4.7. VS Code tem extensao `geequlim.godot-tools`; `.vscode/settings.json` aponta para `e:\Godot_v4.7.2-stable_win64.exe`.
 - **Branch:** `main`, sincronizada com `origin/main`; commit de implementacao da GAME-010: `1893ef7`.
 - **Commit da configuracao de agentes/documentacao:** `7fb3c56` — `docs: configure continuity and automatic local commits`.
 - **Remoto observado:** `origin` aponta para `https://github.com/crawzler/Ludus.git`; `main` e `origin/main` estao sincronizadas apos o fechamento da GAME-008.
 - **Politica de publicacao:** usuario autorizou push automatico ao GitHub apos cada commit de tarefa concluida e validada. Nao enviar alteracoes sem commit nem tarefas incompletas.
 - **Git apos publicacao:** `main` e `origin/main` estao sincronizadas. A implementacao GAME-010 foi publicada em `1893ef7` e o registro da publicacao consta no diario. Permanecem locais, fora do commit, somente formatacao preexistente em `project.godot`, `.vscode/` e `docs/BUGS.md`.
+- **Ultima atividade — PLN-011, planejamento do proximo passo:** concluida pelo LUDUS Planner, com verificacao do Coordinator em `scripts/arena.gd`, `scripts/player.gd` e `scenes/arena.tscn`. O checkpoint nao pede uma sessao pendente de GAME-010 nem indica tarefa de gameplay ativa. O guia coloca “HUD minimo e testes repetidos” como item 10 e permite testar cedo. O codigo ja tem vida do jogador/inimigo no HUD, resultado central de vitoria/derrota e condicao da arma junto ao personagem; nao ha evidencia de que falte implementar outro campo de HUD. Recomendacao: primeiro realizar uma sessao exploratoria humana de cerca de 15 minutos no Godot e registrar observacoes; so abrir um incremento de HUD se a sessao revelar uma lacuna concreta. Nenhuma sessao foi executada nesta atividade.
+- **Proxima acao exata:** usuario abrir a arena com F5 e fazer uma sessao exploratoria de aproximadamente 15 minutos, observando entendimento do combate, vida/resultados, troca Q, estado da arma e utilidade das opcoes de combate; relatar confusoes, falhas ou itens nao testados. O Coordinator entao transforma evidencias em tarefas pequenas. Nao implementar por inferencia nem presumir que o playtest ocorreu.
 
 ## Tarefa concluida mais recente — GAME-010
 

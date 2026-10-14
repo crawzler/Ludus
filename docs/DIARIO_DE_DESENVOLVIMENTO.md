@@ -506,3 +506,13 @@ Historico append-only de sessoes e retomadas. Acrescente uma entrada por tarefa 
 - **Push:** commit `1893ef7` enviado com sucesso a `origin/main`; branch local e remota ficaram sincronizadas.
 - **Preservacao:** a formatacao preexistente em `project.godot`, `.vscode/` e `docs/BUGS.md` nao entrou no commit e permanece local.
 - **Proxima acao:** nenhuma tarefa ativa. Aguardar novo pedido do usuario e seguir o guia; manter as alteracoes locais preexistentes.
+
+## 2026-10-14 — PLN-011 — Proximo passo apos GAME-010
+
+- **Pedido:** identificar se o checkpoint pede uma sessao de teste ou outra tarefa e recomendar o proximo incremento pequeno, sem implementar nem inventar resultado de playtest.
+- **Leitura do checkpoint/guia:** GAME-010 esta concluida e publicada; nao ha teste pendente daquela tarefa nem gameplay ativo. O proximo item da sequencia e “HUD minimo e testes repetidos”, e o guia permite iniciar playtest antes do fechamento de todos os marcos.
+- **Conferencia no codigo:** `scripts/arena.gd` e `scenes/arena.tscn` ja mostram vida do jogador/inimigo e resultado de vitoria/derrota; `scripts/player.gd` desenha nome/condicao da arma junto ao personagem. Nao ha evidencia suficiente para inventar um campo de HUD faltante.
+- **Recomendacao:** realizar primeiro uma sessao exploratoria humana de aproximadamente 15 minutos no Godot e registrar observacoes sobre compreensao do combate, vida/resultados, troca de arma, condicao da arma e utilidade das opcoes. Criar tarefa de HUD apenas se surgir uma lacuna concreta. O roteiro e uma recomendacao; nenhum playtest foi executado.
+- **Arquivos/documentacao:** `docs/ESTADO_ATUAL.md` atualizado com a recomendacao e a proxima acao; este diario recebeu esta entrada. Codigo de gameplay, `project.godot` e arquivos locais protegidos nao foram alterados.
+- **Validacao:** leituras do protocolo, checkpoint, decisoes, guia, instrucoes do projeto e diario; Git conferido; codigo real de HUD inspecionado. Nenhuma execucao do jogo ou teste manual ocorreu nesta etapa.
+- **Proxima acao:** usuario executar a sessao exploratoria no Godot e relatar observacoes; Coordinator transforma evidencias em um incremento pequeno, se necessario.
