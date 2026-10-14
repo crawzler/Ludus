@@ -4,15 +4,15 @@ Este e o checkpoint operacional unico. Substitua as secoes de tarefa/checkpoint 
 
 ## Checkpoint
 
-- **Atualizado em:** 2026-10-14 02:24 (-03:00)
-- **Marco:** primeiro ciclo de combate concluido; registrando versao inicial do prototipo.
-- **Estado geral:** arena, movimento, ataque, inimigo, vida, resultados e defesa validados; versao do produto `0.1.0-pre-alpha` registrada separadamente da versao da engine.
+- **Atualizado em:** 2026-10-14 02:26 (-03:00)
+- **Marco:** primeiro ciclo de combate concluido; governanca de versao e estagios documentada.
+- **Estado geral:** versao `0.1.0-pre-alpha` configurada; criterios pre-alpha/alpha/beta/release registrados. Coordinator decide mudancas conforme evidencia e avisa previamente.
 - **Projeto/engine:** `project.godot` declara Godot 4.7. VS Code tem extensao `geequlim.godot-tools`; `.vscode/settings.json` aponta para `e:\Godot_v4.7.2-stable_win64.exe`.
 - **Branch:** `main`.
 - **Commit da configuracao de agentes/documentacao:** `7fb3c56` — `docs: configure continuity and automatic local commits`.
-- **Remoto observado:** `origin` aponta para `https://github.com/crawzler/Ludus.git`; `origin/main` e `main` estao sincronizados em `1ea4858` apos push autorizado pelo usuario.
+- **Remoto observado:** `origin` aponta para `https://github.com/crawzler/Ludus.git`; `origin/main` e `main` estao sincronizados em `f256734` antes desta tarefa.
 - **Politica de publicacao:** usuario autorizou push automatico ao GitHub apos cada commit de tarefa concluida e validada. Nao enviar alteracoes sem commit nem tarefas incompletas.
-- **Git no checkpoint:** `main` e `origin/main` sincronizadas em `fbc6e8e`; `.vscode/` local do usuario segue nao rastreada, preservada e fora do escopo.
+- **Git no checkpoint:** alteracoes OPS-004 locais antes do commit; `.vscode/` local do usuario segue nao rastreada, preservada e fora do escopo.
 
 ## Tarefa concluida anterior
 
@@ -154,31 +154,29 @@ Este e o checkpoint operacional unico. Substitua as secoes de tarefa/checkpoint 
 
 ## Tarefa ativa
 
-- **ID:** OPS-003
-- **Nome:** Registrar versao inicial do prototipo
-- **Status:** CONCLUIDA — metadado reconhecido pelo Godot
-- **Responsavel:** LUDUS Coordinator
-- **Pedido:** usuario aprovou adicionar versao inicial e perguntou sobre rotulos de fase como pre-alpha/alpha.
-- **Objetivo:** identificar a versao do jogo no proprio projeto e estabelecer uma convencao simples de fases/releases.
-- **Escopo:** definir `0.1.0-pre-alpha` como versao inicial em `project.godot`; registrar convencao de versionamento no guia e decisao; tags GitHub ficam reservadas para marcos, nao para cada commit.
-- **Fora de escopo:** exibir versao no HUD/menu, criar release/tag imediatamente ou automatizar incremento de versao.
-- **Criterio de conclusao:** Godot reconhece o metadado de versao, docs descrevem formato e rotulos, projeto importa/roda headless, diff limpo; commit/push conforme autorizacao permanente.
-- **Arquivos previstos:** `project.godot`, `docs/DECISOES.md`, `docs/GUIA_DE_DESENVOLVIMENTO.md`, este estado e diario.
-- **Decisao aprovada pelo usuario:** adicionar versao inicial, com sugestao `0.1.0` e fases como pre-alpha; Coordinator aplica `0.1.0-pre-alpha` pois o projeto ainda esta em prototipo inicial.
-- **Ultimo passo concluido:** `project.godot` declara `config/version="0.1.0-pre-alpha"`; DEC-007 e secao de versionamento do guia registram o formato e uso de tags em marcos, sem tag de release agora.
-- **Validacoes:** Godot 4.7.2 importou o projeto e executou a arena headless por 120 frames sem erros; `git diff --check` passou.
-- **Commit/push:** aguardando operacao de commit desta tarefa e envio automatico para `origin/main`.
-- **Proxima acao exata:** commit e push dos cinco arquivos desta tarefa; manter `.vscode/` fora.
+- **ID:** OPS-004
+- **Nome:** Definir autonomia e criterios de versionamento
+- **Status:** CONCLUIDA — criterios e autonomia registrados.
+- **Responsavel:** LUDUS Coordinator.
+- **Pedido:** usuario autorizou o Coordinator a decidir quando criar tags, incrementar versao e mudar estagio (pre-alpha/alpha/beta), desde que seja avisado antes de cada acao.
+- **Objetivo:** deixar explicita a autonomia e os criterios para mudancas de versao/status do produto.
+- **Escopo:** documentar criterios de transicao de estagios, versionamento, tags/releases e aviso previo; corrigir o estado vivo OPS-003 para refletir commit/push `f256734`.
+- **Fora de escopo:** criar tag agora, mudar `0.1.0-pre-alpha` ou alterar o produto/build.
+- **Criterio de conclusao:** protocolo, instrucoes do Copilot/Coordinator, guia e decisao registram criterios objetivos, autonomia delegada e aviso previo; diff validado; commit/push automaticos.
+- **Arquivos alterados:** `docs/PROTOCOLO_DE_CONTINUIDADE.md`, `.github/copilot-instructions.md`, `.github/agents/ludus-coordinator.agent.md`, `docs/GUIA_DE_DESENVOLVIMENTO.md`, `docs/DECISOES.md`, este estado e diario.
+- **Decisao do usuario:** Coordinator decide mudancas de estagio/versao e tags ao atingir criterios; avisa antes com plano e evidencia, sem nova aprovacao quando coberto pelas regras.
+- **Validacoes:** revisao documental e `git diff --check` passaram; nao houve alteracao de jogo nem criacao de tag.
+- **Proxima acao exata:** aplicar os criterios nos proximos marcos de produto; avisar o usuario antes de qualquer mudanca de versao/estagio/tag.
 
-## Atualizacao mais recente — AUTO-001
+## Atualizacao mais recente — OPS-004
 
 - **Pedido:** quando um processo for finalizado e validado, fazer commit automaticamente.
 - **Responsavel:** LUDUS Coordinator.
 - **Regra:** commit local automatico apos conclusao, validacao e revisao do diff; incluir somente arquivos da tarefa.
 - **Salvaguardas:** sem misturar trabalho preexistente/de terceiros, arquivos gerados ou credenciais; se nao for possivel isolar, parar e informar. Tarefa incompleta, bloqueada ou sem validacao nao recebe commit de conclusao.
-- **Publicacao:** nao fazer push automaticamente; push exige pedido explicito.
-- **Resultado:** configuracao commitada localmente em `7fb3c56`; working tree estava limpo apos o commit. Sem push.
-- **Proximo passo exato:** confirmar no Godot que o projeto abre; iniciar depois o Marco 1 com uma arena minima e movimentacao legivel.
+- **Publicacao (regra atual):** push automatico apos commit de tarefa concluida e validada, conforme autorizacao do usuario registrada em OPS-002.
+- **Resultado:** configuracao commitada localmente em `7fb3c56`; politica de push atualizada em `1ea4858` e publicada.
+- **Proximo passo exato:** aplicar fluxo commit/push autorizado apos validar cada tarefa; nao enviar tarefas incompletas.
 
 ## Fatos estruturais confirmados
 

@@ -32,8 +32,14 @@ LUDUS e um action roguelite de gladiadores sobre combate em arena, improvisacao 
 - A versao do produto fica em `application/config/version` no `project.godot`; ela e diferente da versao do Godot indicada em `config/features`.
 - Formato inicial: `MAJOR.MINOR.PATCH[-fase]`. O prototipo comeca em `0.1.0-pre-alpha`; a parte apos o hifen pode indicar `pre-alpha`, `alpha`, `beta` ou `rc.1`, conforme o estagio.
 - Enquanto a versao for `0.x`, ela indica desenvolvimento inicial e nao promete compatibilidade estavel.
-- Atualize a versao em mudancas com significado para o produto, nao em cada commit. Crie tags Git anotadas com prefixo `v` apenas em marcos/release intencionais (por exemplo, `v0.1.0-pre-alpha`); commits continuam sendo o historico de cada alteracao.
-- Nao criar release/tag ate haver um marco que se queira destacar e validar.
+- **Pre-alpha:** sistemas principais ainda estao sendo construidos ou validados; existem lacunas relevantes no escopo de combate do prototipo.
+- **Alpha:** o ciclo de combate definido esta jogavel de ponta a ponta; movimento, ataque, inimigo funcional, vida/resultados, bloqueio, aparo e esquiva foram implementados e exercitados; playtests nao encontraram bloqueadores criticos. Recursos e balanceamento ainda podem mudar.
+- **Beta:** escopo planejado do prototipo (incluindo arsenal/troca, execucoes/condicao da arma e HUD minimo) esta implementado; nao se planejam novas mecanicas nesse escopo; testes repetidos, incluindo uma sessao de 15 minutos, nao apresentam bloqueadores criticos. O foco passa a ser correcoes, balanceamento e clareza.
+- **Release 1.0:** somente quando o escopo de produto acordado para uma primeira versao estiver completo, validado e preparado para distribuicao; nao e implicito ao alcancar beta.
+- O Coordinator avalia esses criterios apos marcos relevantes e decide autonomamente quando estagio/versao mudam. Deve avisar o usuario **antes** de cada mudanca, explicando estagio ou numero proposto e evidencias; se estiver dentro destes criterios, pode prosseguir sem pedir nova aprovacao.
+- Atualize a versao por mudancas significativas, nao em cada commit: PATCH para correcao sem nova capacidade, MINOR para capacidade/marco compatível dentro de `0.x`; MAJOR apenas quando o produto chegar a `1.0` ou houver futura quebra de compatibilidade relevante. Ao mudar estagio, atualize tambem a versao/prerelease apropriada.
+- Tags Git anotadas com prefixo `v` sao criadas para marcos validados, nao para cada commit. Antes de criar cada tag/release, o Coordinator avisa o usuario sobre nome e marco; confirma que o commit alvo esta validado e publicado; entao cria e envia a tag. Commits continuam registrando cada alteracao.
+- Nao promover estagio por calendario, quantidade de commits ou impressao subjetiva; usar os criterios e evidencias acima. Registrar no diario cada mudanca de versao/estagio/tag e sua justificativa.
 
 ## Escopo atual: prototipo de combate
 
@@ -106,7 +112,7 @@ O primeiro playtest nao precisa esperar todos os marcos: teste cedo, assim que h
 3. Os agentes continuam a tarefa a partir do ultimo checkpoint e registram progresso suficiente para uma retomada.
 4. Execute o projeto no Godot e teste a mudanca em jogo; agente nenhum deve afirmar que voce fez esse teste.
 5. O Coordinator atualiza estado, decisoes (se aprovadas) e diario ao concluir, interromper ou bloquear a tarefa.
-6. Revise as alteracoes. Quando a tarefa estiver concluida e validada, o Coordinator faz um commit local automatico apenas com os arquivos dela; push ao GitHub sempre exige pedido explicito.
+6. Revise as alteracoes. Quando a tarefa estiver concluida e validada, o Coordinator faz commit local automatico apenas com os arquivos dela e push ao GitHub conforme autorizacao do usuario.
 
 Copilot acelera a escrita e investigacao; nao substitui a decisao de design nem a verificacao no jogo. As skills deste repositorio orientam implementacao, diagnostico e playtests. Se trocar de aplicativo, forneca o protocolo, o estado atual, as decisoes, este guia e as definicoes relevantes de agente/skill.
 

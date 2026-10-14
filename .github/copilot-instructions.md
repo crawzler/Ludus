@@ -17,6 +17,8 @@
 - Nunca descarte trabalho local para reconciliar um checkpoint. Compare arquivos e diff; preserve alteracoes nao commitadas.
 - Trate o codigo presente como evidencia do que esta implementado; GDD e sugestoes nao aprovam por si so escopo futuro.
 - Ao concluir e validar uma tarefa, o Coordinator revisa e faz commit local automaticamente, incluindo somente as alteracoes da tarefa, e faz push da branch ao GitHub logo apos o commit, conforme autorizacao permanente do usuario. Nunca envie alteracoes sem commit ou tarefas incompletas.
+- O Coordinator decide quando os criterios do guia justificam atualizar versao, estagio (pre-alpha/alpha/beta/release) ou tag/release. Deve avisar o usuario antes de cada acao, informando mudanca planejada e evidencia/marco; depois pode executar sem pedir outra aprovacao se estiver dentro dos criterios documentados.
+- Nao mude fase por calendario ou quantidade de commits. Baseie transicoes em escopo planejado concluido e validado; para mudancas de jogabilidade/legibilidade, inclua playtest humano. Antes de criar tag/release, avise o nome previsto, confirme que o commit alvo esta validado e publicado, e publique a tag conforme a autorizacao de push.
 - Nunca misture no commit trabalho preexistente/de terceiros, arquivos gerados ou credenciais; se nao for possivel isolar com seguranca, pare e informe.
 - Tarefa incompleta, bloqueada ou sem validacao suficiente nao recebe commit de conclusao; preserve o checkpoint e explique o que falta.
 

@@ -265,7 +265,18 @@ Historico append-only de sessoes e retomadas. Acrescente uma entrada por tarefa 
 - **Implementacao:** `project.godot` declara `config/version="0.1.0-pre-alpha"`; DEC-007 registra a convencao aprovada e o guia orienta fases e tags.
 - **Validacao:** Godot 4.7.2 importou o projeto e executou a arena headless por 120 frames sem erros; `git diff --check` passou.
 - **Escopo excluido:** sem exibir versao no HUD/menu e sem criar tag/release nesta tarefa; a primeira tag fica para um marco futuro.
-- **Proximo passo:** commit/push dos arquivos da tarefa; esquiva continua como proximo incremento de gameplay.
+- **Conclusao corrigida:** validacao headless passou; commit `f256734` (`chore: set initial pre-alpha version`) enviado a `origin/main`. O estado vivo havia ficado desatualizado sobre commit/push; esta entrada registra o resultado efetivo.
+- **Proximo passo:** esquiva continua como proximo incremento de gameplay.
+
+## 2026-10-14 — OPS-004 — Autonomia de versionamento documentada
+
+- **Pedido:** usuario delegou ao Coordinator decidir quando incrementar versao, mudar fase (pre-alpha/alpha/beta/release) e criar tags, pedindo aviso antes de cada acao.
+- **Criterios adicionados:** pre-alpha enquanto sistemas principais estao em construcao/validacao; alpha quando ciclo de combate incluindo esquiva e sistemas centrais for jogavel e sem bloqueadores criticos; beta quando o escopo do prototipo, incluindo arsenal, execucoes/condicao da arma e HUD minimo, estiver completo, congelado para novas mecanicas e passar teste repetido de 15 minutos; 1.0 somente com escopo acordado completo, validado e preparado para distribuicao.
+- **Versionamento:** PATCH para correcoes, MINOR para capacidade/marco compativel em 0.x; MAJOR ao chegar a 1.0 ou futura quebra relevante. Sem transicao por calendario ou volume de commits.
+- **Aviso previo:** antes de alterar versao/fase/tag, Coordinator informa numero/estagio/tag planejados e evidencia; prossegue sem pedir nova aprovacao quando os criterios documentados se aplicam. Para tags, commit alvo deve estar validado e ja publicado; tag anotada e enviada.
+- **Arquivos:** protocolo, instrucoes Copilot, agente Coordinator, guia, decisoes, estado e diario.
+- **Validacao:** revisao documental e `git diff --check`; nenhuma mudanca de jogo nem tag foi criada.
+- **Proximo passo:** aplicar os criterios ao atingir marcos e comunicar previamente cada mudanca.
 
 ## 2026-10-14 — OPS-002 — Push automatico autorizado pelo usuario
 
