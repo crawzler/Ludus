@@ -246,8 +246,16 @@ Historico append-only de sessoes e retomadas. Acrescente uma entrada por tarefa 
 - **Sincronizacao do teste:** primeira tentativa consultou `just_pressed` no mesmo frame em que simulou a entrada e falhou; apos aguardar o frame correto, o teste completo passou. Nenhuma falha de gameplay associada.
 - **Diff/escopo:** `git diff --check` passou. `.vscode/` permaneceu intacta e fora dos arquivos da tarefa. Teste temporario removido do repositorio.
 - **Validacao visual:** usuario informou “Validacao visual está feita” e confirmou “Perfeito”; feedback visual aceito.
-- **Resultado:** GAME-007 concluida; criar commit e fazer push automatico conforme autorizacao permanente do usuario.
+- **Resultado:** GAME-007 concluida; commit/push registrados na entrada de fechamento abaixo.
 - **Integridade:** `.vscode/` do usuario excluida do escopo.
+
+## 2026-10-14 — GAME-007 — Commit e push
+
+- **Validacao visual:** usuario confirmou “Validacao visual está feita” e antes respondeu “Perfeito”; sinais visuais aceitos.
+- **Commit:** `4f2e744` — `feat: add shared block and parry`.
+- **Push:** enviado para `origin/main`; branch remota atualizada de `1ea4858` para `4f2e744`.
+- **Escopo:** commit incluiu apenas os sete arquivos da tarefa; `.vscode/` permaneceu fora.
+- **Proximo passo:** planejar esquiva conforme a sequencia do guia.
 
 ## 2026-10-14 — OPS-002 — Push automatico autorizado pelo usuario
 
