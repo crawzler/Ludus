@@ -4,15 +4,15 @@ Este e o checkpoint operacional unico. Substitua as secoes de tarefa/checkpoint 
 
 ## Checkpoint
 
-- **Atualizado em:** 2026-10-14 02:27 (-03:00)
-- **Marco:** primeiro ciclo de combate concluido; governanca de versao e estagios documentada.
-- **Estado geral:** versao `0.1.0-pre-alpha` configurada; criterios pre-alpha/alpha/beta/release registrados. Coordinator decide mudancas conforme evidencia e avisa previamente.
+- **Atualizado em:** 2026-10-14 02:44 (-03:00)
+- **Marco:** roll de esquiva implementado e validado visualmente.
+- **Estado geral:** versao `0.1.0-pre-alpha`; movimento, ataques, vida/resultados, defesa compartilhada e esquiva validados.
 - **Projeto/engine:** `project.godot` declara Godot 4.7. VS Code tem extensao `geequlim.godot-tools`; `.vscode/settings.json` aponta para `e:\Godot_v4.7.2-stable_win64.exe`.
 - **Branch:** `main`.
 - **Commit da configuracao de agentes/documentacao:** `7fb3c56` — `docs: configure continuity and automatic local commits`.
-- **Remoto observado:** `origin` aponta para `https://github.com/crawzler/Ludus.git`; `origin/main` e `main` estao sincronizados em `e066d2e`.
+- **Remoto observado:** `origin` aponta para `https://github.com/crawzler/Ludus.git`; `origin/main` e `main` estao sincronizados em `c7f00c8`.
 - **Politica de publicacao:** usuario autorizou push automatico ao GitHub apos cada commit de tarefa concluida e validada. Nao enviar alteracoes sem commit nem tarefas incompletas.
-- **Git no checkpoint:** `main` e `origin/main` sincronizadas em `e066d2e`; `.vscode/` local do usuario segue nao rastreada, preservada e fora do escopo.
+- **Git no checkpoint:** GAME-008 sera registrada em commit isolado; arquivos nao rastreados `.vscode/` e `docs/BUGS.md` foram preservados fora do escopo.
 
 ## Tarefa concluida anterior
 
@@ -135,7 +135,7 @@ Este e o checkpoint operacional unico. Substitua as secoes de tarefa/checkpoint 
 - **ID:** GAME-007
 - **Nome:** Implementar bloqueio/aparo compartilhados
 - **Status:** CONCLUIDA — validada pelo usuario.
-- **Responsavel:** LUDUS Coordinator.
+- **Responsavel:** LUDUS Planner, coordenado pelo LUDUS Coordinator.
 - **Pedido:** usuario relatou que nao percebeu feedback visual/nem conseguiu acertar aparo e pediu que bloqueio/aparo usem o mesmo comando; confirmou botao direito do mouse.
 - **Objetivo:** entregar defesa unificada, distinguivel e testavel contra o ataque basico do inimigo.
 - **Escopo:** unificar bloqueio e aparo no botao direito; toque dentro dos ultimos 0,3 s do telegrapho faz aparo; manter pressionado ate o impacto fora do sucesso de aparo bloqueia; aparo interrompe o golpe e manda o inimigo para recuperacao; feedback visual claro para janela, bloqueio e sucesso.
@@ -150,34 +150,33 @@ Este e o checkpoint operacional unico. Substitua as secoes de tarefa/checkpoint 
 - **Ultimo passo concluido:** usuario informou “Validacao visual está feita”; feedback do aparo/bloqueio aceito.
 - **Arquivos da tarefa modificados:** `project.godot`, `scripts/player.gd`, `scripts/enemy.gd`, `docs/DECISOES.md`, `docs/GUIA_DE_DESENVOLVIMENTO.md`, `docs/ESTADO_ATUAL.md` e entrada GAME-007 em `docs/DIARIO_DE_DESENVOLVIMENTO.md`. A alteracao preexistente de `.vscode/` foi preservada e excluida.
 - **Commit/push:** `4f2e744` — `feat: add shared block and parry`; enviado para `origin/main`.
-- **Proxima acao exata:** planejar a esquiva como incremento separado, conforme ordem do guia. A convencao de versao esta pronta; criar tags apenas em marcos futuros escolhidos intencionalmente.
+- **Proxima acao exata:** o LUDUS Planner delimita uma esquiva minima com base no combate atual; nao escolher controle ou invulnerabilidade sem verificar se sao essenciais.
 
 ## Tarefa ativa
 
-- **ID:** OPS-004
-- **Nome:** Definir autonomia e criterios de versionamento
-- **Status:** CONCLUIDA — criterios e autonomia registrados.
-- **Responsavel:** LUDUS Coordinator.
-- **Pedido:** usuario autorizou o Coordinator a decidir quando criar tags, incrementar versao e mudar estagio (pre-alpha/alpha/beta), desde que seja avisado antes de cada acao.
-- **Objetivo:** deixar explicita a autonomia e os criterios para mudancas de versao/status do produto.
-- **Escopo:** documentar criterios de transicao de estagios, versionamento, tags/releases e aviso previo; corrigir o estado vivo OPS-003 para refletir commit/push `f256734`.
-- **Fora de escopo:** criar tag agora, mudar `0.1.0-pre-alpha` ou alterar o produto/build.
-- **Criterio de conclusao:** protocolo, instrucoes do Copilot/Coordinator, guia e decisao registram criterios objetivos, autonomia delegada e aviso previo; diff validado; commit/push automaticos.
-- **Arquivos alterados:** `docs/PROTOCOLO_DE_CONTINUIDADE.md`, `.github/copilot-instructions.md`, `.github/agents/ludus-coordinator.agent.md`, `docs/GUIA_DE_DESENVOLVIMENTO.md`, `docs/DECISOES.md`, este estado e diario.
-- **Decisao do usuario:** Coordinator decide mudancas de estagio/versao e tags ao atingir criterios; avisa antes com plano e evidencia, sem nova aprovacao quando coberto pelas regras.
-- **Validacoes:** revisao documental e `git diff --check` passaram; nao houve alteracao de jogo nem criacao de tag.
-- **Commit/push:** `e066d2e` — `docs: define version stage governance`; enviado a `origin/main`.
-- **Proxima acao exata:** avaliar criterios de versao/status nos proximos marcos; avisar o usuario antes de cada mudanca. Proximo incremento de gameplay: planejar esquiva.
+- **ID:** GAME-008
+- **Nome:** Implementar esquiva basica
+- **Status:** CONCLUIDA — implementacao, verificacoes tecnicas e validacao visual humana concluidas.
+- **Responsavel:** LUDUS Coordinator; plano do LUDUS Planner, implementacao do LUDUS Developer e checklist do LUDUS Playtester concluidos.
+- **Pedido:** implementar roll de esquiva com invulnerabilidade breve usando a barra de espaco.
+- **Objetivo:** permitir uma esquiva curta e legivel integrada ao combate top-down atual.
+- **Escopo aprovado:** Space inicia roll na direcao do input de movimento ou, sem input, na ultima direcao valida; duracao inicial de 0,2 s, velocidade de 1,5x o movimento normal e recarga provisoria de 0,6 s; invulnerabilidade somente durante o roll; sem stamina.
+- **Fora de escopo:** novas armas, progressao, stamina/custo, balanceamento amplo e o problema conhecido de empurrao/arrasto do inimigo documentado em `docs/BUGS.md`.
+- **Criterio de conclusao:** roll respeita colisoes e limites da arena, nao recebe dano durante sua janela, recebe dano fora dela, tem feedback observavel e preserva ataque/bloqueio/aparo.
+- **Arquivos de implementacao alterados:** `project.godot` e `scripts/player.gd`. Testes temporarios especificos em `scripts/game_008_smoke_test.gd` e `scenes/game_008_smoke_test.tscn` foram removidos apos a execucao.
+- **Validacoes:** Godot 4.7.2 headless importou o projeto e executou a arena por 240 frames sem erros; teste focado com `--fixed-fps 60` passou para direcao atual/ultima direcao, velocidade, duracao, cooldown antes/depois de expirar, dano durante/fora da esquiva, colisao com limite e ataque/bloqueio/aparo; `git diff --check` e diagnostico do GDScript passaram. Usuario confirmou validacao visual: "Deu certo".
+- **Git confirmado antes do trabalho:** `main` e `origin/main` em `c7f00c8`. Alteracoes locais preexistentes em estado/diario e nao rastreados `.vscode/` e `docs/BUGS.md` preservados e fora do escopo de commit.
+- **Plano tecnico confirmado:** implementado em `project.godot` e `scripts/player.gd`; `scripts/enemy.gd` permaneceu inalterado. O roll usa `move_and_slide`, ignora dano somente enquanto ativo e desenha aro, indicador de direcao e texto "ROLL".
+- **Checklist manual recebida:** testar Space parado, apos direcao anterior e junto com WASD; cooldown antes/depois de 0,6 s; dano em impacto durante e fora do roll; barreiras; ataque e defesa antes/depois. Observar aro, progresso, direcao e texto "ROLL".
+- **Proxima acao exata:** criar commit isolado com os seis arquivos da GAME-008 e enviar a `origin/main`; manter `.vscode/` e `docs/BUGS.md` fora.
 
-## Atualizacao mais recente — OPS-004
+## Atualizacao mais recente — GAME-008
 
-- **Pedido:** quando um processo for finalizado e validado, fazer commit automaticamente.
+- **Pedido:** implementar e validar visualmente roll de esquiva iniciado por Space.
 - **Responsavel:** LUDUS Coordinator.
-- **Regra:** commit local automatico apos conclusao, validacao e revisao do diff; incluir somente arquivos da tarefa.
-- **Salvaguardas:** sem misturar trabalho preexistente/de terceiros, arquivos gerados ou credenciais; se nao for possivel isolar, parar e informar. Tarefa incompleta, bloqueada ou sem validacao nao recebe commit de conclusao.
-- **Publicacao (regra atual):** push automatico apos commit de tarefa concluida e validada, conforme autorizacao do usuario registrada em OPS-002.
-- **Resultado:** configuracao commitada localmente em `7fb3c56`; politica de push atualizada em `1ea4858` e publicada.
-- **Proximo passo exato:** aplicar fluxo commit/push autorizado apos validar cada tarefa; nao enviar tarefas incompletas.
+- **Resultado:** esquiva com invulnerabilidade breve implementada e aceita em teste visual; sem alteracoes no inimigo.
+- **Validacao visual:** usuario confirmou em 2026-10-14 que o roll funcionou.
+- **Proximo passo exato:** registrar o fechamento em commit isolado e publicar `origin/main`; manter `.vscode/` e `docs/BUGS.md` fora.
 
 ## Fatos estruturais confirmados
 

@@ -9,15 +9,24 @@ const ATTACK_DAMAGE: int = 1
 const ATTACK_FEEDBACK_DURATION: float = 0.12
 const BLOCK_FEEDBACK_DURATION: float = 0.2
 const PARRY_FEEDBACK_DURATION: float = 0.45
+const DODGE_DURATION: float = 0.2
+const DODGE_SPEED_MULTIPLIER: float = 1.5
+const DODGE_COOLDOWN: float = 0.6
 const MAX_HEALTH: int = 3
 const HIT_FLASH_DURATION: float = 0.12
 const HIT_COLOR: Color = Color("#fff2a6")
 const BLOCK_COLOR: Color = Color("#75d8ff")
 const PARRY_COLOR: Color = Color("#ffe66d")
+const DODGE_COLOR: Color = Color("#9bfff0")
 
 var attack_feedback_remaining: float = 0.0
 var block_feedback_remaining: float = 0.0
 var parry_feedback_remaining: float = 0.0
+var dodge_time_remaining: float = 0.0
+var dodge_cooldown_remaining: float = 0.0
+var last_valid_move_direction: Vector2 = Vector2.DOWN
+var dodge_direction: Vector2 = Vector2.DOWN
+var dodge_active: bool = false
 var block_held: bool = false
 var health: int = MAX_HEALTH
 var combat_finished: bool = false
@@ -35,10 +44,32 @@ func _physics_process(_delta: float) -> void:
 		"move_up",
 		"move_down"
 	)
-	velocity = move_direction * MOVE_SPEED
+	dodge_cooldown_remaining = maxf(dodge_cooldown_remaining - _delta, 0.0)
+	if not dodge_active and move_direction != Vector2.ZERO:
+		last_valid_move_direction = move_direction.normalized()
+	if Input.is_action_just_pressed("dodge") and not dodge_active and dodge_cooldown_remaining <= 0.0:
+		_start_dodge(move_direction)
+
+	if dodge_active:
+		velocity = dodge_direction * MOVE_SPEED * DODGE_SPEED_MULTIPLIER
+	else:
+		velocity = move_direction * MOVE_SPEED
 	move_and_slide()
+	if dodge_active:
+		dodge_time_remaining = maxf(dodge_time_remaining - _delta, 0.0)
+		if dodge_time_remaining <= 0.0:
+			dodge_active = false
+		queue_redraw()
 	if Input.is_action_just_pressed("attack"):
 		_attack()
+
+
+func _start_dodge(move_direction: Vector2) -> void:
+	dodge_direction = move_direction.normalized() if move_direction != Vector2.ZERO else last_valid_move_direction
+	dodge_time_remaining = DODGE_DURATION
+	dodge_cooldown_remaining = DODGE_COOLDOWN
+	dodge_active = true
+	queue_redraw()
 
 
 func _process(delta: float) -> void:
@@ -75,7 +106,7 @@ func _attack() -> void:
 
 
 func take_damage(amount: int) -> void:
-	if combat_finished or health <= 0:
+	if combat_finished or health <= 0 or dodge_active:
 		return
 
 	health = maxi(health - amount, 0)
@@ -106,6 +137,7 @@ func try_parry_attack() -> bool:
 func finish_combat() -> void:
 	combat_finished = true
 	block_held = false
+	dodge_active = false
 	velocity = Vector2.ZERO
 	set_physics_process(false)
 	queue_redraw()
@@ -162,4 +194,28 @@ func _draw() -> void:
 			72.0,
 			16,
 			PARRY_COLOR
+		)
+	if dodge_active:
+		var dodge_progress: float = clampf(dodge_time_remaining / DODGE_DURATION, 0.0, 1.0)
+		draw_circle(Vector2.ZERO, 25.0, Color(0.25, 0.95, 0.82, 0.2))
+		draw_arc(Vector2.ZERO, 27.0, 0.0, TAU, 48, DODGE_COLOR, 3.0, true)
+		draw_arc(
+			Vector2.ZERO,
+			32.0,
+			-PI / 2.0,
+			-PI / 2.0 + TAU * dodge_progress,
+			32,
+			DODGE_COLOR,
+			4.0,
+			true
+		)
+		draw_line(Vector2.ZERO, dodge_direction * 31.0, DODGE_COLOR, 3.0, true)
+		draw_string(
+			ThemeDB.fallback_font,
+			Vector2(-30.0, -42.0),
+			"ROLL",
+			HORIZONTAL_ALIGNMENT_CENTER,
+			60.0,
+			14,
+			DODGE_COLOR
 		)

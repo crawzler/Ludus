@@ -60,6 +60,8 @@ Essa sequencia pode mudar quando um teste revelar uma dependencia tecnica ou um 
 
 **Regra aprovada para o prototipo atual (GAME-007):** botao direito do mouse compartilha bloqueio e aparo. Um novo pressionamento nos ultimos 0,3 segundos do telegrapho do ataque basico do inimigo executa aparo, cancela o golpe e manda o inimigo para recuperacao; manter o botao ate o impacto bloqueia se nao houve aparo. A janela deve ser sinalizada claramente, e os feedbacks de bloqueio/aparo devem ser distinguiveis. Esta regra e especifica ao prototipo atual e pode ser revisada apos playtest.
 
+**Regra aprovada para o prototipo atual (GAME-008):** barra de espaco inicia um roll direcional usando o input de movimento atual ou a ultima direcao valida. Durante o roll, o jogador fica invulneravel; fora dessa janela, dano continua normal. Parametros iniciais para teste: 0,2 s de duracao, 1,5x a velocidade normal e 0,6 s de recarga, sem custo de stamina. O roll respeita as colisoes existentes; parametros podem ser ajustados apos playtest.
+
 ### Nao incluir ainda
 
 - Gestao completa do Ludus, recrutamento, funcionarios e economia.

@@ -285,6 +285,37 @@ Historico append-only de sessoes e retomadas. Acrescente uma entrada por tarefa 
 - **Checkpoint:** `main` e `origin/main` sincronizadas; `.vscode/` permanece local e fora do Git.
 - **Proximo marco:** acompanhar o prototipo; quando criterios de estagio/versao/tag forem atingidos, avisar o usuario antes de executar a mudanca.
 
+## 2026-10-14 — GAME-008 — Planejamento iniciado
+
+- **Pedido:** usuario perguntou pelo proximo passo; a sequencia atual do guia aponta esquiva depois de bloqueio/aparo.
+- **Estado Git:** `main` e `origin/main` sincronizadas em `c7f00c8`; `.vscode/` local do usuario preservada.
+- **Escopo inicial:** delimitar uma esquiva basica para o combate top-down existente, sem adicionar stamina/custo ou outros sistemas.
+- **Perguntas de design:** verificar se controle, deslocamento, invulnerabilidade/timing e feedback precisam de decisao explicita do usuario.
+- **Responsavel/proximo passo:** LUDUS Planner retorna plano curto; se faltar decisao essencial, Coordinator oferece opcoes concretas antes de implementar.
+
+## 2026-10-14 — GAME-008 — Planejamento delimitado
+
+- **Parecer:** manter a esquiva pequena e integrada ao movimento WASD contra o ataque telegrafado atual; sugestao de tecla Space, usar direcao do input ou ultima direcao, duracao aproximada 0,2 s, distancia inicial ~1,5x movimento e intervalo de 0,6 s, sem stamina. Sao parametros sugeridos, nao implementados.
+- **Decisao pendente:** se esquiva concede invulnerabilidade breve ou apenas reposiciona, permitindo que a posicao no impacto determine o dano.
+- **Correcao factual do Coordinator:** o intervalo de recuperacao de 1 s e estado do inimigo, nao recuperacao do ataque do jogador; nao deve restringir arbitrariamente a esquiva do jogador.
+- **Resultado:** GAME-008 bloqueada para gameplay ate definicao do efeito defensivo; nenhum codigo alterado. `.vscode/` preservada.
+- **Proxima acao:** perguntar ao usuario sobre invulnerabilidade e controle sugerido; retomar implementacao quando definido.
+
+## 2026-10-14 — GAME-008 — Decisao de esquiva aprovada
+
+- **Pedido:** usuario aprovou invulnerabilidade breve durante o roll e definiu a barra de espaco como comando.
+- **Regra aprovada:** roll direcional pela entrada atual ou ultima direcao valida; invulnerabilidade apenas durante a esquiva; valores iniciais de 0,2 s, velocidade 1,5x e recarga de 0,6 s, sem stamina, sujeitos a playtest.
+- **Escopo:** integrar ao jogador, respeitar colisoes, exibir feedback e preservar ataque, bloqueio e aparo. O bug conhecido de o inimigo ser arrastado pelo jogador fica fora desta tarefa.
+- **Arquivos planejados:** `project.godot`, `scripts/player.gd`, `docs/DECISOES.md`, `docs/GUIA_DE_DESENVOLVIMENTO.md`, estado e diario.
+- **Criterio de conclusao:** teste tecnico confirma direcao/duracao/recarga, imunidade durante o roll, dano fora dele e ausencia de regressao nas acoes existentes; validacao visual humana pendente no Godot.
+- **Proximo passo:** Planner confirma plano de implementacao; Developer implementa e valida tecnicamente; Coordinator revisa o escopo e solicita validacao visual.
+
+## 2026-10-14 — GAME-008 — Plano tecnico confirmado
+
+- **Plano:** mapear Space em `project.godot`; implementar no `scripts/player.gd` a direcao do roll, tempo, cooldown, imunidade em `take_damage` e feedback visual, preservando `move_and_slide` e as acoes de combate existentes.
+- **Limite:** nao alterar `scripts/enemy.gd`; o problema preexistente de empurrao/arrasto registrado em `docs/BUGS.md` permanece fora desta tarefa.
+- **Proxima acao:** Developer implementa e executa verificacoes headless; Coordinator revisa diff e evidencias e solicita validacao visual humana antes de commit/push.
+
 ## 2026-10-14 — OPS-002 — Push automatico autorizado pelo usuario
 
 - **Pedido:** usuario esclareceu que autorizava push ao GitHub apos cada commit.
@@ -293,3 +324,30 @@ Historico append-only de sessoes e retomadas. Acrescente uma entrada por tarefa 
 - **Push de backlog:** commits locais concluidos anteriores, do `7fb3c56` ate `a806961`, e o commit da politica foram enviados com `git push origin main`; retorno confirmou `bece661..1ea4858 main -> main`.
 - **Verificacao:** `main` e `origin/main` sincronizadas, zero commits a frente/atras. Alteracoes atuais de GAME-007 continuam sem commit; `.vscode/` permaneceu fora.
 - **Proximo passo:** usuario valida visualmente GAME-007; apos conclusao e commit dessa tarefa, fazer push automaticamente.
+
+## 2026-10-14 — GAME-008 — Implementacao tecnica
+
+- **Implementacao:** Space inicia roll de 0,2 s a 1,5x a velocidade normal; recarga de 0,6 s; usa direcao atual ou ultima direcao valida, preserva colisao por `move_and_slide` e ignora dano apenas durante o roll.
+- **Feedback:** aro com progresso, direcao do roll e texto "ROLL".
+- **Arquivos:** `project.godot` e `scripts/player.gd`; `scripts/enemy.gd` nao foi alterado. Testes temporarios foram removidos.
+- **Validacao:** Godot 4.7.2 import/headless e teste focado a 60 FPS passaram para direcao, duracao, cooldown, imunidade/dano, colisao, ataque, bloqueio e aparo; `git diff --check` passou. Validacao visual humana pendente; sem commit/push.
+- **Proximo passo:** usuario valida a mudanca no Godot e relata qualquer ajuste.
+
+## 2026-10-14 — GAME-008 — Revisao do Coordinator
+
+- **Verificacao independente:** Godot 4.7.2 executou importacao headless e a arena por 240 frames sem erros; diff da implementacao foi revisado e `git diff --check` passou.
+- **Playtest humano:** ainda pendente; sera solicitado apos checklist do Playtester. O arrasto do inimigo descrito em `docs/BUGS.md` permanece fora do escopo.
+- **Git:** sem commit/push ate validar visualmente; depois aplica-se a autorizacao permanente de publicacao do usuario.
+
+## 2026-10-14 — GAME-008 — Checklist de playtest preparada
+
+- **Roteiro recebido:** verificar roll parado/em movimento/ultima direcao, cooldown, imunidade em impacto durante e fora do roll, colisao com barreiras e preservacao de ataque/defesa; observar aro, progresso, direcao e texto "ROLL".
+- **Execucao:** Playtester nao executou o jogo; validacao visual continua pendente com o usuario no Godot 4.7.2.
+- **Proximo passo:** usuario executar o roteiro e relatar resultado; so entao fechar, commitar e publicar a tarefa.
+
+## 2026-10-14 — GAME-008 — Validacao visual concluida
+
+- **Resultado:** usuario confirmou "Deu certo" apos testar o roll visualmente no Godot.
+- **Conclusao:** GAME-008 implementada, verificada tecnicamente e validada visualmente; feedback observavel aceito.
+- **Escopo do commit:** `project.godot`, `scripts/player.gd`, decisoes, guia, estado e diario. `.vscode/` e `docs/BUGS.md` permanecem fora.
+- **Proximo passo:** commit local isolado seguido de push automatico para `origin/main`.
