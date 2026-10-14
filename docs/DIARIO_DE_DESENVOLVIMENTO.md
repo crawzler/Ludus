@@ -498,3 +498,11 @@ Historico append-only de sessoes e retomadas. Acrescente uma entrada por tarefa 
 - **Arquivos da tarefa:** `project.godot` (somente a acao E para execucao), `scripts/player.gd`, `scripts/enemy.gd`, `docs/DECISOES.md`, `docs/GUIA_DE_DESENVOLVIMENTO.md`, `docs/ESTADO_ATUAL.md` e este diario.
 - **Preservacao:** o diff de formatacao preexistente em `project.godot` sera excluido seletivamente; `.vscode/` e `docs/BUGS.md` permanecem fora do escopo. Alteracoes de documentacao e scripts revisadas como GAME-010 serao staged; nao ha outras alteracoes staged nesta retomada.
 - **Proxima acao:** revisar diff completo, verificar stage seletivo, criar commit com trailer `Co-authored-by` e fazer push da branch `main`. Nao alterar versao, estagio ou escopo.
+
+## 2026-10-14 — GAME-010 — Publicada
+
+- **Commit:** `1893ef7` — `feat: add enemy execution and weapon durability`; inclui `Co-authored-by: GitHub Copilot <copilot@users.noreply.github.com>`.
+- **Escopo revisado e publicado:** `project.godot` (somente a hunk de `execute_enemy`/E), `scripts/player.gd`, `scripts/enemy.gd`, `docs/DECISOES.md`, `docs/GUIA_DE_DESENVOLVIMENTO.md`, `docs/ESTADO_ATUAL.md` e este diario.
+- **Push:** commit `1893ef7` enviado com sucesso a `origin/main`; branch local e remota ficaram sincronizadas.
+- **Preservacao:** a formatacao preexistente em `project.godot`, `.vscode/` e `docs/BUGS.md` nao entrou no commit e permanece local.
+- **Proxima acao:** nenhuma tarefa ativa. Aguardar novo pedido do usuario e seguir o guia; manter as alteracoes locais preexistentes.

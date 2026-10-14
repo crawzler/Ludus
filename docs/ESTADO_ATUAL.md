@@ -4,20 +4,20 @@ Este e o checkpoint operacional unico. Substitua as secoes de tarefa/checkpoint 
 
 ## Checkpoint
 
-- **Atualizado em:** 2026-10-14 15:29 (-03:00)
-- **Marco:** GAME-010 concluida; validacao manual confirmada pelo usuario, fechamento Git em andamento.
+- **Atualizado em:** 2026-10-14 15:32 (-03:00)
+- **Marco:** GAME-010 concluida e publicada; validacao manual confirmada pelo usuario.
 - **Estado geral:** versao `0.1.0-pre-alpha`; GAME-009 e GAME-010 concluidas. Execucao, feedback visual e durabilidade foram confirmados pelo usuario; sem mudanca de versao/estagio.
 - **Projeto/engine:** `project.godot` declara Godot 4.7. VS Code tem extensao `geequlim.godot-tools`; `.vscode/settings.json` aponta para `e:\Godot_v4.7.2-stable_win64.exe`.
-- **Branch:** `main`, sincronizada com `origin/main` no commit `bb619d1` (`docs: record GAME-009 validation and publication`).
+- **Branch:** `main`, sincronizada com `origin/main` no commit `1893ef7` (`feat: add enemy execution and weapon durability`).
 - **Commit da configuracao de agentes/documentacao:** `7fb3c56` — `docs: configure continuity and automatic local commits`.
 - **Remoto observado:** `origin` aponta para `https://github.com/crawzler/Ludus.git`; `main` e `origin/main` estao sincronizadas apos o fechamento da GAME-008.
 - **Politica de publicacao:** usuario autorizou push automatico ao GitHub apos cada commit de tarefa concluida e validada. Nao enviar alteracoes sem commit nem tarefas incompletas.
-- **Git nesta retomada:** branch `main` no commit `bb619d1`, sincronizada com `origin/main`. Alteracoes de GAME-010 em scripts e documentacao estao sem stage; a formatacao preexistente em `project.godot`, `.vscode/` e `docs/BUGS.md` sera preservada fora do commit.
+- **Git apos publicacao:** `main` e `origin/main` estao sincronizadas em `1893ef7`. Permanecem locais, fora do commit, somente formatacao preexistente em `project.godot`, `.vscode/` e `docs/BUGS.md`.
 
 ## Tarefa concluida mais recente — GAME-010
 
 - **ID:** GAME-010 (execucao do inimigo e durabilidade das armas)
-- **Status:** CONCLUIDA — validada manualmente pelo usuario; revisao/staging seletivo e publicacao em andamento.
+- **Status:** CONCLUIDA — validada manualmente pelo usuario, commitada e publicada.
 - **Responsavel:** LUDUS Coordinator; validacao manual executada e confirmada pelo usuario.
 - **Pedido:** o usuario aprovou integralmente a proposta operacional para execucao e condicao das armas e autorizou continuar com a implementacao.
 - **Objetivo:** implementar a finalizacao manual do inimigo em baixa vida e a durabilidade independente das duas armas, com feedback legivel.
@@ -27,7 +27,7 @@ Este e o checkpoint operacional unico. Substitua as secoes de tarefa/checkpoint 
 - **Criterio observavel:** E com alvo elegivel informa sucesso; sem alvo elegivel/alcançavel informa indisponibilidade; nenhuma tentativa e apresentada falsamente como sucesso. A validacao manual reportada pelo usuario encerra os cenarios de gameplay, junto das verificacoes tecnicas documentadas abaixo.
 - **Delimitacao do Planner:** recomendou manter a mudanca somente em `scripts/player.gd`, aproveitar os desenhos/temporizadores existentes, exibir mensagens textuais distintas para sucesso e indisponibilidade, conferir sobreposicao e nao alterar regras. O Planner informou que nao pode ler o workspace; escopo foi conferido pelo Coordinator nos arquivos reais.
 - **Playtest:** o LUDUS Playtester preparou criterios, mas nao executou o jogo. O usuario confirmou manualmente “Tudo certo, funcionando”; por instrucao explicita, essa mensagem e aceita como confirmacao dos cenarios de gameplay, incluindo mecanica e feedback visual. Nao se atribuem ao usuario observacoes item a item que nao foram relatadas.
-- **Responsavel e proximo passo:** LUDUS Coordinator conclui revisao do diff, staging seletivo, commit e push; preservar alteracoes preexistentes fora do escopo.
+- **Responsavel e proximo passo:** LUDUS Coordinator encerrou GAME-010. Nenhuma tarefa de gameplay esta ativa; preservar as alteracoes locais preexistentes e retomar a proxima solicitacao conforme o guia.
 - **Escopo/arquivos previstos:** `project.godot` (adicionar entrada E para execucao), `scripts/player.gd` (alvo elegivel, desgaste quando um ataque comum causa dano, bloqueio de dano de arma quebrada e exibicao da condicao junto ao nome) e `scripts/enemy.gd` (finalizacao imediata e protecao de estado/vida). Cenas apenas se a implementacao exigir ajuste estritamente necessario; nenhum outro sistema.
 - **Regras aprovadas:** execucao disponivel quando inimigo tem 1 HP e esta ao alcance da arma equipada; E executa e derrota imediatamente; ataques comuns tambem podem derrotar. Cada arma tem 2 pontos de durabilidade independentes; cada ataque comum que acerta e causa dano consome 1, um miss nao desgasta; execucao nao desgasta. Durabilidade zero significa quebrada, permanece ate reiniciar a arena e causa 0 dano. A condicao deve aparecer junto ao nome da arma.
 - **Criterio de conclusao:** E so finaliza alvo elegivel ao alcance; desgaste independente apenas em acerto comum; arma quebrada causa zero dano e persiste durante a arena; nome comunica condicao; verificacoes tecnicas passam e comportamento jogavel e confirmado pelo usuario. Criterios atendidos para fechamento desta tarefa.
@@ -38,8 +38,8 @@ Este e o checkpoint operacional unico. Substitua as secoes de tarefa/checkpoint 
 - **Bloqueios/riscos:** nenhum bloqueio de conclusao reportado. Limite tecnico: headless nao simula entradas nem avalia legibilidade; a confirmacao manual do usuario cobre os cenarios de gameplay conforme instrucao. O E procura somente o grupo `enemy`; ataques comuns usam `attackable`, portanto o alvo de treino pode interceptar golpes se estiver mais proximo.
 - **Roteiro manual de referencia:** mantido o roteiro preparado para rastreabilidade; a confirmacao “Tudo certo, funcionando” e considerada pelo usuario como aceite dos cenarios de gameplay, sem inferir resultados detalhados nao descritos.
 - **Complemento de alcance da execucao:** com o inimigo a 1/3 e cerca de 60 px entre centros, usar espada (alcance 48) e E deve falhar; sem mudar a distancia, pressionar Q para lança (alcance 80) e E deve executar. Confirmar que lança permanece em 2/2. Se nao for possivel manter ou estimar a distancia, registrar este caso como nao testado.
-- **Proxima acao exata:** concluir revisao final, preparar somente os arquivos/hunks de GAME-010, criar commit descritivo com trailer de coautoria e enviar `main` ao remoto. Preservar formatacao preexistente em `project.godot`, `.vscode/` e `docs/BUGS.md`; sem alterar versao/escopo.
-- **Entrada do diario:** `docs/DIARIO_DE_DESENVOLVIMENTO.md`, 2026-10-14 — GAME-010, “Conclusao validada pelo usuario”.
+- **Proxima acao exata:** nenhuma acao pendente de GAME-010. Aguardar o proximo pedido e usar a ordem/criterios do guia; nao iniciar outro incremento por inferencia.
+- **Entrada do diario:** `docs/DIARIO_DE_DESENVOLVIMENTO.md`, 2026-10-14 — GAME-010, “Conclusao validada pelo usuario” e “Publicada”.
 
 ## Tarefa concluida anterior
 
