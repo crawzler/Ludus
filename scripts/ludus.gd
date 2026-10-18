@@ -11,6 +11,9 @@ const ARENA_SCENE: String = "res://scenes/arena.tscn"
 @onready var first_combatant_status: Label = $CenterContainer/RosterPanel/Content/Roster/FirstCombatantCard/Content/Status
 @onready var second_combatant_status: Label = $CenterContainer/RosterPanel/Content/Roster/SecondCombatantCard/Content/Status
 @onready var third_combatant_status: Label = $CenterContainer/RosterPanel/Content/Roster/ThirdCombatantCard/Content/Status
+@onready var first_combatant_portrait: TextureRect = $CenterContainer/RosterPanel/Content/Roster/FirstCombatantCard/Content/Portrait
+@onready var second_combatant_portrait: TextureRect = $CenterContainer/RosterPanel/Content/Roster/SecondCombatantCard/Content/Portrait
+@onready var third_combatant_portrait: TextureRect = $CenterContainer/RosterPanel/Content/Roster/ThirdCombatantCard/Content/Portrait
 @onready var first_combatant_card: PanelContainer = $CenterContainer/RosterPanel/Content/Roster/FirstCombatantCard
 @onready var second_combatant_card: PanelContainer = $CenterContainer/RosterPanel/Content/Roster/SecondCombatantCard
 @onready var third_combatant_card: PanelContainer = $CenterContainer/RosterPanel/Content/Roster/ThirdCombatantCard
@@ -113,12 +116,18 @@ func _show_starting_candidate_selection() -> void:
 		second_combatant_status,
 		third_combatant_status,
 	]
+	var candidate_portraits: Array[TextureRect] = [
+		first_combatant_portrait,
+		second_combatant_portrait,
+		third_combatant_portrait,
+	]
 
 	for candidate_index in range(LudusState.starting_candidates.size()):
 		var candidate: Dictionary = LudusState.starting_candidates[candidate_index]
 		candidate_names[candidate_index].text = candidate["name"]
+		_set_card_portrait(candidate_portraits[candidate_index], candidate)
 		candidate_statuses[candidate_index].text = (
-			"Espada: %d/5\nLança: %d/5"
+			"Espada: %d/100\nLança: %d/100"
 			% [candidate["sword_proficiency"], candidate["spear_proficiency"]]
 		)
 		candidate_buttons[candidate_index].text = "Escolher este"
@@ -163,6 +172,11 @@ func _refresh_roster_display() -> void:
 		second_combatant_status,
 		third_combatant_status,
 	]
+	var slot_portraits: Array[TextureRect] = [
+		first_combatant_portrait,
+		second_combatant_portrait,
+		third_combatant_portrait,
+	]
 	var slot_buttons: Array[Button] = [
 		first_combatant_button,
 		second_combatant_button,
@@ -177,11 +191,14 @@ func _refresh_roster_display() -> void:
 		slot_names[slot_index].text = slot_id
 		if candidate.is_empty():
 			slot_statuses[slot_index].text = "Vaga vazia"
+			slot_portraits[slot_index].texture = null
+			slot_portraits[slot_index].visible = false
 			slot_buttons[slot_index].visible = false
 			continue
 
+		_set_card_portrait(slot_portraits[slot_index], candidate)
 		slot_statuses[slot_index].text = (
-			"%s\nEspada: %d/5 | Lança: %d/5"
+			"%s\nEspada: %d/100 | Lança: %d/100"
 			% [
 				candidate["name"],
 				candidate["sword_proficiency"],
@@ -198,6 +215,17 @@ func _refresh_roster_display() -> void:
 		slot_buttons[slot_index].button_pressed = (
 			LudusState.selected_combatant == slot_id
 		)
+
+
+func _set_card_portrait(portrait_rect: TextureRect, candidate: Dictionary) -> void:
+	var portrait_id: int = candidate["portrait_id"]
+	var portrait_path: String = (
+		"res://art/portraits/Pixel_art_Portrait_%d.png" % portrait_id
+	)
+	var portrait_texture: Texture2D = load(portrait_path) as Texture2D
+	assert(portrait_texture != null, "Não foi possível carregar o retrato: %s" % portrait_path)
+	portrait_rect.texture = portrait_texture
+	portrait_rect.visible = true
 
 
 func _on_combatant_button_pressed(combatant_name: String) -> void:
@@ -308,6 +336,11 @@ func _refresh_recruitment_panel() -> void:
 		second_combatant_status,
 		third_combatant_status,
 	]
+	var portraits: Array[TextureRect] = [
+		first_combatant_portrait,
+		second_combatant_portrait,
+		third_combatant_portrait,
+	]
 	var cards: Array[PanelContainer] = [
 		first_combatant_card,
 		second_combatant_card,
@@ -326,8 +359,9 @@ func _refresh_recruitment_panel() -> void:
 		buttons[card_index].toggle_mode = false
 		buttons[card_index].button_pressed = false
 		names[card_index].text = offer["name"]
+		_set_card_portrait(portraits[card_index], offer)
 		statuses[card_index].text = (
-			"Espada: %d/5\nLança: %d/5"
+			"Espada: %d/100\nLança: %d/100"
 			% [offer["sword_proficiency"], offer["spear_proficiency"]]
 		)
 		buttons[card_index].visible = true

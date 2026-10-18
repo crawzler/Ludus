@@ -19,13 +19,18 @@ func _run_tests() -> void:
 		quit(1)
 		return
 	var offers_snapshot: Array = state.starting_candidates.duplicate(true)
+	var portrait_ids: Array[int] = []
 	for candidate in offers_snapshot:
 		for proficiency_key in ["sword_proficiency", "spear_proficiency"]:
 			var proficiency: Variant = candidate.get(proficiency_key)
 			_check(
-				typeof(proficiency) == TYPE_INT and proficiency >= 1 and proficiency <= 5,
-				"%s é inteiro entre 1 e 5" % proficiency_key
+				typeof(proficiency) == TYPE_INT and proficiency >= 0 and proficiency <= 100,
+				"%s é inteiro entre 0 e 100" % proficiency_key
 			)
+		var portrait_id: int = candidate.get("portrait_id", -1)
+		_check(portrait_id >= 1 and portrait_id <= 25, "candidato tem ID de retrato válido")
+		_check(not portrait_ids.has(portrait_id), "candidatos iniciais não repetem retrato")
+		portrait_ids.append(portrait_id)
 
 	_check(state.roster.size() == 3, "elenco oferece exatamente três vagas")
 	_check(not state.has_selected_starting_candidate, "sessão inicia sem escolha automática")
@@ -51,11 +56,23 @@ func _run_tests() -> void:
 			"CenterContainer/RosterPanel/Content/Roster/%sCombatantCard/Content/Status"
 			% candidate_card
 		) as Label
+		var candidate_portrait := ludus_scene.get_node(
+			"CenterContainer/RosterPanel/Content/Roster/%sCombatantCard/Content/Portrait"
+			% candidate_card
+		) as TextureRect
 		_check(candidate_button.visible, "cartão %s oferece uma escolha" % candidate_card)
 		_check(
 			candidate_status.text.contains("Espada:")
-			and candidate_status.text.contains("Lança:"),
+			and candidate_status.text.contains("Lança:")
+			and candidate_status.text.contains("/100"),
 			"oferta %s mostra as duas proficiências" % candidate_card
+		)
+		_check(
+			candidate_portrait.visible
+			and candidate_portrait.texture != null
+			and candidate_portrait.texture.resource_path
+			== _portrait_path(offers_snapshot[["First", "Second", "Third"].find(candidate_card)]["portrait_id"]),
+			"cartão %s mostra o retrato do candidato" % candidate_card
 		)
 
 	var second_candidate_button := ludus_scene.get_node(
@@ -102,6 +119,9 @@ func _run_tests() -> void:
 	var first_roster_status := ludus_scene.get_node(
 		"CenterContainer/RosterPanel/Content/Roster/FirstCombatantCard/Content/Status"
 	) as Label
+	var first_roster_portrait := ludus_scene.get_node(
+		"CenterContainer/RosterPanel/Content/Roster/FirstCombatantCard/Content/Portrait"
+	) as TextureRect
 	var second_roster_status := ludus_scene.get_node(
 		"CenterContainer/RosterPanel/Content/Roster/SecondCombatantCard/Content/Status"
 	) as Label
@@ -110,8 +130,15 @@ func _run_tests() -> void:
 	) as Label
 	_check(back_button.visible, "painel de elenco mantém ação para voltar ao hub")
 	_check(
-		first_roster_status.text.contains("Escravo 2"),
-		"painel de elenco mostra o candidato escolhido"
+		first_roster_status.text.contains("Escravo 2")
+		and first_roster_status.text.contains("/100"),
+		"painel de elenco mostra candidato e proficiências 0–100"
+	)
+	_check(
+		first_roster_portrait.visible
+		and first_roster_portrait.texture.resource_path
+		== _portrait_path(offers_snapshot[1]["portrait_id"]),
+		"elenco mantém o retrato do candidato escolhido"
 	)
 	_check(second_roster_status.text == "Vaga vazia", "painel mostra a segunda vaga vazia")
 	_check(third_roster_status.text == "Vaga vazia", "painel mostra a terceira vaga vazia")
@@ -142,6 +169,14 @@ func _run_tests() -> void:
 		state.starting_candidates == offers_snapshot,
 		"ofertas continuam iguais após retornar ao Ludus"
 	)
+	var reopened_portrait := reopened_ludus.get_node(
+		"CenterContainer/RosterPanel/Content/Roster/FirstCombatantCard/Content/Portrait"
+	) as TextureRect
+	_check(
+		reopened_portrait.texture.resource_path
+		== _portrait_path(offers_snapshot[1]["portrait_id"]),
+		"reabrir o Ludus mantém o retrato do gladiador no elenco"
+	)
 
 	if failures == 0:
 		print("LUDUS-005: todos os testes focados passaram.")
@@ -156,3 +191,7 @@ func _check(condition: bool, description: String) -> void:
 		return
 	failures += 1
 	push_error("Falha no teste focado: %s" % description)
+
+
+func _portrait_path(portrait_id: int) -> String:
+	return "res://art/portraits/Pixel_art_Portrait_%d.png" % portrait_id

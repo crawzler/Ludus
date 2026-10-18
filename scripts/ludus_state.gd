@@ -6,8 +6,9 @@ signal contracts_updated()
 
 const COMBATANT_NAMES: PackedStringArray = ["Gladiador 1", "Gladiador 2", "Gladiador 3"]
 const STARTING_CANDIDATE_COUNT: int = 3
-const PROFICIENCY_MIN: int = 1
-const PROFICIENCY_MAX: int = 5
+const PROFICIENCY_MIN: int = 0
+const PROFICIENCY_MAX: int = 100
+const PORTRAIT_COUNT: int = 25
 const STARTING_COINS: int = 100
 const RECRUITMENT_COST: int = 30
 const INDIVIDUAL_REWARD: int = 40
@@ -42,10 +43,12 @@ var last_combat_result: CombatResult = CombatResult.NONE
 var coins: int = STARTING_COINS
 var contracts: Dictionary = {}
 var candidate_rng: RandomNumberGenerator = RandomNumberGenerator.new()
+var available_portrait_ids: Array[int] = []
 
 
 func _ready() -> void:
 	candidate_rng.randomize()
+	_initialize_portrait_pool()
 	_generate_starting_candidates()
 	_initialize_roster()
 	_initialize_contracts()
@@ -63,7 +66,20 @@ func _generate_candidate(candidate_name: String) -> Dictionary:
 		"name": candidate_name,
 		"sword_proficiency": candidate_rng.randi_range(PROFICIENCY_MIN, PROFICIENCY_MAX),
 		"spear_proficiency": candidate_rng.randi_range(PROFICIENCY_MIN, PROFICIENCY_MAX),
+		"portrait_id": _take_random_portrait_id(),
 	}
+
+
+func _initialize_portrait_pool() -> void:
+	available_portrait_ids.clear()
+	for portrait_id in range(1, PORTRAIT_COUNT + 1):
+		available_portrait_ids.append(portrait_id)
+
+
+func _take_random_portrait_id() -> int:
+	assert(not available_portrait_ids.is_empty(), "Todos os retratos disponíveis já foram atribuídos.")
+	var portrait_index: int = candidate_rng.randi_range(0, available_portrait_ids.size() - 1)
+	return available_portrait_ids.pop_at(portrait_index)
 
 
 func _initialize_roster() -> void:

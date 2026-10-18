@@ -39,19 +39,41 @@ func _run_tests() -> void:
 
 	var offers_snapshot: Array = state.recruitment_offers.duplicate(true)
 	var initial_candidate_names: Array[String] = []
+	var portrait_ids: Array[int] = []
 	for candidate in state.starting_candidates:
 		initial_candidate_names.append(candidate["name"])
+		portrait_ids.append(candidate["portrait_id"])
 	for offer in offers_snapshot:
 		_check(
 			not initial_candidate_names.has(offer["name"]),
 			"oferta de contratação é diferente das ofertas iniciais"
 		)
 		_check(
-			offer["sword_proficiency"] >= 1
-			and offer["sword_proficiency"] <= 5
-			and offer["spear_proficiency"] >= 1
-			and offer["spear_proficiency"] <= 5,
-			"oferta mostra proficiências dentro da escala"
+			typeof(offer["sword_proficiency"]) == TYPE_INT
+			and offer["sword_proficiency"] >= 0
+			and offer["sword_proficiency"] <= 100
+			and typeof(offer["spear_proficiency"]) == TYPE_INT
+			and offer["spear_proficiency"] >= 0
+			and offer["spear_proficiency"] <= 100,
+			"oferta mostra proficiências inteiras entre 0 e 100"
+		)
+		_check(
+			offer["portrait_id"] >= 1
+			and offer["portrait_id"] <= 25
+			and not portrait_ids.has(offer["portrait_id"]),
+			"oferta recebe retrato válido e não repetido na sessão"
+		)
+		portrait_ids.append(offer["portrait_id"])
+	for offer_card in ["First", "Second"]:
+		var offer_status := ludus_scene.get_node(
+			"CenterContainer/RosterPanel/Content/Roster/%sCombatantCard/Content/Status"
+			% offer_card
+		) as Label
+		_check(
+			offer_status.text.contains("Espada:")
+			and offer_status.text.contains("Lança:")
+			and offer_status.text.contains("/100"),
+			"cartão de contratação %s exibe as proficiências 0–100" % offer_card
 		)
 
 	var market_info := ludus_scene.get_node(
@@ -66,6 +88,15 @@ func _run_tests() -> void:
 	var offer_button := ludus_scene.get_node(
 		"CenterContainer/RosterPanel/Content/Roster/FirstCombatantCard/Content/SelectButton"
 	) as Button
+	var offer_portrait := ludus_scene.get_node(
+		"CenterContainer/RosterPanel/Content/Roster/FirstCombatantCard/Content/Portrait"
+	) as TextureRect
+	_check(
+		offer_portrait.visible
+		and offer_portrait.texture != null
+		and offer_portrait.texture.resource_path == _portrait_path(offers_snapshot[0]["portrait_id"]),
+		"cartão de contratação mostra o retrato associado à oferta"
+	)
 	_check(offer_button.text.contains("30 moedas"), "botão informa o preço da oferta")
 	offer_button.pressed.emit()
 	_check(state.coins == 70, "compra desconta o custo uma vez")
@@ -73,6 +104,11 @@ func _run_tests() -> void:
 		state.get_roster_slot("Gladiador 2").get("candidate", {}).get("name", "")
 		== offers_snapshot[0]["name"],
 		"contratação ocupa a próxima vaga livre"
+	)
+	_check(
+		state.get_roster_slot("Gladiador 2").get("candidate", {}).get("portrait_id", -1)
+		== offers_snapshot[0]["portrait_id"],
+		"gladiador contratado mantém o retrato da oferta"
 	)
 	_check(
 		state.get_roster_slot("Gladiador 3").get("candidate", {}).is_empty(),
@@ -104,6 +140,16 @@ func _run_tests() -> void:
 		state.get_roster_slot("Gladiador 2").get("candidate", {}).get("name", "")
 		== offers_snapshot[0]["name"],
 		"trocar de cena mantém a contratação no elenco"
+	)
+	offer_portrait = ludus_scene.get_node(
+		"CenterContainer/RosterPanel/Content/Roster/FirstCombatantCard/Content/Portrait"
+	) as TextureRect
+	_check(
+		offer_portrait.visible
+		and offer_portrait.texture != null
+		and offer_portrait.texture.resource_path
+		== _portrait_path(offers_snapshot[0]["portrait_id"]),
+		"trocar de cena mantém retrato na oferta"
 	)
 	offer_button = ludus_scene.get_node(
 		"CenterContainer/RosterPanel/Content/Roster/FirstCombatantCard/Content/SelectButton"
@@ -160,7 +206,11 @@ func _same_offer_profiles(actual: Array[Dictionary], expected: Array) -> bool:
 	if actual.size() != expected.size():
 		return false
 	for offer_index in range(actual.size()):
-		for profile_key in ["name", "sword_proficiency", "spear_proficiency"]:
+		for profile_key in ["name", "sword_proficiency", "spear_proficiency", "portrait_id"]:
 			if actual[offer_index].get(profile_key) != expected[offer_index].get(profile_key):
 				return false
 	return true
+
+
+func _portrait_path(portrait_id: int) -> String:
+	return "res://art/portraits/Pixel_art_Portrait_%d.png" % portrait_id
