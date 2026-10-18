@@ -11,8 +11,12 @@ const ARENA_SCENE: String = "res://scenes/arena.tscn"
 @onready var first_combatant_status: Label = $CenterContainer/RosterPanel/Content/Roster/FirstCombatantCard/Content/Status
 @onready var second_combatant_status: Label = $CenterContainer/RosterPanel/Content/Roster/SecondCombatantCard/Content/Status
 @onready var third_combatant_status: Label = $CenterContainer/RosterPanel/Content/Roster/ThirdCombatantCard/Content/Status
+@onready var first_combatant_card: PanelContainer = $CenterContainer/RosterPanel/Content/Roster/FirstCombatantCard
+@onready var second_combatant_card: PanelContainer = $CenterContainer/RosterPanel/Content/Roster/SecondCombatantCard
+@onready var third_combatant_card: PanelContainer = $CenterContainer/RosterPanel/Content/Roster/ThirdCombatantCard
 @onready var subtitle_label: Label = $CenterContainer/RosterPanel/Content/Subtitle
 @onready var description_label: Label = $CenterContainer/RosterPanel/Content/Description
+@onready var recruitment_info_label: Label = $CenterContainer/RosterPanel/Content/RecruitmentInfoLabel
 @onready var roster_container: HBoxContainer = $CenterContainer/RosterPanel/Content/Roster
 @onready var selection_label: Label = $CenterContainer/RosterPanel/Content/SelectionLabel
 @onready var equipment_heading: Label = $CenterContainer/RosterPanel/Content/EquipmentHeading
@@ -34,17 +38,17 @@ const ARENA_SCENE: String = "res://scenes/arena.tscn"
 @onready var back_button: Button = $CenterContainer/RosterPanel/Content/BackButton
 @onready var contracts_plate: Button = $HubPlates/ContractsPlate
 @onready var roster_plate: Button = $HubPlates/RosterPlate
+@onready var recruitment_plate: Button = $HubPlates/RecruitmentPlate
 @onready var equipment_plate: Button = $HubPlates/EquipmentPlate
 @onready var arena_plate: Button = $HubPlates/ArenaPlate
 
+var active_panel: String = ""
+
 
 func _ready() -> void:
-	first_combatant_button.pressed.connect(_on_combatant_button_pressed.bind("Gladiador 1"))
-	second_combatant_button.pressed.connect(_on_combatant_button_pressed.bind("Gladiador 2"))
-	third_combatant_button.pressed.connect(_on_combatant_button_pressed.bind("Gladiador 3"))
-	first_combatant_button.pressed.connect(_on_starting_candidate_button_pressed.bind(0))
-	second_combatant_button.pressed.connect(_on_starting_candidate_button_pressed.bind(1))
-	third_combatant_button.pressed.connect(_on_starting_candidate_button_pressed.bind(2))
+	first_combatant_button.pressed.connect(_on_combatant_card_button_pressed.bind(0))
+	second_combatant_button.pressed.connect(_on_combatant_card_button_pressed.bind(1))
+	third_combatant_button.pressed.connect(_on_combatant_card_button_pressed.bind(2))
 	sword_button.pressed.connect(_on_weapon_button_pressed.bind(LudusState.Weapon.SWORD))
 	spear_button.pressed.connect(_on_weapon_button_pressed.bind(LudusState.Weapon.SPEAR))
 	accept_individual_contract_button.pressed.connect(_on_accept_individual_contract_pressed)
@@ -52,6 +56,7 @@ func _ready() -> void:
 	arena_button.pressed.connect(_on_arena_button_pressed)
 	contracts_plate.pressed.connect(_on_contracts_plate_pressed)
 	roster_plate.pressed.connect(_on_roster_plate_pressed)
+	recruitment_plate.pressed.connect(_on_recruitment_plate_pressed)
 	equipment_plate.pressed.connect(_on_equipment_plate_pressed)
 	arena_plate.pressed.connect(_on_arena_button_pressed)
 	back_button.pressed.connect(_on_back_button_pressed)
@@ -64,12 +69,14 @@ func _ready() -> void:
 		_refresh_roster_display()
 	else:
 		_show_starting_candidate_selection()
+	recruitment_plate.visible = _has_empty_roster_slot()
 	_update_weapon_selection(LudusState.selected_weapon)
 	_update_last_combat_result()
 	_refresh_contract_panel()
 
 
 func _show_starting_candidate_selection() -> void:
+	active_panel = "initial"
 	hub_plates.visible = false
 	center_container.visible = true
 	back_button.visible = false
@@ -88,6 +95,8 @@ func _show_starting_candidate_selection() -> void:
 	wallet_panel.visible = false
 	last_combat_result_label.visible = false
 	arena_button.visible = false
+	recruitment_info_label.visible = false
+	_set_combatant_cards_visible(true)
 
 	var candidate_buttons: Array[Button] = [
 		first_combatant_button,
@@ -113,19 +122,37 @@ func _show_starting_candidate_selection() -> void:
 			% [candidate["sword_proficiency"], candidate["spear_proficiency"]]
 		)
 		candidate_buttons[candidate_index].text = "Escolher este"
+		candidate_buttons[candidate_index].toggle_mode = true
 		candidate_buttons[candidate_index].button_pressed = false
 		candidate_buttons[candidate_index].disabled = false
 
 
-func _on_starting_candidate_button_pressed(candidate_index: int) -> void:
+func _on_combatant_card_button_pressed(card_index: int) -> void:
+	if active_panel == "initial":
+		_select_starting_candidate(card_index)
+	elif active_panel == "recruitment":
+		_purchase_recruitment_offer(card_index)
+	elif card_index < LudusState.COMBATANT_NAMES.size():
+		_on_combatant_button_pressed(LudusState.COMBATANT_NAMES[card_index])
+
+
+func _select_starting_candidate(candidate_index: int) -> void:
 	if not LudusState.select_starting_candidate(candidate_index):
 		return
 	_refresh_roster_display()
 	center_container.visible = false
 	hub_plates.visible = true
+	recruitment_plate.visible = _has_empty_roster_slot()
+
+
+func _set_combatant_cards_visible(is_visible: bool) -> void:
+	first_combatant_card.visible = is_visible
+	second_combatant_card.visible = is_visible
+	third_combatant_card.visible = is_visible
 
 
 func _refresh_roster_display() -> void:
+	_set_combatant_cards_visible(true)
 	var slot_names: Array[Label] = [
 		first_combatant_name,
 		second_combatant_name,
@@ -143,6 +170,7 @@ func _refresh_roster_display() -> void:
 	]
 
 	for slot_index in range(LudusState.COMBATANT_NAMES.size()):
+		slot_buttons[slot_index].toggle_mode = true
 		var slot_id: String = LudusState.COMBATANT_NAMES[slot_index]
 		var slot: Dictionary = LudusState.get_roster_slot(slot_id)
 		var candidate: Dictionary = slot.get("candidate", {})
@@ -161,7 +189,11 @@ func _refresh_roster_display() -> void:
 			]
 		)
 		slot_buttons[slot_index].visible = true
-		slot_buttons[slot_index].text = "Selecionado para a próxima luta"
+		slot_buttons[slot_index].text = (
+			"Selecionado para a próxima luta"
+			if LudusState.selected_combatant == slot_id
+			else "Selecionar"
+		)
 		slot_buttons[slot_index].disabled = false
 		slot_buttons[slot_index].button_pressed = (
 			LudusState.selected_combatant == slot_id
@@ -246,6 +278,81 @@ func _on_roster_plate_pressed() -> void:
 	_show_management_panel("roster")
 
 
+func _on_recruitment_plate_pressed() -> void:
+	LudusState.prepare_recruitment_offers()
+	_show_management_panel("recruitment")
+	_refresh_recruitment_panel()
+
+
+func _purchase_recruitment_offer(offer_index: int) -> void:
+	if not LudusState.purchase_recruitment_offer(offer_index):
+		return
+	_refresh_recruitment_panel()
+	recruitment_plate.visible = _has_empty_roster_slot()
+
+
+func _refresh_recruitment_panel() -> void:
+	var offers: Array[Dictionary] = LudusState.recruitment_offers
+	var buttons: Array[Button] = [
+		first_combatant_button,
+		second_combatant_button,
+		third_combatant_button,
+	]
+	var names: Array[Label] = [
+		first_combatant_name,
+		second_combatant_name,
+		third_combatant_name,
+	]
+	var statuses: Array[Label] = [
+		first_combatant_status,
+		second_combatant_status,
+		third_combatant_status,
+	]
+	var cards: Array[PanelContainer] = [
+		first_combatant_card,
+		second_combatant_card,
+		third_combatant_card,
+	]
+	var has_empty_slot: bool = _has_empty_roster_slot()
+
+	for card_index in range(cards.size()):
+		var has_offer: bool = card_index < offers.size()
+		cards[card_index].visible = has_offer
+		if not has_offer:
+			continue
+
+		var offer: Dictionary = offers[card_index]
+		var is_purchased: bool = offer.get("is_purchased", false)
+		buttons[card_index].toggle_mode = false
+		buttons[card_index].button_pressed = false
+		names[card_index].text = offer["name"]
+		statuses[card_index].text = (
+			"Espada: %d/5\nLança: %d/5"
+			% [offer["sword_proficiency"], offer["spear_proficiency"]]
+		)
+		buttons[card_index].visible = true
+		buttons[card_index].text = (
+			"Contratado"
+			if is_purchased
+			else "Contratar — %d moedas" % LudusState.RECRUITMENT_COST
+		)
+		buttons[card_index].disabled = (
+			is_purchased or not has_empty_slot or LudusState.coins < LudusState.RECRUITMENT_COST
+		)
+
+	recruitment_info_label.text = (
+		"Saldo: %d moedas | Custo por contratação: %d moedas"
+		% [LudusState.coins, LudusState.RECRUITMENT_COST]
+	)
+
+
+func _has_empty_roster_slot() -> bool:
+	for combatant_name in LudusState.COMBATANT_NAMES:
+		if LudusState.get_roster_slot(combatant_name).get("candidate", {}).is_empty():
+			return true
+	return false
+
+
 func _on_equipment_plate_pressed() -> void:
 	_show_management_panel("equipment")
 
@@ -258,28 +365,43 @@ func _on_back_button_pressed() -> void:
 func _show_management_panel(panel_name: String) -> void:
 	var show_contracts: bool = panel_name == "contracts"
 	var show_roster: bool = panel_name == "roster"
+	var show_recruitment: bool = panel_name == "recruitment"
 	var show_equipment: bool = panel_name == "equipment"
-	if not show_contracts and not show_roster and not show_equipment:
+	if not show_contracts and not show_roster and not show_recruitment and not show_equipment:
 		push_error("Painel de gestão desconhecido: %s" % panel_name)
 		return
 
+	active_panel = panel_name
 	hub_plates.visible = false
 	center_container.visible = true
 	back_button.visible = true
-	title_label.text = "Contratos" if show_contracts else "Elenco" if show_roster else "Equipamento"
-	subtitle_label.visible = false
-	description_label.visible = not show_contracts
+	title_label.text = (
+		"Contratos"
+		if show_contracts
+		else "Elenco"
+		if show_roster
+		else "Contratar gladiadores"
+		if show_recruitment
+		else "Equipamento"
+	)
+	subtitle_label.visible = show_recruitment
+	subtitle_label.text = "NOVOS ESCRAVOS DISPONÍVEIS"
+	description_label.visible = show_roster or show_recruitment or show_equipment
 	description_label.text = (
 		"Selecione quem será preparado para a próxima luta."
 		if show_roster
+		else "Escolha um novo gladiador para ocupar uma vaga vazia."
+		if show_recruitment
 		else "Escolha a arma inicial para a próxima luta."
 	)
-	roster_container.visible = show_roster
+	_set_combatant_cards_visible(show_roster or show_recruitment)
+	roster_container.visible = show_roster or show_recruitment
 	selection_label.visible = show_roster
 	equipment_heading.visible = show_equipment
 	equipment_options.visible = show_equipment
 	weapon_selection_label.visible = show_equipment
 	wallet_panel.visible = show_contracts
+	recruitment_info_label.visible = show_recruitment
 	last_combat_result_label.visible = (
 		show_contracts and LudusState.last_combat_result != LudusState.CombatResult.NONE
 	)

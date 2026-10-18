@@ -159,6 +159,21 @@ mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 14
 text = "GLADIADORES"
 
+[node name="RecruitmentPlate" type="Button" parent="HubPlates"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.156
+anchor_top = 0.43
+anchor_right = 0.156
+anchor_bottom = 0.43
+offset_left = -78.0
+offset_top = -19.0
+offset_right = 78.0
+offset_bottom = 19.0
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 14
+text = "CONTRATAR"
+
 [node name="EquipmentPlate" type="Button" parent="HubPlates" unique_id=1479181051]
 layout_mode = 1
 anchors_preset = -1
@@ -231,6 +246,14 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0.27, 0.15, 0.065, 1)
 theme_override_font_sizes/font_size = 15
 text = "Selecione quem será preparado para a próxima luta."
+horizontal_alignment = 1
+
+[node name="RecruitmentInfoLabel" type="Label" parent="CenterContainer/RosterPanel/Content"]
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(0.27, 0.15, 0.065, 1)
+theme_override_font_sizes/font_size = 14
+text = "Saldo: 100 moedas | Custo por contratação: 30 moedas"
 horizontal_alignment = 1
 
 [node name="Divider" type="HSeparator" parent="CenterContainer/RosterPanel/Content" unique_id=1123628930]

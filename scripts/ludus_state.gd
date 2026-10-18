@@ -9,6 +9,7 @@ const STARTING_CANDIDATE_COUNT: int = 3
 const PROFICIENCY_MIN: int = 1
 const PROFICIENCY_MAX: int = 5
 const STARTING_COINS: int = 100
+const RECRUITMENT_COST: int = 30
 const INDIVIDUAL_REWARD: int = 40
 const LUDUS_REWARD_PER_VICTORY: int = 10
 const LUDUS_COMPLETION_BONUS: int = 50
@@ -31,6 +32,8 @@ enum ContractType {
 }
 
 var starting_candidates: Array[Dictionary] = []
+var recruitment_offers: Array[Dictionary] = []
+var recruitment_offers_initialized: bool = false
 var roster: Array[Dictionary] = []
 var selected_combatant: String = ""
 var has_selected_starting_candidate: bool = false
@@ -38,25 +41,29 @@ var selected_weapon: Weapon = Weapon.SWORD
 var last_combat_result: CombatResult = CombatResult.NONE
 var coins: int = STARTING_COINS
 var contracts: Dictionary = {}
+var candidate_rng: RandomNumberGenerator = RandomNumberGenerator.new()
 
 
 func _ready() -> void:
+	candidate_rng.randomize()
 	_generate_starting_candidates()
 	_initialize_roster()
 	_initialize_contracts()
 
 
 func _generate_starting_candidates() -> void:
-	var rng := RandomNumberGenerator.new()
-	rng.randomize()
 	starting_candidates.clear()
 
 	for candidate_index in range(STARTING_CANDIDATE_COUNT):
-		starting_candidates.append({
-			"name": "Escravo %d" % (candidate_index + 1),
-			"sword_proficiency": rng.randi_range(PROFICIENCY_MIN, PROFICIENCY_MAX),
-			"spear_proficiency": rng.randi_range(PROFICIENCY_MIN, PROFICIENCY_MAX),
-		})
+		starting_candidates.append(_generate_candidate("Escravo %d" % (candidate_index + 1)))
+
+
+func _generate_candidate(candidate_name: String) -> Dictionary:
+	return {
+		"name": candidate_name,
+		"sword_proficiency": candidate_rng.randi_range(PROFICIENCY_MIN, PROFICIENCY_MAX),
+		"spear_proficiency": candidate_rng.randi_range(PROFICIENCY_MIN, PROFICIENCY_MAX),
+	}
 
 
 func _initialize_roster() -> void:
@@ -110,6 +117,51 @@ func get_roster_slot(combatant_name: String) -> Dictionary:
 	if slot_index < 0:
 		return {}
 	return roster[slot_index].duplicate(true)
+
+
+func prepare_recruitment_offers() -> void:
+	if recruitment_offers_initialized:
+		return
+
+	recruitment_offers_initialized = true
+	var offer_count: int = 0
+	for slot in roster:
+		if slot.get("candidate", {}).is_empty():
+			offer_count += 1
+
+	for offer_index in range(offer_count):
+		var candidate_number: int = starting_candidates.size() + offer_index + 1
+		var offer: Dictionary = _generate_candidate("Escravo %d" % candidate_number)
+		offer["is_purchased"] = false
+		recruitment_offers.append(offer)
+
+
+func purchase_recruitment_offer(offer_index: int) -> bool:
+	if offer_index < 0 or offer_index >= recruitment_offers.size():
+		push_error("Oferta de contratação desconhecida: %d" % offer_index)
+		return false
+
+	var offer: Dictionary = recruitment_offers[offer_index]
+	if offer.get("is_purchased", false) or coins < RECRUITMENT_COST:
+		return false
+
+	var empty_slot_index: int = -1
+	for slot_index in range(roster.size()):
+		if roster[slot_index].get("candidate", {}).is_empty():
+			empty_slot_index = slot_index
+			break
+	if empty_slot_index < 0:
+		return false
+
+	coins -= RECRUITMENT_COST
+	var slot: Dictionary = roster[empty_slot_index]
+	var candidate: Dictionary = offer.duplicate(true)
+	candidate.erase("is_purchased")
+	slot["candidate"] = candidate
+	roster[empty_slot_index] = slot
+	offer["is_purchased"] = true
+	recruitment_offers[offer_index] = offer
+	return true
 
 
 func select_combatant(combatant_name: String) -> bool:
