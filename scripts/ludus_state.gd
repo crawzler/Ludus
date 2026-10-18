@@ -4,7 +4,10 @@ signal combatant_selected(combatant_name: String)
 signal weapon_selected(weapon: Weapon)
 signal contracts_updated()
 
-const COMBATANT_NAMES: PackedStringArray = ["Gladiador 1", "Gladiador 2"]
+const COMBATANT_NAMES: PackedStringArray = ["Gladiador 1", "Gladiador 2", "Gladiador 3"]
+const STARTING_CANDIDATE_COUNT: int = 3
+const PROFICIENCY_MIN: int = 1
+const PROFICIENCY_MAX: int = 5
 const STARTING_COINS: int = 100
 const INDIVIDUAL_REWARD: int = 40
 const LUDUS_REWARD_PER_VICTORY: int = 10
@@ -27,7 +30,10 @@ enum ContractType {
 	LUDUS
 }
 
-var selected_combatant: String = COMBATANT_NAMES[0]
+var starting_candidates: Array[Dictionary] = []
+var roster: Array[Dictionary] = []
+var selected_combatant: String = ""
+var has_selected_starting_candidate: bool = false
 var selected_weapon: Weapon = Weapon.SWORD
 var last_combat_result: CombatResult = CombatResult.NONE
 var coins: int = STARTING_COINS
@@ -35,7 +41,31 @@ var contracts: Dictionary = {}
 
 
 func _ready() -> void:
+	_generate_starting_candidates()
+	_initialize_roster()
 	_initialize_contracts()
+
+
+func _generate_starting_candidates() -> void:
+	var rng := RandomNumberGenerator.new()
+	rng.randomize()
+	starting_candidates.clear()
+
+	for candidate_index in range(STARTING_CANDIDATE_COUNT):
+		starting_candidates.append({
+			"name": "Escravo %d" % (candidate_index + 1),
+			"sword_proficiency": rng.randi_range(PROFICIENCY_MIN, PROFICIENCY_MAX),
+			"spear_proficiency": rng.randi_range(PROFICIENCY_MIN, PROFICIENCY_MAX),
+		})
+
+
+func _initialize_roster() -> void:
+	roster.clear()
+	for combatant_name in COMBATANT_NAMES:
+		roster.append({
+			"id": combatant_name,
+			"candidate": {},
+		})
 
 
 func _initialize_contracts() -> void:
@@ -59,9 +89,40 @@ func _initialize_contracts() -> void:
 	}
 
 
+func select_starting_candidate(candidate_index: int) -> bool:
+	if has_selected_starting_candidate:
+		return false
+	if candidate_index < 0 or candidate_index >= starting_candidates.size():
+		push_error("Candidato inicial desconhecido: %d" % candidate_index)
+		return false
+
+	var slot: Dictionary = roster[0]
+	slot["candidate"] = starting_candidates[candidate_index].duplicate(true)
+	roster[0] = slot
+	selected_combatant = COMBATANT_NAMES[0]
+	has_selected_starting_candidate = true
+	combatant_selected.emit(selected_combatant)
+	return true
+
+
+func get_roster_slot(combatant_name: String) -> Dictionary:
+	var slot_index: int = COMBATANT_NAMES.find(combatant_name)
+	if slot_index < 0:
+		return {}
+	return roster[slot_index].duplicate(true)
+
+
 func select_combatant(combatant_name: String) -> bool:
 	if not COMBATANT_NAMES.has(combatant_name):
 		push_error("Gladiador desconhecido selecionado: %s" % combatant_name)
+		return false
+
+	if not has_selected_starting_candidate:
+		return false
+	var candidate: Dictionary = roster[COMBATANT_NAMES.find(combatant_name)].get(
+		"candidate", {}
+	)
+	if candidate.is_empty():
 		return false
 
 	selected_combatant = combatant_name
@@ -92,6 +153,9 @@ func get_selected_weapon_name() -> String:
 
 
 func accept_contract(contract_type: ContractType) -> bool:
+	if selected_combatant.is_empty():
+		return false
+
 	var contract: Dictionary = get_contract_state(contract_type)
 	if contract.is_empty():
 		push_error("Contrato desconhecido selecionado: %d" % contract_type)
