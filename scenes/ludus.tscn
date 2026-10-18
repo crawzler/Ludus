@@ -1,0 +1,408 @@
+[gd_scene format=3 uid="uid://dprska5oswx5u"]
+
+[ext_resource type="Script" uid="uid://eyrhq5uw2ipy" path="res://scripts/ludus.gd" id="1_ludus"]
+[ext_resource type="Texture2D" uid="uid://b84fwl8gtnjkg" path="res://art/ludus_management_placeholder.jpg" id="2_ludus_background"]
+[ext_resource type="Texture2D" path="res://art/ui/kenney_pixel_adventure/tilemap_large_thick.png" id="3_ui_atlas"]
+[ext_resource type="FontFile" path="res://art/ui/fonts/Silkscreen-Regular.ttf" id="4_silkscreen"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_panel"]
+atlas = ExtResource("3_ui_atlas")
+region = Rect2(0, 33, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_button"]
+atlas = ExtResource("3_ui_atlas")
+region = Rect2(33, 0, 32, 32)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_button"]
+texture = SubResource("AtlasTexture_button")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_button_hover"]
+texture = SubResource("AtlasTexture_button")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+modulate_color = Color(1.15, 1.1, 0.82, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_button_pressed"]
+texture = SubResource("AtlasTexture_button")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+modulate_color = Color(0.78, 0.68, 0.48, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_panel"]
+texture = SubResource("AtlasTexture_panel")
+texture_margin_left = 6.0
+texture_margin_top = 6.0
+texture_margin_right = 6.0
+texture_margin_bottom = 6.0
+content_margin_left = 20.0
+content_margin_top = 18.0
+content_margin_right = 20.0
+content_margin_bottom = 18.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_card"]
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
+bg_color = Color(0.16, 0.08, 0.035, 0.88)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.42, 0.25, 0.1, 1)
+
+[sub_resource type="Theme" id="Theme_ludus"]
+default_font = ExtResource("4_silkscreen")
+default_font_size = 14
+Button/colors/font_color = Color(0.2, 0.1, 0.035, 1)
+Button/colors/font_hover_color = Color(0.13, 0.065, 0.02, 1)
+Button/colors/font_pressed_color = Color(0.13, 0.065, 0.02, 1)
+Button/colors/font_disabled_color = Color(0.32, 0.24, 0.15, 1)
+Button/styles/normal = SubResource("StyleBoxTexture_button")
+Button/styles/hover = SubResource("StyleBoxTexture_button_hover")
+Button/styles/pressed = SubResource("StyleBoxTexture_button_pressed")
+Button/styles/focus = SubResource("StyleBoxTexture_button")
+Button/styles/disabled = SubResource("StyleBoxTexture_button")
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_combatants"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_weapons"]
+
+[node name="Ludus" type="Control" unique_id=1764815463]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_filter = 1
+theme = SubResource("Theme_ludus")
+script = ExtResource("1_ludus")
+
+[node name="Background" type="ColorRect" parent="." unique_id=1933483224]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.055, 0.06, 0.075, 1)
+
+[node name="LudusBackground" type="TextureRect" parent="." unique_id=815802769]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_ludus_background")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="HubPlates" type="Control" parent="." unique_id=58412950]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="ContractsPlate" type="Button" parent="HubPlates" unique_id=775205203]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.21000001
+anchor_right = 0.5
+anchor_bottom = 0.21000001
+offset_left = -72.0
+offset_top = -69.08
+offset_right = 72.0
+offset_bottom = -31.08
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 14
+text = "CONTRATOS"
+
+[node name="RosterPlate" type="Button" parent="HubPlates" unique_id=1272648525]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.156
+anchor_top = 0.351
+anchor_right = 0.156
+anchor_bottom = 0.351
+offset_left = -78.712006
+offset_top = -19.448013
+offset_right = 78.287994
+offset_bottom = 19.551987
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 14
+text = "GLADIADORES"
+
+[node name="EquipmentPlate" type="Button" parent="HubPlates" unique_id=1479181051]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.41900003
+anchor_top = 0.9710001
+anchor_right = 0.41900003
+anchor_bottom = 0.9710001
+offset_left = -79.68805
+offset_top = -18.0
+offset_right = 79.31195
+offset_bottom = 18.0
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 14
+text = "EQUIPAMENTO"
+
+[node name="ArenaPlate" type="Button" parent="HubPlates" unique_id=1948229121]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.83
+anchor_top = 0.68
+anchor_right = 0.83
+anchor_bottom = 0.68
+offset_left = -56.0
+offset_top = -19.0
+offset_right = 56.0
+offset_bottom = 19.0
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 14
+text = "ARENA"
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1337542713]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="RosterPanel" type="PanelContainer" parent="CenterContainer" unique_id=1806433346]
+custom_minimum_size = Vector2(700, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_panel")
+
+[node name="Content" type="VBoxContainer" parent="CenterContainer/RosterPanel" unique_id=812380853]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="BackButton" type="Button" parent="CenterContainer/RosterPanel/Content" unique_id=1786229723]
+custom_minimum_size = Vector2(0, 34)
+layout_mode = 2
+text = "← Voltar ao Ludus"
+
+[node name="Title" type="Label" parent="CenterContainer/RosterPanel/Content" unique_id=1438173954]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.2, 0.1, 0.035, 1)
+theme_override_font_sizes/font_size = 34
+text = "LUDUS"
+horizontal_alignment = 1
+
+[node name="Subtitle" type="Label" parent="CenterContainer/RosterPanel/Content" unique_id=1811996187]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.27, 0.15, 0.065, 1)
+theme_override_font_sizes/font_size = 18
+text = "ELENCO DE GLADIADORES"
+horizontal_alignment = 1
+
+[node name="Description" type="Label" parent="CenterContainer/RosterPanel/Content" unique_id=2104586089]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.27, 0.15, 0.065, 1)
+theme_override_font_sizes/font_size = 15
+text = "Selecione quem será preparado para a próxima luta."
+horizontal_alignment = 1
+
+[node name="Divider" type="HSeparator" parent="CenterContainer/RosterPanel/Content" unique_id=1123628930]
+layout_mode = 2
+
+[node name="Roster" type="HBoxContainer" parent="CenterContainer/RosterPanel/Content" unique_id=536123830]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="FirstCombatantCard" type="PanelContainer" parent="CenterContainer/RosterPanel/Content/Roster" unique_id=1267137080]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_card")
+
+[node name="Content" type="VBoxContainer" parent="CenterContainer/RosterPanel/Content/Roster/FirstCombatantCard" unique_id=1641237218]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Name" type="Label" parent="CenterContainer/RosterPanel/Content/Roster/FirstCombatantCard/Content" unique_id=751374786]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.92, 0.94, 1)
+theme_override_font_sizes/font_size = 22
+text = "Gladiador 1"
+horizontal_alignment = 1
+
+[node name="Status" type="Label" parent="CenterContainer/RosterPanel/Content/Roster/FirstCombatantCard/Content" unique_id=732687072]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.65, 0.82, 0.68, 1)
+text = "Espaço provisório do elenco"
+horizontal_alignment = 1
+
+[node name="SelectButton" type="Button" parent="CenterContainer/RosterPanel/Content/Roster/FirstCombatantCard/Content" unique_id=2029082278]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("ButtonGroup_combatants")
+text = "Selecionar"
+
+[node name="SecondCombatantCard" type="PanelContainer" parent="CenterContainer/RosterPanel/Content/Roster" unique_id=339350336]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_card")
+
+[node name="Content" type="VBoxContainer" parent="CenterContainer/RosterPanel/Content/Roster/SecondCombatantCard" unique_id=1877916292]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Name" type="Label" parent="CenterContainer/RosterPanel/Content/Roster/SecondCombatantCard/Content" unique_id=2092794111]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.92, 0.94, 1)
+theme_override_font_sizes/font_size = 22
+text = "Gladiador 2"
+horizontal_alignment = 1
+
+[node name="Status" type="Label" parent="CenterContainer/RosterPanel/Content/Roster/SecondCombatantCard/Content" unique_id=1423827932]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.65, 0.82, 0.68, 1)
+text = "Espaço provisório do elenco"
+horizontal_alignment = 1
+
+[node name="SelectButton" type="Button" parent="CenterContainer/RosterPanel/Content/Roster/SecondCombatantCard/Content" unique_id=622739874]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+toggle_mode = true
+button_group = SubResource("ButtonGroup_combatants")
+text = "Selecionar"
+
+[node name="SelectionLabel" type="Label" parent="CenterContainer/RosterPanel/Content" unique_id=56903015]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.24, 0.12, 0.035, 1)
+theme_override_font_sizes/font_size = 17
+text = "Gladiador 1 selecionado para a próxima luta."
+horizontal_alignment = 1
+
+[node name="EquipmentHeading" type="Label" parent="CenterContainer/RosterPanel/Content" unique_id=520482334]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.27, 0.15, 0.065, 1)
+theme_override_font_sizes/font_size = 17
+text = "EQUIPAMENTO INICIAL"
+horizontal_alignment = 1
+
+[node name="EquipmentOptions" type="HBoxContainer" parent="CenterContainer/RosterPanel/Content" unique_id=69017064]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="SwordButton" type="Button" parent="CenterContainer/RosterPanel/Content/EquipmentOptions" unique_id=961606118]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+size_flags_horizontal = 3
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("ButtonGroup_weapons")
+text = "Espada"
+
+[node name="SpearButton" type="Button" parent="CenterContainer/RosterPanel/Content/EquipmentOptions" unique_id=1623898583]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+size_flags_horizontal = 3
+toggle_mode = true
+button_group = SubResource("ButtonGroup_weapons")
+text = "Lança"
+
+[node name="WeaponSelectionLabel" type="Label" parent="CenterContainer/RosterPanel/Content" unique_id=1109293355]
+custom_minimum_size = Vector2(0, 26)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.24, 0.12, 0.035, 1)
+theme_override_font_sizes/font_size = 15
+text = "Arma inicial: ESPADA"
+horizontal_alignment = 1
+
+[node name="LastCombatResultLabel" type="Label" parent="CenterContainer/RosterPanel/Content" unique_id=1427768189]
+visible = false
+custom_minimum_size = Vector2(0, 26)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.24, 0.12, 0.035, 1)
+theme_override_font_sizes/font_size = 16
+horizontal_alignment = 1
+
+[node name="WalletPanel" type="VBoxContainer" parent="CenterContainer/RosterPanel/Content" unique_id=372646669]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="BalanceLabel" type="Label" parent="CenterContainer/RosterPanel/Content/WalletPanel" unique_id=1748158884]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.2, 0.1, 0.035, 1)
+theme_override_font_sizes/font_size = 18
+text = "Saldo: 100 moedas"
+horizontal_alignment = 1
+
+[node name="ContractsTitle" type="Label" parent="CenterContainer/RosterPanel/Content/WalletPanel" unique_id=1288018168]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.27, 0.15, 0.065, 1)
+theme_override_font_sizes/font_size = 15
+text = "CONTRATOS"
+horizontal_alignment = 1
+
+[node name="IndividualContractRow" type="HBoxContainer" parent="CenterContainer/RosterPanel/Content/WalletPanel" unique_id=1967182039]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="IndividualContractLabel" type="Label" parent="CenterContainer/RosterPanel/Content/WalletPanel/IndividualContractRow" unique_id=883040868]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.27, 0.15, 0.065, 1)
+theme_override_font_sizes/font_size = 14
+text = "Disponível — vence com Gladiador 1"
+
+[node name="AcceptIndividualContractButton" type="Button" parent="CenterContainer/RosterPanel/Content/WalletPanel/IndividualContractRow" unique_id=1329749170]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+text = "Aceitar contrato individual"
+
+[node name="LudusContractRow" type="HBoxContainer" parent="CenterContainer/RosterPanel/Content/WalletPanel" unique_id=1205483880]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="LudusContractLabel" type="Label" parent="CenterContainer/RosterPanel/Content/WalletPanel/LudusContractRow" unique_id=1749043105]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.27, 0.15, 0.065, 1)
+theme_override_font_sizes/font_size = 14
+text = "Disponível — 3 vitórias acumuladas"
+
+[node name="AcceptLudusContractButton" type="Button" parent="CenterContainer/RosterPanel/Content/WalletPanel/LudusContractRow" unique_id=1557154569]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+text = "Aceitar contrato do Ludus"
+
+[node name="ArenaButton" type="Button" parent="CenterContainer/RosterPanel/Content" unique_id=23878092]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+theme_override_font_sizes/font_size = 17
+text = "Entrar na arena de teste"
